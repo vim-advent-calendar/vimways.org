@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+  {{ partial "head.html" }}
+
+  <body>
+
+    {{ partial "header.html" . }}
+
+    <div class="container">
+      <div class="wrapper">
+        {{ block "main" . }} {{ end }}
+      </div>
+    </div>
+
+    {{ partial "footer.html" . }}    
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="{{ .Site.BaseURL }}/js/bootstrap.min.js"></script>
+  {{ with .Site.Params.analytics }} 
+    {{ partial "analytics.html" . }}
+  {{ end }}
+  </body>
+
+</html>

@@ -1,0 +1,30 @@
+<div class="col-md-4 mt20">
+        <div class="post-img">
+           {{ if .Params.img }}
+            <img width="600" src="{{ .Site.BaseURL}}images/{{ .Params.img }}" alt="{{ .Params.title }}">
+            {{ else }}
+            <img width="600" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="webjeda">
+            {{ end }}
+        </div>
+            
+        
+        <div class="mt10 recent">
+            <h2>Recent articles</h2>        
+             <ul>
+                {{ range first 3 (where .Site.RegularPages "Section" "posts") }}
+
+                      <li>
+                      <p><a href="{{ .URL }}">{{ .Title }}</a><small>&nbsp;&nbsp;{{ .Date.Format "January 2, 2006" }}</small></p>
+                      </li>
+
+                {{ end }}
+              </ul>
+        </div>
+        {{ if .Site.Params.fbLikeBox }}
+        <div class="mt10">
+            <div class="fb-page" data-href="https://www.facebook.com/webjeda/" data-width="400" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/webjeda/" class="fb-xfbml-parse-ignore"><a href="{site.fb-page-url}}">{{ .Site.Params.fbPageTitle}}</a></blockquote></div>
+        </div>
+        {{ end }}
+        <br>
+
+</div>
