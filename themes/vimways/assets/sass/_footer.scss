@@ -1,0 +1,27 @@
+footer {
+	clear: both;
+	border-top: 1px solid $darker;
+	&:hover {
+		background-color: $dark;
+		select {
+			background-color: $darker;
+		}
+	}
+	height: 3rem;
+	.container {
+		text-align: center;
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		li {
+			display: inline-block;
+			line-height: 3rem;
+			height: 3rem;
+			margin: 0 1rem;
+			box-sizing: border-box;
+			vertical-align: top;
+		}
+	}
+}

@@ -1,0 +1,16 @@
+#main {
+	box-sizing: border-box;
+	float: left;
+	width: 60%;
+	padding: 0 1.5rem 0 0;
+	margin: 0 0 3rem 0;
+}
+aside {
+	box-sizing: border-box;
+	float: left;
+	width: 40%;
+	padding: 0 0 0 1.5rem;
+	h1 {
+		font-size: 2rem;
+	}
+}

@@ -1,4 +1,29 @@
-baseURL = "http://example.org/"
+baseURL = "https://vimways.org/"
 languageCode = "en-us"
 title = "Vim ways"
-theme = "hugo-cards"
+theme = "vimways"
+paginate = 24
+pygmentsCodeFences = true
+pygmentsStyle = "friendly"
+
+[params]
+  builtBy = ""
+  defaultImage = ""
+
+  facebook = ""
+  quora = ""
+  twitter = ""
+  github = ""
+  email = ""
+
+  fbLikeBox = ""
+  fbAppId = ""
+  fbPageUrl = ""
+  fbPageTitle = ""
+
+  analytics = ""
+  disqus = ""
+
+  [params.copyright]
+     name = "vimways"
+     link = ""

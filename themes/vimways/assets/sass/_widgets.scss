@@ -1,0 +1,40 @@
+.form-select {
+	overflow: hidden;
+	position: relative;
+	height: 50%;
+	margin-top: 0.75rem;
+	&:after {
+		content: '▾';
+		position: absolute;
+		top: 0.25rem;
+		right: 0.5rem;
+		z-index: 1;
+		color: black;
+		line-height: 1;
+		font-size: 1rem;
+	}
+	select {
+		position: relative;
+		background: $darker;
+		opacity: 0.75;
+		background-image: none;
+		font-family: $firaSans;
+		display: block;
+		// width: 5rem;
+		outline: none;
+		color: black;
+		cursor: pointer;
+		z-index: 2;
+		border: none;
+		padding: 0 0.5rem;
+		border-radius: 3px;
+		vertical-align: middle;
+		text-overflow: '';
+		text-indent: 0;
+		font-size: 1rem;
+		height: 1.5rem;
+		-webkit-appearance: none;
+		border-bottom: 1px solid $darkest;
+	}
+}
+

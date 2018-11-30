@@ -1,0 +1,48 @@
+header {
+	border-bottom: 1px solid $darker;
+	&:hover {
+		background-color: $dark;
+		select {
+			background-color: $darker;
+		}
+	}
+	height: 3rem;
+	.container {
+		text-align: center;
+	}
+	nav {
+		height: 3rem;
+		position: relative;
+		overflow: hidden;
+		a.vimways {
+			position: absolute;
+			display: block;
+			top: 1.5rem;
+			left: 0;
+			height: 3rem;
+			width: 12rem;
+			background-image: url(/images/vimways.png);
+			background-attachment: scroll;
+			background-position: left center;
+			background-repeat: no-repeat;
+			background-size: contain;
+			transform: rotate(-12deg);
+			transform-origin: top left;
+			text-indent: -9000px;
+		}
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		float: right;
+		li {
+			display: inline-block;
+			line-height: 3rem;
+			height: 3rem;
+			margin: 0 0 0 2rem;
+			box-sizing: border-box;
+			vertical-align: top;
+		}
+	}
+}
