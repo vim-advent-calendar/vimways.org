@@ -1,21 +1,23 @@
 ---
 title: "The power of diff"
-date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-01
 draft: true
-description: An article on this or that.
-author: "@chrisbra"
+description: "foo bar baz"
+slug: "the-power-of-diff"
+author:
+  name: "Christian Brabandt"
+  email: "cb@256bit.org"
+  github: "chrisbra"
+  picture: "https://i.imgur.com/HjSMLD9.png"
 ---
 
-# The power of diff
-
-Lot of people use vimdiff to understand and handle diffs in console
-mode. While there exists more specialized tools for comparing files,
+Lots of people use vimdiff to understand and handle diffs in console
+mode. While there exist more specialized tools for comparing files,
 vimdiff has always worked good enough for me.
 
 ## The inefficiency of the external diff
 
-However, Vims diff mode was seriously lacking. This was basically,
+However, Vim's diff mode was seriously lacking. This was basically
 because it needed to write down temporary files, shell out and run a
 manual diff command and parse the result back and as one can imagine,
 this could be slow and was seriously inefficient.
@@ -35,27 +37,27 @@ window flashing by whenever the diff needed to be updated.
 
 Also, since the whole generation of diffs was so ugly, Vim would not
 always refresh the diff on each and every modification to not slow down
-too much causing inaccurate diffs every once in a while.
+too much, causing inaccurate diffs every once in a while.
 
 And finally, before shelling out for the external diff command, Vim
-would **every time** check, that a diff is actually available by running
+would check **every time** that a diff is actually available by running
 a hard coded diff against "line1" and "line2" buffer.
 
 ## Bundling an internal diff library with Vim
 
 This problem was well known and can still be found in the well known
-todo.txt file (`:h todo.txt`, search for diff). One problem why it
+`todo.txt` file (`:h todo.txt`, search for diff). One problem why it
 wasn't done earlier, was that there did not exist a good documented and
 simple to use C library that could be used by Vim.
 
 So I started working on how to improve this [situation][2] and decided
 to go with the xdiff library which the git developers finally settled to
 use. They basically had the same problem when the git vcs system was
-developed by Linus Torvalds. Back at the days around 2006 they decided
+developed by Linus Torvalds. Back in around 2006 they decided
 to ship git with the [libxdiff][3] library, which over time got heavily
 modified to fit better the needs of git.
 
-The advantage of using the same library for Vim is, that for one, the
+The advantage of using the same library for Vim is that, for one, the
 library has been tested and proven to be working well over the last
 12 years. In addition, is has been tweaked and several new diff
 algorithms have been added, like the [patience diff algorithm][4] and
@@ -65,7 +67,7 @@ So with [Patch 8.1.360][7] the xdiff code from git has been finally
 merged into Vim and allows for a much smoother and more efficient diff
 experience in Vim. In addition, the internal diff algorithm has been
 made the default, but one can still switch to the old external
-algorithm, using
+algorithm, using:
 
 ```vim
 :set diffopt-=internal
@@ -76,7 +78,7 @@ Also, Vim can now read and understand the [unified diff format][8]
 bundled the diff library does not work well enough, one does not need to
 translate the output back into a ed like diff format anymore.
 
-## Some screenshots
+## Some examples
 
 By default, the diff library uses the myers algorithm (also known as
 [longest common subsequence problem][9]). However, in certain
@@ -146,18 +148,18 @@ int main(int argc, char **argv)
 }
 ```
 
-The default diff, running `vimdiff file1 file2` produced would then look like this:
+The default diff, running `$ vimdiff file1 file2` would then look like this:
 
-![default diff](https://raw.githubusercontent.com/chrisbra/vim-diff-enhanced/master/default_diff.png)
+![default diff](../chrisbra-diffmode/default_diff.png)
 
-However, now you can simply do `:set diffopt+=algorithm:patience` the
-diff would change to the following:
+However, now you can simply do `:set diffopt+=algorithm:patience` and the
+diff will change to the following:
 
-![patience diff](https://raw.githubusercontent.com/chrisbra/vim-diff-enhanced/master/histogram_diff.png)
+![patience diff](../chrisbra-diffmode/histogram_diff.png)
 
 Pretty nice, isn't it?
 
-Here is a screencast:
+Here is an asciicast:
 
 <script id="asciicast-YL035raOlEbadoWNLpj5cBXan" src="https://asciinema.org/a/YL035raOlEbadoWNLpj5cBXan.js" data-size="1.3vw" async></script>
 
@@ -166,48 +168,48 @@ Here is a screencast:
 Here is an example where the indent heuristics might come handy. Say you have the following file:
 
 ```ruby
-def finalize(values)
+  def finalize(values)
 
-  values.each do |v|
-    v.finalize
-  end
+    values.each do |v|
+      v.finalize
+    end
 ```
 
 And later the file has been changed to the following:
 
 ```ruby
-def finalize(values)
+  def finalize(values)
 
-  values.each do |v|
-    v.prepare
-  end
+    values.each do |v|
+      v.prepare
+    end
 
-  values.each do |v|
-    v.finalize
-  end
+    values.each do |v|
+      v.finalize
+    end
 ```
 
-The default diff, running `vimdiff file1.rb file2.rb` produced would then look like this:
+The default diff, running `$ vimdiff file1.rb file2.rb` would then look like this:
 
-![default ruby diff](https://i.imgur.com/nCUkO7D.png)
+![default ruby diff](../chrisbra-diffmode/ruby_default.png)
 
-Now, type `:set diffopt+=indent-heuristic` and see how the diff would change to the following:
+Now, type `:set diffopt+=indent-heuristic` and see how the diff changes to the following:
 
-![indent-heuristic diff](https://i.imgur.com/HQ4bDHC.png)
+![indent-heuristic diff](../chrisbra-diffmode/ruby_indent_heuristics.png)
 
-Now one can clearly see, what part has been added.
+Now one can clearly see what part has been added.
 
 That is pretty neat.
 
-This is also available as Screencast:
+This is also available as an asciiast:
 
 <script id="asciicast-QyIhLUUmwMdpzIjRhkdcPdUyx" src="https://asciinema.org/a/QyIhLUUmwMdpzIjRhkdcPdUyx.js" data-size="1.3vw" async></script>
 
 ## What is next
 
-Having included the xdiff library this does not mean, improving the diff
+Having included the xdiff library this does not mean improving the diff
 mode stops. There have been additional patches that fixed small bugs as
-well as improved the diff mode further. For example the DiffUpdate
+well as improved the diff mode further. For example the `DiffUpdate`
 autocommand has been included in [Patch 8.1.397][10] which allows to run
 commands once the diff mode has been updated.
 
