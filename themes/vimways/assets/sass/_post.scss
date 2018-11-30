@@ -10,6 +10,25 @@ aside {
 	float: left;
 	width: 40%;
 	padding: 0 0 0 1.5rem;
+	.content {
+		background-color: $cornsilk;
+		border-bottom: 1px solid $cornsilk-dark;
+		border-radius: 3px;
+		padding: 1.5rem;
+		box-sizing: border-box;
+		> div {
+			margin: 0 0 0.5rem 0;
+		}
+		.author {
+			font-size: 0.8em;
+			border-top: 1px solid $cornsilk-dark;
+			padding-top: 1em;
+			margin: 0;
+			&.spoiler {
+				padding: 0;
+			}
+		}
+	}
 	h1 {
 		font-size: 2rem;
 		margin: 0 0 1rem 0;

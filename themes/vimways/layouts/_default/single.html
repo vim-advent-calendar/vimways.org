@@ -18,8 +18,10 @@
 						{{ .PublishDate.Format "January" }} {{ .PublishDate.Format "2006" }}
 					</div>
 				</div>
-				<h1 id="title">{{ .Title }}</h1>
-				<p>by <i>{{ .Params.author.name }}</i></p>
+				<div class="content">
+					<h1 id="title">{{ .Title }}</h1>
+					<p class="author">by <i>{{ .Params.author.name }}</i></p>
+				</div>
 			</section>
 			{{ with .Params.topics }}
 			<ul id="topics">
@@ -36,6 +38,7 @@
 			</ul>
 			{{ end }}
 		</div>
+		<!--
 		<div>
 			{{ with .PrevInSection }}
 			<a class="previous" href="{{.Permalink}}"> {{.Title}}</a>
@@ -44,6 +47,7 @@
 			<a class="next" href="{{.Permalink}}"> {{.Title}}</a>
 			{{ end }}
 		</div>
+		-->
 	</aside>
 </div>
 {{ end }}

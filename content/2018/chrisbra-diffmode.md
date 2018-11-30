@@ -1,7 +1,8 @@
 ---
 title: "The power of diff"
 publishDate: 2018-12-01
-draft: true
+date: 2018-12-01
+draft: false
 description: "foo bar baz"
 slug: "the-power-of-diff"
 author:
