@@ -19,7 +19,7 @@
 					</div>
 				</div>
 				<h1 id="title">{{ .Title }}</h1>
-				<h5 id="wordcount"> {{ .WordCount }} Words </h5>
+				<p>by <i>{{ .Params.author.name }}</i></p>
 			</section>
 			{{ with .Params.topics }}
 			<ul id="topics">
