@@ -332,6 +332,12 @@ article {
 			@media only screen and (width: 1024px) {
 				width: 25%;
 			}
+			@media only screen and (width: 768px) {
+				width: 31%;
+			}
+			@media only screen and (max-width: 767px) {
+				float: none;
+			}
 		}
 		.content {
 			float: left;
@@ -341,9 +347,19 @@ article {
 			@media only screen and (width: 1024px) {
 				width: 75%;
 			}
+			@media only screen and (width: 768px) {
+				width: 69%;
+			}
 			height: auto;
 			background-color: transparent;
 			padding-bottom: 2rem;
+			@media only screen and (max-width: 767px) {
+				float: none;
+				padding-top: 0;
+				.author {
+					margin-bottom: 1.5rem;
+				}
+			}
 			border-bottom: none;
 			h2 {
 				font-size: 2rem;
@@ -351,7 +367,7 @@ article {
 				margin: 0;
 			}
 			a {
-				display: block;
+				display: inline-block;
 				position: absolute;
 				bottom: 1.5rem;
 				right: 0;
@@ -362,6 +378,11 @@ article {
 				text-decoration: none;
 				padding: 0.5em 1em;
 				border-bottom: 1px solid $dark;
+				max-width: auto;
+				@media only screen and (max-width: 767px) {
+					bottom: 0;
+					position: relative;
+				}
 			}
 		}
 	}

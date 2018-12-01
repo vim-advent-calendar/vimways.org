@@ -1,6 +1,6 @@
 baseURL = "https://vimways.org/"
 languageCode = "en-us"
-title = "Vim ways"
+title = "Vimways"
 theme = "vimways"
 paginate = 24
 pygmentsCodeFences = true
