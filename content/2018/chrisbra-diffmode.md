@@ -76,7 +76,7 @@ algorithm, using:
 
 Also, Vim can now read and understand the [unified diff format][8]
 (which seems to be the standard format nowadays), so even when the
-bundled the diff library does not work well enough, one does not need to
+bundled diff library does not work well enough, one does not need to
 translate the output back into a ed like diff format anymore.
 
 ## Some examples
