@@ -34,3 +34,51 @@ aside {
 		margin: 0;
 	}
 }
+@media only screen and (width: 768px) {
+	.container {
+		&.post {
+			display: flex;
+			flex-direction: column-reverse;
+			aside, #main {
+				width: 100%;
+			}
+			aside {
+				padding: 0;
+				.date {
+					float: left;
+					width: 31%;
+					margin: 0.75rem 1.5rem 0 0;
+				}
+				.content {
+					float: left;
+					width: calc(69% - 1.5rem);
+					margin-top: 1.5rem;
+					height: calc(12rem - 1.5rem);
+					box-sizing: border-box;
+					.author {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+	}
+}
+@media only screen and (max-width: 767px) {
+	.container {
+		&.post {
+			display: flex;
+			flex-direction: column-reverse;
+			aside, #main {
+				width: 100%;
+			}
+			aside {
+				padding: 0;
+				.content {
+					.author {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+	}
+}
