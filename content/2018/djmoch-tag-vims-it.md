@@ -2,13 +2,13 @@
 title: "You Should Be Using Tags In Vim"
 publishDate: 2018-12-01
 draft: true
-description: "foo bar baz"
+description: "You may not know it, but Vim already does what you installed a Jedi plugin to do"
 slug: "you-should-be-using-tags-in-vim"
 author:
   name: "Daniel Moch"
   email: "daniel@danielmoch.com"
   github: "djmoch"
-  picture: ""
+  picture: "https://secure.gravatar.com/avatar/9709a880ad3885e14781a3cb757e09f3?s=400"
   twitter: "@\_djmoch"
   irc: "djmoch"
   homepage: "https://www.danielmoch.com"
@@ -170,6 +170,13 @@ Of course the shell-script approach is infinitely configurable, so you
 can ultimately place the tags file wherever you want. One could also
 tailor this for other distributed SCM tools (e.g., Mercurial).
 
+Generically speaking, there are other options as well. You could set a
+filesystem watcher to watch your project tree and run ctags any time a
+file changes. A task runner like [Grunt][grunt] might be a viable option
+too, especially for web developers. The goal is to automate the task of
+(re)generating your tags file, so there is likely to be no shortage of
+options.
+
 ## Tying It All Together
 
 That brings us back to where we started, to the issue of code completion
@@ -209,13 +216,10 @@ someone else's configuration—will likely end up with an unmaintainable
 mess of a tool that doesn't work consistently, may not work at all, or
 works about as slow as the IDE you wanted to break free of.
 
-
-## Meta: License
-
-This work is licensed under a [Creative Commons
+_This work is licensed under a [Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International License][license].
 Permissions beyond the scope of this license may be available by
-contacting the author.
+contacting the author._
 
 [ic]: http://vimdoc.sourceforge.net/htmldoc/insert.html#ins-completion
 [ec]: http://ctags.sourceforge.net/
@@ -234,3 +238,4 @@ contacting the author.
 [to]: http://vimdoc.sourceforge.net/htmldoc/options.html#'tags'
 [ti]: http://vimdoc.sourceforge.net/htmldoc/usr_29.html#29.1
 [license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[grunt]: https://gruntjs.com/
