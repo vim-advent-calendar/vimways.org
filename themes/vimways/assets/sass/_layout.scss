@@ -305,11 +305,6 @@ article {
 		}
 		.author {
 			font-size: 0.8em;
-			border-top: 1px solid $cornsilk-dark;
-			padding-top: 1em;
-			&.spoiler {
-				padding: 0;
-			}
 		}
 	}
 	.tile {
@@ -367,10 +362,6 @@ article {
 				text-decoration: none;
 				padding: 0.5em 1em;
 				border-bottom: 1px solid $dark;
-			}
-			.author {
-				float: left;
-				border-top: 1px solid #5cae5c;
 			}
 		}
 	}

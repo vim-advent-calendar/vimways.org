@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="container meta">
+	<section id="main">
+		<article id="content">
+			{{ .Content }}
+		</article>
+	</section>
+	<aside id="meta">
+		<section>
+			<div class="content">
+				<h1 id="title">{{ .Title }}</h1>
+			</div>
+		</section>
+	</aside>
+</div>
+{{ end }}
+
