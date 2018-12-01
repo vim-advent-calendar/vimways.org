@@ -3,6 +3,7 @@ title: "Vimways authors"
 slug: "authors"
 type: "meta"
 layout: "single"
+draft: true
 ---
 
 ## Christian Brabandt
