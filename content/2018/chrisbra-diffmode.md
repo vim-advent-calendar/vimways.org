@@ -202,7 +202,7 @@ Now one can clearly see what part has been added.
 
 That is pretty neat.
 
-This is also available as an asciiast:
+This is also available as an asciicast:
 
 <script id="asciicast-QyIhLUUmwMdpzIjRhkdcPdUyx" src="https://asciinema.org/a/QyIhLUUmwMdpzIjRhkdcPdUyx.js" data-size="1.3vw" async></script>
 
