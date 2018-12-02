@@ -19,10 +19,16 @@ body {
 
 pre, code {
 	font-family: $firaMono;
-	font-size: 0.8rem;
+	font-size: 0.8em;
 	border-radius: 3px;
 }
 
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code,
 p code {
 	background-color: #f0f0f0;
 	color: #06287e;
@@ -40,6 +46,15 @@ pre {
 	border-radius: 3px;
 	padding: 0.25rem;
 	overflow-x: auto;
+}
+
+blockquote {
+	background: aliceblue;
+	padding: 0.25rem 1rem;
+	margin-right: 0;
+	margin-left: 0;
+	border-radius: 3px;
+	font-style: italic;
 }
 
 p {
