@@ -1,7 +1,7 @@
 ---
 title: "From .vimrc to .vim"
-publishDate: 2018-12-11
-date: 2018-12-11
+publishDate: 2018-12-03
+date: 2018-12-03
 draft: true
 description: "Breaking your long vimrc into a personal runtime directory."
 slug: "from-vimrc-to-vim"
@@ -10,12 +10,9 @@ author:
   email: "tom@sanctum.geek.nz"
 ---
 
-From `.vimrc` to `.vim`
-=======================
-
 > You can’t have everything. Where would you put it?
 >
-> –Steven Wright
+> – Steven Wright
 
 Attack of the 5,000-line vimrc
 ------------------------------

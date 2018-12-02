@@ -1,7 +1,7 @@
 ---
 title: "You Should Be Using Tags In Vim"
-publishDate: 2018-12-01
-draft: true
+publishDate: 2018-12-02
+draft: false
 description: "You may not know it, but Vim already does what you installed a Jedi plugin to do"
 slug: "you-should-be-using-tags-in-vim"
 author:
@@ -15,7 +15,8 @@ author:
 ---
 
 > I love you; you complete me.
-> - Dr. Evil
+>
+> – Dr. Evil
 
 I first came to Vim by recommendation. I was looking for a good Python
 IDE (at the time I was new to the language) and one recommendation was
@@ -25,7 +26,7 @@ shock. I spent a summer as an intern using Emacs at a Unix terminal, but
 didn't have enough curiosity at the time to use it any differently from
 `notepad.exe`. I spent that summer wishing I had automatic features for
 completion, indentation, and all the things that made me appreciate
-the IDE's I used in college.  How naive I was!
+the IDEs I used in college.  How naive I was!
 
 So how was I directed to achieve powerful programming completions in
 Vim? By the use of a plugin called YouCompleteMe. My experience with it
@@ -51,7 +52,7 @@ regarding completion and see what it takes to fully leverage it.
 Completion in Vim is powerful, but not necessarily straightforward. Read
 [`:h ins-completion`][ic] and you'll see what I mean:
 
-```vim
+```
 Completion can be done for:
 
 1. Whole lines                                   |i_CTRL-X_CTRL-L|
