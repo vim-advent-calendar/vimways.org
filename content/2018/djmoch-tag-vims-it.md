@@ -207,15 +207,16 @@ they're worth. That said, with the advent of Vim 8 and its asynchronous
 capabilities, there is headroom for these solutions to improve, and I
 expect the best among them to become more compelling in the near future.
 
-I do not recommend Vim because it can be your IDE in the terminal. That
-said, Vim is a very powerful tool and if you invest the time to learn
-how it works it will take you very far. In other words, use Vim for all
-it's worth _before_ looking for a plugin to help you out. Anyone who
-(like me) jumps right to installing a bunch of plugins—whether in a
-spree of grabbing anything that looks interesting or just to copy
-someone else's configuration—will likely end up with an unmaintainable
-mess of a tool that doesn't work consistently, may not work at all, or
-works about as slow as the IDE you wanted to break free of.
+I do not recommend coming to Vim with a mindset of creating an IDE in
+your terminal. That said, Vim is a very powerful tool and if you invest
+the time to learn how it works it will take you very far. In other
+words, use Vim for all it's worth _before_ looking for a plugin to help
+you out. Anyone who (like me) jumps right to installing a bunch of
+plugins—whether in a spree of grabbing anything that looks interesting
+or just to copy someone else's configuration—will likely end up with an
+unmaintainable mess of a tool that doesn't work consistently, may not
+work at all, or works about as slow as the IDE you wanted to break free
+of.
 
 _This work is licensed under a [Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International License][license].
