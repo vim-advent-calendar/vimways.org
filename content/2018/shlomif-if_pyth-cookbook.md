@@ -41,7 +41,7 @@ def my_replace_string(s, needle, repl):
 
 EOF
 
-command -range ReplaceToken :<line1>,<line2>pydo return my_replace_string(line, "(token)", "MyReplacement");
+command! -range ReplaceToken :<line1>,<line2>pydo return my_replace_string(line, "(token)", "MyReplacement");
 ```
 
 Save this as `if_pyth-linewise.vim` and then `:source` it and you can do
@@ -49,7 +49,35 @@ Save this as `if_pyth-linewise.vim` and then `:source` it and you can do
 
 ![Linewise Filtering Demo](shlomif-if_pyth--termtosvg--linewise.svg)
 
-- Processing an entire subrange / selection of lines at once
+## Processing an entire subrange / selection of lines at once
+
+For this example, we will replace all occurrences of the raw string `(index)`
+with consecutive indices in a range:
+
+```vim
+py << EOF
+import vim
+import re
+
+def my_replace_with_numbers(myrange):
+    idx = [0]
+    def _replace(m):
+        idx[0] += 1
+        return str(idx[0])
+    new_string = re.sub("\\(index\\)", _replace, '\n'.join(myrange[:]))
+    myrange[:] = new_string.split('\n')
+
+EOF
+
+command! -range IndexBuf :<line1>,<line2>py my_replace_with_numbers(vim.current.range)
+```
+
+Some notes:
+
+1. Note the use of `join` and `split` to convert from a list/array of lines to a single string and back.
+2. Wrapping the index inside a list is needed so it can be changed by the inner subroutine.
+3. `vim.current.range` contains the current range.
+
 - Accessing vimscript variables and registers
 - Writing vimscript functions in python.
 
