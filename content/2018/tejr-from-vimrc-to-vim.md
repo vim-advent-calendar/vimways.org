@@ -224,8 +224,8 @@ at the time the file is sourced. That means you don’t have to worry about
 trampling on any other variables defined elsewhere in your configuration.
 
 There are some caveats here for defining mappings; make sure you read `:help
-script-variable` carefully to make sure you understand how to use `<SID>`
-prefixes.
+script-variable` carefully to make sure you understand how to use [`<SID>`
+prefixes][si].
 
 ### Short-circuiting and load guards
 
@@ -462,6 +462,7 @@ for download][pv].
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
 [sc]: https://vimhelp.appspot.com/repeat.txt.html#%3Asource
+[si]: https://vimhelp.appspot.com/map.txt.html#%3CSID%3E
 [sl]: https://bitbucket.org/sjl/dotfiles/src/e2a961f1d037e53ea2809885a65feba66a9aa03e/vim/vimrc?at=default&fileviewer=file-view-default
 [sn]: https://vimhelp.appspot.com/repeat.txt.html#%3Ascriptnames
 [sp]: https://vimhelp.appspot.com/options.txt.html#%27spell%27
