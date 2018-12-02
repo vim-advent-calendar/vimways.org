@@ -84,7 +84,7 @@ where Vim can pull completion information from. You should also read [`:h
 user-defined completion and the `complete` option.
 
 Now that we have a cursory understanding of completion in Vim, let's
-take a deeper look at tags and how they figure in to completion.
+take a deeper look at tags and how they figure into completion.
 
 ## Introduction to `tags` in Vim
 
@@ -92,21 +92,21 @@ One source of completion in Vim is tag completion, which pulls from a
 special file called–appropriately—a tags file. Tags files are collections
 of identifiers (e.g., function names) that are compiled into a single
 file along with references to their location in a source tree.  Vim is
-capable a using a (properly formatted) tags file for a variety of use
-cases, among them navigating your source code a la Visual Studio and
-completion.
+capable of using a (properly formatted) tags file for a variety of use
+cases, among them navigating your source code à la Visual Studio and
+providing code completion.
 
 By default Vim doesn't do anything with a tags file except read it. See
 [`:h 'tags'`][to] to learn how to configure where Vim looks for tags
 files. Vimdoc also contains a very good [introduction][ti] to tags more
-generally, so I won't spend any more space here introducing them. Let's
+generally, so I won't spend any more time here introducing them. Let's
 move on and take a look at how we generate tags files.
 
 ## Introduction to `ctags`
 
 Tags files solve the problem of navigating and completing code in a
-given project, but they also create a problem: How do we create the tags
-file, and how do we keep it up-to-date? It would be a pain to manually
+given project, but they also create a problem: how do we create the tags
+file, and how do we keep it up to date? It would be a pain to manually
 maintain the tags file even for a small project; it would be all but
 impossible to do it for a large project like the Linux kernel. Luckily
 no one has to maintain a tags file. There are plenty of utilities to do
@@ -138,7 +138,7 @@ to generate a tags file for an entire project in one shot.
 
 ### Automatically
 
-You can always use your ctags utility of generate your tags files from
+You can always use your ctags utility to generate your tags files from
 the command line, but that's a heck of a lot of back and forth between
 your text editor and your shell, and I doubt anyone who tries to do that
 will enjoy the experience for long. So let's look at ways to generate
@@ -152,19 +152,19 @@ the above link.
 
 In spite of that, I ended up moving in a different direction with
 managing my tags files. There were several reasons, but the main one is
-that I like to think of tags files a separate from Vim, something the
+that I like to think of tags files as separate from Vim, something the
 text editor consumes without having to manage. It's an opinionated view
 of things, but I increasingly didn't like to configure my text editor to
 manage my tags files. So I went in search of another method, and what I
 found was the [Tim Pope][tp] method, which I've since implemented
 myself. Rather than using Vim itself to manage tags files, this method
 uses local [Git hooks][gh] to rebuild the tags whenever any of a handful of
-common git operations are performed. The result is a system that also
+common Git operations are performed. The result is a system that also
 just works, but does so in a half-a-dozen lines of shell script rather
 than a few _hundred_ lines of Vimscript. Gotta keep that Vim config
 tight.
 
-As a bonus, if you already use Tim Pope's [Fugitive git
+As a bonus, if you already use Tim Pope's [Fugitive Git
 plugin][fugitive] (and you should), this method handily places your tags
 file where that plugin tells Vim to look for it—in the `.git` folder.
 Of course the shell-script approach is infinitely configurable, so you
@@ -183,7 +183,7 @@ options.
 That brings us back to where we started, to the issue of code completion
 in Vim. Yes, Vim does offer native code completion (completing from tags
 is done with `C-x, C-]` in insert mode). No, it's probably not as
-powerful as what you could get with something like a Jedi plugin a la
+powerful as what you could get with something like a Jedi plugin à la
 YouCompleteMe, but I've found it satisfies my needs more often than not,
 with `:grep` (or my own [`:GrepJob`][mj]) filling the gap nicely in a
 more native fashion.
@@ -195,13 +195,13 @@ built-in completions through the clever use of an [omni completion
 function][oc]. It works, but users do give up some control over selecting
 what data source Vim uses for a particular completion. I used this
 plugin for a while after I gave up on YouCompleteMe, but ultimately
-removed it because it effectively made the TAB key ambiguous in insert
-mode. Sometimes I wanted to insert an actual TAB character, but got a
+removed it because it effectively made the tab key ambiguous in Insert
+mode. Sometimes I wanted to insert an actual tab character, but got a
 completion instead.
 
 With all of this in place, it's natural to ask whether a language server
 is even necessary with Vim. I don't intend here to suggest an answer to
-that question, but I will say that many of the solutions to-date for
+that question, but I will say that many of the solutions to date for
 language server integration in Vim have seemed like more trouble than
 they're worth. That said, with the advent of Vim 8 and its asynchronous
 capabilities, there is headroom for these solutions to improve, and I
