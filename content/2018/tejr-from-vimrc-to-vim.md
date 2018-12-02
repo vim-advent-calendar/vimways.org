@@ -55,34 +55,42 @@ configuration files are loaded.
 Let’s start by looking at the structure of the runtime files that come with Vim
 itself. You can find the path for this directory in the `$VIMRUNTIME` variable:
 
-    :echo $VIMRUNTIME
+```vim
+:echo $VIMRUNTIME
+```
 
 If you’re using the version of Vim that was packaged with your operating
 system, it will very likely be something like `/usr/share/vim/vim81`.
 
 Let’s take a look at the contents of that directory:
 
-    $ ls /usr/share/vim/vim81
-    autoload/     bugreport.vim       colors/     compiler/
-    defaults.vim  delmenu.vim         doc/        evim.vim
-    filetype.vim  ftoff.vim           ftplugin/   ftplugin.vim
-    ftplugof.vim  gvimrc_example.vim  indent/     indent.vim
-    indoff.vim    keymap/             lang/       macros/
-    menu.vim      mswin.vim           optwin.vim  pack/
-    plugin/       print/              rgb.txt     scripts.vim
-    spell/        synmenu.vim         syntax/     tools/
-    tutor/        vimrc_example.vim
+```bash
+$ ls /usr/share/vim/vim81
+autoload/     bugreport.vim       colors/     compiler/
+defaults.vim  delmenu.vim         doc/        evim.vim
+filetype.vim  ftoff.vim           ftplugin/   ftplugin.vim
+ftplugof.vim  gvimrc_example.vim  indent/     indent.vim
+indoff.vim    keymap/             lang/       macros/
+menu.vim      mswin.vim           optwin.vim  pack/
+plugin/       print/              rgb.txt     scripts.vim
+spell/        synmenu.vim         syntax/     tools/
+tutor/        vimrc_example.vim
+```
 
 A quick-and-dirty count in the shell shows us there are 1,674 files in this
 directory tree:
 
-    $ find /usr/share/vim/vim81 -type f | wc -l
-    1674
+```bash
+$ find /usr/share/vim/vim81 -type f | wc -l
+1674
+```
 
 Of those, 1,335 are `.vim` files:
 
-    $ find /usr/share/vim/vim81 -type f -name \*.vim | wc -l
-    1335
+```bash
+$ find /usr/share/vim/vim81 -type f -name \*.vim | wc -l
+1335
+```
 
 All of these are just plain Vim script files, like your vimrc. Their location
 within this directory determines when they are loaded. Only a few of them are
@@ -92,8 +100,10 @@ loaded on Vim startup. That’s well over a thousand files ready to be loaded
 If we look at the value of the [`'runtimepath'`][ro] option in Vim, we can see
 a few other paths:
 
-    :set runtimepath?
-      runtimepath=~/.vim,/usr/share/vim/vim81,…,~/.vim/after
+```vim
+:set runtimepath?
+  runtimepath=~/.vim,/usr/share/vim/vim81,…,~/.vim/after
+```
 
 The very first entry of `'runtimepath'` is `~/.vim`, and that’s where you can
 build a structure mimicking that of `$VIMRUNTIME`. This is your *personal* Vim
@@ -107,7 +117,9 @@ If you’ve worked with Vim script for a while, you probably know how to use the
 something like mapping definitions in it, you might have a line like this in
 your vimrc:
 
-    source ~/.vim/mappings.vim
+```vim
+source ~/.vim/mappings.vim
+```
 
 Vim has another command named [`:runtime`][rt] for loading files that works
 with the file layout of the `'runtimepath'` directories we just inspected. Used
@@ -116,10 +128,12 @@ it finds in any of its `'runtimepath'` directories. With an exclamation mark
 added, it reads *all* of them. In both cases, we can include filename pattern
 matching with **globs**: `*` and `?` characters.
 
-    runtime syntax/c.vim
-    runtime! syntax/c.vim
-    runtime! */maps.vim
-    runtime! **/maps.vim
+```vim
+runtime syntax/c.vim
+runtime! syntax/c.vim
+runtime! */maps.vim
+runtime! **/maps.vim
+```
 
 Note that we *don’t* include the leading `~/.vim` path in these patterns.
 
@@ -148,19 +162,23 @@ As an example, if you read others’ vimrc files, you will often see approaches
 to solving the problem of conveniently removing trailing whitespace at line
 endings. Here’s one approach, in a function from the [Vim Tips wiki][vs]:
 
-    function StripTrailingWhitespace()
-      if !&binary && &filetype != 'diff'
-        normal mz
-        normal Hmy
-        %s/\s\+$//e
-        normal 'yz<CR>
-        normal `z
-      endif
-    endfunction
+```vim
+function StripTrailingWhitespace()
+  if !&binary && &filetype != 'diff'
+    normal mz
+    normal Hmy
+    %s/\s\+$//e
+    normal 'yz<CR>
+    normal `z
+  endif
+endfunction
+```
 
 This kind of function is usually followed by a mapping to call it:
 
-    nnoremap <Leader>x :<C-U>call StripTrailingWhitespace()<CR>
+```vim
+nnoremap <Leader>x :<C-U>call StripTrailingWhitespace()<CR>
+```
 
 This function doesn’t need to be loaded every time vimrc is sourced. Once
 defined, it can just sit there, ready for calling when appropriate. In fact,
@@ -173,10 +191,12 @@ instead of putting the function definition in `~/.vimrc`, we can drop it into a
 Once this file is created, we can restart Vim, and then confirm our plugin has
 been loaded by checking its path is in the output of [`:scriptnames`][sn]:
 
-    :scriptnames
-    ...
-    10: ~/.vim/plugin/strip_trailing_whitespace.vim
-    ...
+```vim
+:scriptnames
+  ...
+  10: ~/.vim/plugin/strip_trailing_whitespace.vim
+  ...
+```
 
 Note that the `<Leader>x` mapping left in the vimrc still works, despite being
 set *before* the function it calls was defined.
@@ -196,18 +216,22 @@ machine or operating system? Sure, why not?
 Similarly, because `*.vim` files are loaded from the `plugin` directory
 *recursively*, you can organize them in subdirectories if you want to:
 
-    ~/.vim/plugin/insert/cancel.vim
-    ~/.vim/plugin/insert/suspend.vim
-    ~/.vim/plugin/visual/region.vim
-    ~/.vim/plugin/whitespace/squeeze.vim
-    ~/.vim/plugin/whitespace/trim.vim
+```bash
+~/.vim/plugin/insert/cancel.vim
+~/.vim/plugin/insert/suspend.vim
+~/.vim/plugin/visual/region.vim
+~/.vim/plugin/whitespace/squeeze.vim
+~/.vim/plugin/whitespace/trim.vim
+```
 
 The names of the subdirectories aren’t significant; Vim will search them all.
 Remember how we mentioned Vim’s thinly-veiled `:runtime` wrappers? This is one
 of them. A clue here is in the command that [`:help load-plugins`][lp] suggests
 as an analogue to what Vim does internally at this step:
 
-    :runtime! plugin/**/*.vim
+```vim
+:runtime! plugin/**/*.vim
+```
 
 ### Local script scope
 
@@ -215,10 +239,12 @@ Putting blocks of code like this in distinct files in `~/.vim/plugin` has some
 other advantages. One of these is Vim’s [script-variable][sv] **scoping** for
 functions and variables that are only needed within the script:
 
-    let s:myvar = 'value'
-    function s:Myfunc()
-      ...
-    endfunction
+```vim
+let s:myvar = 'value'
+function s:Myfunc()
+  ...
+endfunction
+```
 
 This applies a unique prefix to all of your function names and variable names
 at the time the file is sourced. That means you don’t have to worry about
@@ -239,13 +265,15 @@ We can use this to check options like [`'compatible'`][co], the Vim version
 number, the availability of a feature, or whether the plugin has already been
 loaded:
 
-    if &compatible
-          \ || v:version < 700
-          \ || has('folding')
-          \ || exists('g:loaded_myplugin')
-      finish
-    endif
-    let g:loaded_myplugin = 1
+```vim
+if &compatible
+      \ || v:version < 700
+      \ || has('folding')
+      \ || exists('g:loaded_myplugin')
+  finish
+endif
+let g:loaded_myplugin = 1
+```
 
 This way, you don’t have to wrap all your feature-dependent code in clumsy
 [`:if`][if] blocks.
@@ -261,15 +289,19 @@ If you want to keep some abstraction between what the plugin does and how it’s
 called, you can use [`<Plug>` prefix][pp] mappings to expose an interface from
 the plugin file:
 
-    function s:StripTrailingWhitespace()
-      ...
-    endfunction
-    nnoremap <Plug>StripTrailingWhitespace
-          \ :<C-U>call <SID>StripTrailingWhitespace()<CR>
+```vim
+function s:StripTrailingWhitespace()
+  ...
+endfunction
+nnoremap <Plug>StripTrailingWhitespace
+      \ :<C-U>call <SID>StripTrailingWhitespace()<CR>
+```
 
 You can then put your choice of mapping for that target in your vimrc:
 
-    nmap <Leader>x <Plug>StripTrailingWhitespace
+```vim
+nmap <Leader>x <Plug>StripTrailingWhitespace
+```
 
 If someone else wants to use your plugin, this makes choosing their own
 mappings for it more straightforward. There’s more general advice about good
@@ -284,16 +316,20 @@ certain filetype. For example, this line of code is intended to set the
 [`'spell'`][sp] option, to highlight possible spelling errors in the text, but
 *only* for [`mail` filetype][mf] buffers:
 
-    autocmd FileType mail setlocal spell
+```vim
+autocmd FileType mail setlocal spell
+```
 
 The first thing to note here is that this should be surrounded in a
 self-clearing [`augroup`][ag], so that reloading it doesn’t make multiple
 definitions for the same hook:
 
-    augroup ftmail
-      autocmd!
-      autocmd FileType mail setlocal spell
-    augroup END
+```vim
+augroup ftmail
+  autocmd!
+  autocmd FileType mail setlocal spell
+augroup END
+```
 
 This is annoying, but there’s a way to avoid this boilerplate.
 
@@ -312,18 +348,22 @@ This means there’s no need for the `autocmd` hooks around our `'spell'`
 setting. We already have hooks for changes of filetype available to us, and we
 can just put this single line in `~/.vim/ftplugin/mail.vim` to use them:
 
-    setlocal spell
+```vim
+setlocal spell
+```
 
 With this done, upon editing a new `mail` buffer, we can confirm that our
 filetype plugin was loaded when the filetype was chosen using `:scriptnames`:
 
-    :set filetype=mail
-    :scriptnames
-    ...
-    20: ~/.vim/ftplugin/mail.vim
-    ...
-    :set spell?
-      spell
+```vim
+:set filetype=mail
+:scriptnames
+  ...
+  20: ~/.vim/ftplugin/mail.vim
+  ...
+:set spell?
+  spell
+```
 
 This is better, but we can improve it further.
 
@@ -344,18 +384,24 @@ you don’t like it.
 If you need to make this even more granular, you can also put files in
 *subdirectories* named after the filetype:
 
-    ~/.vim/after/ftplugin/mail/spell.vim
-    ~/.vim/after/ftplugin/mail/quote.vim
+```bash
+~/.vim/after/ftplugin/mail/spell.vim
+~/.vim/after/ftplugin/mail/quote.vim
+```
 
 The filetype followed by an underscore and then a script name works, too:
 
-    ~/.vim/after/ftplugin/mail_spell.vim
-    ~/.vim/after/ftplugin/mail_quote.vim
+```bash
+~/.vim/after/ftplugin/mail_spell.vim
+~/.vim/after/ftplugin/mail_quote.vim
+```
 
 You may have guessed by now that filetype switching is yet another `:runtime`
 wrapper. Switching to a filetype of `mail` effectively runs this command:
 
-    :runtime! ftplugin/mail.vim ftplugin/mail_*.vim ftplugin/mail/*.vim
+```vim
+:runtime! ftplugin/mail.vim ftplugin/mail_*.vim ftplugin/mail/*.vim
+```
 
 ### Undoing filetype settings
 
@@ -369,8 +415,10 @@ After each filetype plugin setting we make, we should append corresponding
 commands to reverse that change to `b:undo_ftplugin`. For our `'spell'`
 example, we’d do this:
 
-    setlocal spell
-    let b:undo_ftplugin .= '|setlocal spell<'
+```vim
+setlocal spell
+let b:undo_ftplugin .= '|setlocal spell<'
+```
 
 The `spell<` syntax used here, with a trailing left angle bracket, specifies
 that the local value of `'spell'` should be restored to match the global value
@@ -379,9 +427,11 @@ of `'spell'` when the `mail` filetype is unloaded.
 After setting a filetype, we can check the `b:undo_ftplugin` variable’s value
 with [`:let`][lt]:
 
-    :set filetype=mail
-    :let b:undo_ftplugin
-    b:undo_ftplugin        setl modeline< tw< fo< comments<|setlocal spell<
+```vim
+:set filetype=mail
+:let b:undo_ftplugin
+  b:undo_ftplugin        setl modeline< tw< fo< comments<|setlocal spell<
+```
 
 ### The difference with indent
 
@@ -404,7 +454,9 @@ buffer’s filetype in the first place, based on its filename or contents, those
 go in the [`ftdetect`][fd] directory. You might put this in
 `~/.vim/ftdetect/irssilog`, for example:
 
-    autocmd BufNewFile,BufRead */irc/*.log setfiletype irssilog
+```vim
+autocmd BufNewFile,BufRead */irc/*.log setfiletype irssilog
+```
 
 Putting the hooks in `~/.vim/ftdetect` means they are sourced as part of the
 `filetypedetect` `augroup` defined in `filetype.vim`. This is another context
