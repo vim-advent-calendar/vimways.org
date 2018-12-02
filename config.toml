@@ -6,6 +6,7 @@ paginate = 24
 pygmentsCodeFences = true
 pygmentsStyle = "friendly"
 googleAnalytics = "UA-127429090-1"
+pluralizeListTitles = true
 
 [params]
   description = "The Vim advent calendar"
