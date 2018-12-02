@@ -78,7 +78,26 @@ Some notes:
 2. Wrapping the index inside a list is needed so it can be changed by the inner subroutine.
 3. `vim.current.range` contains the current range.
 
-- Accessing vimscript variables and registers
+## Accessing Vimscript variables and registers
+
+The only reliable way I found to access Vimscript variables and registers is by using
+`vim.eval('myvar')` or `vim.eval('@a')` (for accessing the `a` register). E.g.:
+
+```vim
+py << EOF
+import vim
+import string
+
+def var_replace(s):
+    needle = vim.eval('needle')
+    replacement = vim.eval('@a')
+    return string.replace(s, needle, replacement)
+
+EOF
+
+command! -range VarBasedReplace :<line1>,<line2>pydo return var_replace(line);
+```
+
 - Writing vimscript functions in python.
 
 Ideas/comments/feedback appreciated :)
