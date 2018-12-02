@@ -1,9 +1,13 @@
 ---
-title: "From `.vimrc` to `.vim`"
-date: 2018-10-14T11:11:59+02:00
+title: "From .vimrc to .vim"
 publishDate: 2018-12-11
+date: 2018-12-11
 draft: true
-description: An article on this or that.
+description: "Breaking your long vimrc into a personal runtime directory."
+slug: "from-vimrc-to-vim"
+author:
+  name: "Tom Ryder"
+  email: "tom@sanctum.geek.nz"
 ---
 
 From `.vimrc` to `.vim`
