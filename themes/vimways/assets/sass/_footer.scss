@@ -22,6 +22,9 @@ footer {
 			margin: 0 1rem;
 			box-sizing: border-box;
 			vertical-align: top;
+			@media only screen and (max-width: 767px) {
+				margin: 0;
+			}
 		}
 	}
 }
