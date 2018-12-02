@@ -461,7 +461,7 @@ for download][pv].
 [mf]: https://vimhelp.appspot.com/syntax.txt.html#mail%2Evim
 [mp]: https://vimhelp.appspot.com/options.txt.html#%27makeprg%27
 [pp]: https://vimhelp.appspot.com/usr_41.txt.html#using-%3CPlug%3E
-[pv]: tejr-from-vimrc-to-vim.zip
+[pv]: ../tejr-from-vimrc-to-vim/tejr-from-vimrc-to-vim.zip
 [rc]: https://vimhelp.appspot.com/usr_05.txt.html#vimrc-intro
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
