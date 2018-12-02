@@ -1,9 +1,13 @@
 ---
-title: "From `.vimrc` to `.vim`"
-date: 2018-10-14T11:11:59+02:00
+title: "From .vimrc to .vim"
 publishDate: 2018-12-11
+date: 2018-12-11
 draft: true
-description: An article on this or that.
+description: "Breaking your long vimrc into a personal runtime directory."
+slug: "from-vimrc-to-vim"
+author:
+  name: "Tom Ryder"
+  email: "tom@sanctum.geek.nz"
 ---
 
 From `.vimrc` to `.vim`
@@ -224,8 +228,8 @@ at the time the file is sourced. That means you don’t have to worry about
 trampling on any other variables defined elsewhere in your configuration.
 
 There are some caveats here for defining mappings; make sure you read `:help
-script-variable` carefully to make sure you understand how to use `<SID>`
-prefixes.
+script-variable` carefully to make sure you understand how to use [`<SID>`
+prefixes][si].
 
 ### Short-circuiting and load guards
 
@@ -457,11 +461,12 @@ for download][pv].
 [mf]: https://vimhelp.appspot.com/syntax.txt.html#mail%2Evim
 [mp]: https://vimhelp.appspot.com/options.txt.html#%27makeprg%27
 [pp]: https://vimhelp.appspot.com/usr_41.txt.html#using-%3CPlug%3E
-[pv]: tejr-from-vimrc-to-vim.zip
+[pv]: ../tejr-from-vimrc-to-vim/tejr-from-vimrc-to-vim.zip
 [rc]: https://vimhelp.appspot.com/usr_05.txt.html#vimrc-intro
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
 [sc]: https://vimhelp.appspot.com/repeat.txt.html#%3Asource
+[si]: https://vimhelp.appspot.com/map.txt.html#%3CSID%3E
 [sl]: https://bitbucket.org/sjl/dotfiles/src/e2a961f1d037e53ea2809885a65feba66a9aa03e/vim/vimrc?at=default&fileviewer=file-view-default
 [sn]: https://vimhelp.appspot.com/repeat.txt.html#%3Ascriptnames
 [sp]: https://vimhelp.appspot.com/options.txt.html#%27spell%27
