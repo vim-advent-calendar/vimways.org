@@ -5,25 +5,12 @@ theme = "vimways"
 paginate = 24
 pygmentsCodeFences = true
 pygmentsStyle = "friendly"
+googleAnalytics = "UA-127429090-1"
 
 [params]
-  builtBy = ""
-  defaultImage = ""
+  description = "The Vim advent calendar"
+  images = []
+  title = "Vimways"
 
-  facebook = ""
-  quora = ""
-  twitter = ""
-  github = ""
-  email = ""
-
-  fbLikeBox = ""
-  fbAppId = ""
-  fbPageUrl = ""
-  fbPageTitle = ""
-
-  analytics = ""
-  disqus = ""
-
-  [params.copyright]
-     name = "vimways"
-     link = ""
+[taxonomies]
+  series = "series"
