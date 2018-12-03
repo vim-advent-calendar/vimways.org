@@ -22,7 +22,7 @@ extensions in C, C++ or similar.
 
 This article aims to be a cookbook for using
 [if_pyth](http://vimdoc.sourceforge.net/htmldoc/if_pyth.html) which is Vim's
-python interface. I do not wish to particularly endorse python out of all
+Python interface. I do not wish to particularly endorse Python out of all
 possible languages, it's just that I am now trying to learn it better and so am
 trying to use it as much as possible.
 
@@ -74,7 +74,7 @@ command! -range IndexBuf :<line1>,<line2>py my_replace_with_numbers(vim.current.
 
 Some notes:
 
-1. Note the use of `join` and `split` to convert from a list/array of lines to a single string and back.
+1. Note the use of `join` and `split` to convert from a list/array of lines to a single, multi-line, string and back.
 2. Wrapping the index inside a list is needed so it can be changed by the inner subroutine.
 3. `vim.current.range` contains the current range.
 
