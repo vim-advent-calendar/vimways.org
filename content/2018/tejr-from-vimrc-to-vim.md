@@ -2,7 +2,7 @@
 title: "From .vimrc to .vim"
 publishDate: 2018-12-03
 date: 2018-12-03
-draft: true
+draft: false
 description: "Breaking your long vimrc into a personal runtime directory."
 slug: "from-vimrc-to-vim"
 author:
