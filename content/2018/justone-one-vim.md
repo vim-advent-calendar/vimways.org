@@ -1,9 +1,16 @@
 ---
-title: "One Vim: managing multiple files with ease"
+title: "One Vim"
 date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-06
 draft: true
-description: An article on this or that.
+description: "Editing multiple files without breaking a sweat."
+author:
+  name: "Nate Jones"
+  email: "nate@endot.org"
+  github: "justone"
+  picture: "http://endot.org/images/nate-jones-profile.jpg"
+  twitter: "@ndj"
+  homepage: "http://endot.org/"
 ---
 
 # One Vim: managing multiple files with ease
