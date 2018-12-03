@@ -3,7 +3,7 @@ title: "About Vimways"
 slug: "about"
 type: "meta"
 layout: "single"
-draft: true
+draft: false
 ---
 
 ## What?
@@ -26,9 +26,9 @@ The project itself started its life as a private IRC conversation between the tw
 
 ## Whom?
 
-[@robertmeta][1] has been running the [#vim][8] channel for over a decade in a half, and in the last few years has also became a moderator of the [/r/vim reddit community][9].  
+[@robertmeta][1] has been running the [#vim][8] channel for over a decade and a half, and in the last few years has also became a moderator of the [/r/vim reddit community][9].
 
-[@romainl][2] has been learning—and helping others learn—Vim for eight years. He is currently paid for playing with NodeJS, Docker, microservices, and micro-frontends. What a lucky guy!
+[@romainl][2] has been learning—and helping others learn—Vim for eight years. He is currently paid for playing with a bunch of cool web technologies. What a lucky guy!
 
 
 [1]: https://www.robertmelton.com/
