@@ -26,7 +26,7 @@ The project itself started its life as a private IRC conversation between the tw
 
 ## Whom?
 
-[@robertmeta][1] is this and that
+[@robertmeta][1] has been running the [#vim][8] channel for over a decade in a half, and in the last few years has also became a moderator of the [/r/vim reddit community][9].  
 
 [@romainl][2] has been learning—and helping others learn—Vim for eight years. He is currently paid for playing with NodeJS, Docker, microservices, and micro-frontends. What a lucky guy!
 
@@ -38,3 +38,5 @@ The project itself started its life as a private IRC conversation between the tw
 [5]: https://vimways.org/
 [6]: https://github.com/vim-advent-calendar
 [7]: https://github.com/vim-advent-calendar/vimways.org/issues
+[8]: irc://irc.freenode.net/vim
+[9]: https://www.reddit.com/r/vim/
