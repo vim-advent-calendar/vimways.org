@@ -10,7 +10,7 @@ pluralizeListTitles = false
 
 [params]
   description = "The Vim advent calendar"
-  images = ["/android-icon-192x192.png"]
+  images = ["/vimways-cover.png"]
   title = "Vimways"
 
 [taxonomies]
