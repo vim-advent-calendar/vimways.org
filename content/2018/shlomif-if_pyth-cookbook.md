@@ -3,7 +3,7 @@ title: "if_pyth (= the python interface) cookbook"
 date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-10
 draft: true
-description: An article on this or that.
+description: Describe how to achieve some commonly desired idioms using the vim python interface
 ---
 
 # if_pyth (= the python interface) cookbook
@@ -98,6 +98,36 @@ EOF
 command! -range VarBasedReplace :<line1>,<line2>pydo return var_replace(line);
 ```
 
-- Writing vimscript functions in python.
+## Writing Vimscript functions in python.
 
-Ideas/comments/feedback appreciated :)
+In order to this reliably, I was able to pass values using vim global variables,
+and use `pyeval()` and `vim.eval()`. E.g:
+
+```vim
+py << EOF
+import vim
+import string
+
+def vim_replace():
+    s = vim.eval('g:for_py_string')
+    needle = vim.eval('g:for_py_needle')
+    repl = vim.eval('g:for_py_repl')
+    ret = string.replace(s, needle, repl)
+    return ret
+
+EOF
+
+function! MyReplace(str, needle, repl)
+    let g:for_py_string = a:str
+    let g:for_py_needle = a:needle
+    let g:for_py_repl = a:repl
+    return pyeval('vim_replace()')
+endfunction
+```
+
+Now we are able to do:
+
+```vim
+:echo MyReplace("rescue Brian", "r", "w")
+```
+
