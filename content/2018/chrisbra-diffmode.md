@@ -14,7 +14,7 @@ author:
 
 Lots of people use vimdiff to understand and handle diffs in console
 mode. While there exist more specialized tools for comparing files,
-vimdiff has always worked good enough for me.
+vimdiff has always worked well enough for me.
 
 ## The inefficiency of the external diff
 
