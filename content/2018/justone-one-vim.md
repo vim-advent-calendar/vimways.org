@@ -3,6 +3,7 @@ title: "One Vim: managing multiple files with ease"
 date: 2018-12-04
 publishDate: 2018-12-04
 draft: false
+slug: "one-vim"
 description: "Editing multiple files without breaking a sweat."
 author:
   name: "Nate Jones"
