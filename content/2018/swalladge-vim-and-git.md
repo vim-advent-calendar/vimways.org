@@ -122,9 +122,10 @@ on the subject. I need to include it here though for completeness.
 
 I do know that Vim is perfectly suited to the task though. Common actions map
 neatly to Vim idioms: change a command (`ciw`), remove a commit (`dd`), or
-reorder lines (`<count>dd`, move up/down, `p` or `P`). If you find yourself
-repeating a certain action often, it is simple to create a new keybind for it as
-in [this Reddit post][reddit-rebase-bindings].
+reorder lines (`<count>dd`, move up/down, `p` or `P`). Vim also includes
+commands to quickly change a command (`:Pick`, `:Squash`, etc.) or cycle between
+them (`:Cycle`). See [gitrebase.vim][tpope-gitrebase] for all available
+commands. Add keybindings for these for even more efficiency!
 
 
 
@@ -161,11 +162,35 @@ Vim to get back to a shell.
 different commits and don't want to deal with Vim complaining that a file has
 changed on disk.
 
-```
+```vimscript
 set autoread
 set checktime
 ```
 
+Nobody wants to commit merge conflict markers, so let's highlight these so we
+can't miss them:
+
+```vimscript
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+```
+
+Generally the first line of commit messages should be a maximum of 50 characters
+long, and the body 72 characters. Correct spelling is also nice. With some
+config, Vim can help!
+
+```vimscript
+" Note: put this in ftplugin/gitcommit.vim or in a filetype autocmd.
+
+" show the body width boundary
+setlocal colorcolumn=73
+setlocal textwidth=72
+
+" warning if first line too long
+match ErrorMsg /\%1l.\%>51v/
+
+" spell check on
+setlocal spell
+```
 
 
 ### Plugins
@@ -318,3 +343,5 @@ contacting the author._
 [vimcasts-vimdiff]: http://vimcasts.org/episodes/fugitive-vim-resolving-merge-conflicts-with-vimdiff/
 [reddit-rebase-bindings]: https://www.reddit.com/r/git/comments/6lln75/vim_keybindings_for_interactive_rebase/
 [vimcasts-fugitive]: http://vimcasts.org/blog/2011/05/the-fugitive-series/
+[tpope-gitrebase]: https://github.com/tpope/vim-git/blob/master/ftplugin/gitrebase.vim
+[csswizardry-tweet]: https://twitter.com/csswizardry/status/841666536267997185
