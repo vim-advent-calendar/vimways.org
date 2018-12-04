@@ -8,9 +8,9 @@ draft: false
 
 ## What?
 
-Vimways is a Vim-themed advent calendar by [@robertmeta][1] and [@romainl][2]. Largely inspired by the early [24ways][3], our primary goal is to publish *one* high-quality articles about Vim per day during the *twenty four* days before Christmas.
+Vimways is a Vim-themed advent calendar by [@robertmeta][1] and [@romainl][2]. Largely inspired by the early [24ways][3], our primary goal is to publish *one* high quality article about Vim per day during the *twenty four* days before Christmas.
 
-That's twenty four articles written by knowledgeable users—both famous and non-famous among the community—distilled from the 1st of December to the 24th of December.
+That's twenty-four articles written by knowledgeable users—both famous and non-famous among the community—distilled from the 1st of December to the 24th of December.
 
 ## When?
 
