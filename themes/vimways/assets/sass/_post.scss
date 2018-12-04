@@ -55,9 +55,6 @@ aside {
 					margin-top: 1.5rem;
 					height: calc(12rem - 1.5rem);
 					box-sizing: border-box;
-					.author {
-						margin-bottom: 0;
-					}
 				}
 			}
 		}
@@ -70,14 +67,11 @@ aside {
 			flex-direction: column-reverse;
 			aside, #main {
 				width: 100%;
+				margin: 0;
+				padding: 0;
 			}
 			aside {
 				padding: 0;
-				.content {
-					.author {
-						margin-bottom: 0;
-					}
-				}
 			}
 		}
 	}

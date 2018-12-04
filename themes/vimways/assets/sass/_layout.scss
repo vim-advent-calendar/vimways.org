@@ -29,11 +29,16 @@ h3 code,
 h4 code,
 h5 code,
 h6 code,
+li code,
 p code {
 	background-color: #f0f0f0;
 	color: #06287e;
 	padding: 0 0.25rem;
 	line-height: 1rem;
+}
+
+li code {
+	font-size: 0.8rem;
 }
 
 p img {
@@ -46,6 +51,18 @@ pre {
 	border-radius: 3px;
 	padding: 0.25rem;
 	overflow-x: auto;
+}
+
+table {
+	width: 100%;
+	td {
+		border-top: 1px solid $dark;
+		padding: 0.25rem;
+	}
+	th {
+		padding: 0.25rem;
+		text-align: left;
+	}
 }
 
 blockquote {
@@ -287,6 +304,27 @@ p {
 	.month-year {
 		font-size: 1.44rem;
 		line-height: 1;
+	}
+}
+
+.contact {
+	font-size: 0.8em;
+	margin: 0;
+	padding: 0;
+	li {
+		display: inline-block;
+		list-style-position: inside;
+		a {
+			background-color: $cornsilk-dark;
+			display: block;
+			border-radius: 3px;
+			line-height: 1.5rem;
+			height: 1.5rem;
+			padding: 0 0.5rem;
+			border-bottom: 1px solid $cornsilk-darker;
+			text-decoration: none;
+			color: $text;
+		}
 	}
 }
 
