@@ -1,197 +1,347 @@
 ---
 title: "Vim and Git"
-date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-12
+date: 2018-12-12
 draft: true
-description: An article on this or that.
+description: Tips for integrating Vim and Git.
+slug: "vim-and-git"
+author:
+  name: "Samuel Walladge"
+  email: "samuel@swalladge.id.au"
+  github: "swalladge"
+  picture: "https://www.gravatar.com/avatar/e1dc4dfcc798a49c1de0b2dcca4dee3c.jpg?s=512"
+  twitter: "@srwalladge"
+  irc: "swalladge"
+  homepage: "https://swalladge.id.au"
 ---
 
 # Vim and Git
 
+Vim and Git are both highly complex, configurable developer tools. Developers
+who use Vim are likely to also need to use Git frequently. This article attempts
+to explore how these two tools can interact in many ways.
+
+First off, I'm not going to prescribe any particular workflows, or argue for or
+against a particular method. There are just too many options and you are
+encouraged to develop your own workflow.
+
+Vim and Git are two separate tools and can of course be used that way. However,
+it can be useful, time-saving, and convenient to integrate the two.
+
+Note: I personally use Neovim, but practically everything will work the same in
+Vim. Assume "Vim" in the post refers to both Neovim and Vim unless a distinction
+is explicitly made.
 
 
-It is impossible to lay out a definitive set of rules to follow for working with
-Git from a Vim user's perspective. There are so many workflows and so many
-options for integrating Vim and Git together. If we were talking about an IDE,
-then the easy answer would be to use the IDE's Git integration. But this is Vim,
-where we build our own IDE.
+## The Git perspective
 
-Getting to assemble our own IDE is awesome for several reasons. Firstly,
-developers are unique individuals with unique workflows; building our own means
-the result will be tailor made. Secondly, building an IDE with Vim can follow
-the Unix philosophy of "do one thing and do it well".
+From the perspective of Git there are several opportunities to utilize Vim:
 
-This flexibility and power comes with some challenges though. How do you
-decide on the "best" workflow without spending a large amount of time trying
-all the possibilities? How can you find what options are available? How can you
-overcome muscle memory and begin adopting a new workflow?
+- editing commit/tag messages
+- resolving merge conflicts (yay!)
+- interactive rebasing
 
-Hopefully this article will help with the above questions by describing various
-workflows and providing tips for getting the most out of each. Obviously I'm
-only authoritative on my particular workflow (which I believe needs improving),
-so take this as a best effort attempt.
+### Editing commit messages
 
-Here goes.
+If you have the `EDITOR` environment variable already set to Vim, Git should
+automatically use Vim to edit messages. If environment variables aren't to be
+relied on, the `core.editor` git config can be set:
+
+```
+[core]
+    editor = "vim"
+```
+
+When editing a commit message in Vim and wish to abort, you can use the `:cq`
+command to exit with a non-zero status. This will cause Git to abort the commit,
+even if you had begun writing a message. This trick works for other Git commands
+where normally exiting the editor submits the action without prompting.
+
+Additionally, be sure to use `git commit -v` or set `commit.verbose = true` in
+your gitconfig file to have the full patch shown in Vim when editing the commit
+message.
 
 
-## Workflows
+### Resolving merge conflicts
 
-- "vanilla" Vim
-- Tmux
-- Fugitive
-- `¯\_(ツ)_/¯`
+Before resorting to external diff tools to resolve conflicts, consider using
+Vim's excellent diff mode to help! Vim can be configured to be used as Git's
+`mergetool`, so it can be automatically launched with the correct configuration
+and files ready to perform the merge when you run `git mergetool`. There are two
+main methods which I've used: vanilla Vim (or Neovim) launched in diffmode, and
+the `Gdiff` command supplied by [vim-fugitive][vim-fugitive]. Example
+configuration below (this is my config with Neovim; launching Vim in diffmode is
+slightly different):
+
+```
+[merge]
+    tool = nvimdiff4
+    # if not using a tool name with builtin support, must supply mergetool cmd
+    # as below
+
+[mergetool "nvimdiff4"]
+    cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+
+[mergetool "nfugitive"]
+    cmd = nvim -f -c "Gdiff" "$MERGED"
+```
+
+The first method requires no plugins. It is simply Vim (Neovim) launched in
+diffmode with the 4 files Git provides in environment variables. The wincmds
+executed move the working file to full-width along the lower half of the window.
+
+The second method uses the vim-fugitive plugin to automatically set up the
+layout (it will choose horizontal or vertical splits depending on the terminal
+size. It still uses Vim's diffmode, but only shows 3 files (local, remote, and
+index).
+
+For both methods, use `diffget` and `diffput` commands (with corresponding `do`
+and `dp` bindings) to resolve conflicts.  Something I find helpful is to include
+the buffer number in the status line as a quick reference when giving the buffer
+number to `do` or `dp`. The item `%n` will do that. See `:h 'statusline'` for
+more.
+
+For further information, I recommend the [vimcasts screencast on resolving merge
+conflicts][vimcasts-vimdiff].
+
+Likewise, git `difftool` can be set to use Vim too for displaying diffs:
+
+```
+[diff]
+    tool = nvimdiff2
+
+[difftool "nvimdiff2"]
+    cmd = nvim -d $LOCAL $REMOTE
+```
+
+
+### Interactive rebasing
+
+I haven't had to perform rebases very often and so can't speak authoritatively
+on the subject. I need to include it here though for completeness.
+
+I do know that Vim is perfectly suited to the task though. Common actions map
+neatly to Vim idioms: change a command (`ciw`), remove a commit (`dd`), or
+reorder lines (`<count>dd`, move up/down, `p` or `P`). Vim also includes
+commands to quickly change a command (`:Pick`, `:Squash`, etc.) or cycle between
+them (`:Cycle`). See [gitrebase.vim][tpope-gitrebase] for all available
+commands. Add keybindings for these for even more efficiency!
+
+
+
+## The Vim perspective
+
+Ok, so the flip side: how can Git be integrated into Vim?
 
 
 ### Vanilla
 
-It's possible to have a perfectly legit setup with vanilla Vim, the command line
-Git client, and a terminal. Sometimes this is the only option if you need to
-speedily edit something on a server, virtual machine, or new installation.
+Let's begin with useful things you can do with no plugins required.
 
-Tips
+#### `:!git`
 
-Vim is just a process running inside the shell. We can take advantage of that by
-suspending the process with `<c-z>`. This drops up back to the shell were we can
-run Git commands as required. Then resume Vim and get back to editing by the
-`fg` command.
+One way is to shell out directly to Git to run a command. Be aware that
+interactive stdin is impossible currently in Neovim so any commands that prompt
+for input will fail.
+
+```
+:!git stash
+```
+
+#### `:terminal`
+
+Neovim, and more recently Vim, have embedded terminals that can be launched with
+the `:terminal` command. This enables having a complete shell (and Git command
+line tools) within Vim. Very useful if using Gvim, or don't want to suspend/quit
+Vim to get back to a shell.
 
 
-If checking out different versions of a file in Git while that file, Vim will
-complain about the file being changed externally and prompt for an action to
-take. With `:set autoread`, external changes will be automatically loaded into
-the buffer for a smoother workflow. `u` will undo the change.
+### Configuration
 
+`autoread` and `checktime` are useful if you leave Vim open while checking out
+different commits and don't want to deal with Vim complaining that a file has
+changed on disk.
 
-If you don't want to leave vim, it is simple to run a git command by shelling
-out. For example: `:!git status`. `%` expands to the current filename, so
-something like `:!git log %` will show the commit history of the file open in
-the current buffer.
+```vimscript
+set autoread
+set checktime
+```
 
-New Vim and Neovim versions also have an integrated terminal. `:terminal`
+Nobody wants to commit merge conflict markers, so let's highlight these so we
+can't miss them:
 
-TODO
+```vimscript
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+```
 
-### Tmux
+Generally the first line of commit messages should be a maximum of 50 characters
+long, and the body 72 characters. Correct spelling is also nice. With some
+config, Vim can help!
 
-- popular
-- switch between tmux panes/windows; one for vim, another for shell/git
-- no suspend/fg required
+```vimscript
+" Note: put this in ftplugin/gitcommit.vim or in a filetype autocmd.
+
+" show the body width boundary
+setlocal colorcolumn=73
+setlocal textwidth=72
+
+" warning if first line too long
+match ErrorMsg /\%1l.\%>51v/
+
+" spell check on
+setlocal spell
+```
 
 
 ### Plugins
 
-- plugins can augment the above
-- plugins can replace the above
+
+#### [Fugitive.vim][vim-fugitive]
+
+**The** Git plugin. There are many articles about Fugitive so I won't go into it
+in much detail. Basically, it provides many Vim commands for working with the
+repo, a diffing setup for staging changes, interactive status window, etc. It is
+very powerful and worth reading the docs and other resources for learning more
+about what can be achieved with Fugitive. I highly recommend the [Vimcasts
+series on Fugitive][vimcasts-fugitive].
+
+Some of its features I use consistently are:
+
+- `%{FugitiveStatusline()}` to display current branch in the statusline.
+- `:Gblame` for instant `git blame` in Vim.
+- `:Gdiff` for staging hunks and viewing diffs.
 
 
-## Let's talk about plugins
+#### GitGutter/Signify
+
+[GitGutter][gitgutter] and [Signify][signify] are both plugins whose job is to
+show diff information in the sign column. GitGutter is tailored for Git, and
+provides some useful extras, such as undoing hunks. Signify has historically
+been faster, but recent refactoring efforts in GitGutter has levelled the
+playing field. I'd recommend GitGutter for its extra features if you only use
+Git, or Signify if you also need support for other VCSs.
+
+Both plugins support functions to embed number of added/removed/modified lines
+in the statusline. For example, my current statusline generating function
+includes:
+
+```vimscript
+let l:hunks = GitGutterGetHunkSummary()
+if l:hunks[0] || l:hunks[1] || l:hunks[2]
+  let l:line .= '%#GitGutterAdd# +' . l:hunks[0] .
+              \ ' %#GitGutterChange#~' . l:hunks[1] .
+              \ ' %#GitGutterDelete#-' . l:hunks[2] . ' '
+```
 
 
-### Fugitive
+#### GV
 
-**The** git plugin. There are many articles about Fugitive so I won't go into it
-in much detail. Basically, it provides
-
-
-### Committia
-
-for editing commit messages. more about this later.
-
-### signify/gitgutter
-
-diff status in the gutter
+[GV][gv] is an excellent Git browser for Vim.
 
 
-### :GV
+#### Vimagit
 
-tig-style browser in vim
-
-
-### tig-explorer
-
-newer plugin for integrating tig with vim
-
-### vimagit
-
-attempt to bring some magit style to vim
-
-- slow?
+[Vimagit][vimagit] is an attempt to bring some of Emacs' famous [Magit][magit]
+to Vim.  It provides a single buffer where you can launch Git commands, stage
+hunks/files, and commit.  Its interface is very nice (imho), but unfortunately
+it suffers from low performance. Worth checking out but is perhaps not mature
+enough to support efficient workflows yet.
 
 
-### others?
+#### Committia
 
-add more lesser-known niche git plugins (there are several)
-
-
-
-## Config
-
-
-vim config things here?
+[Committia][committia] Committia is a simple plugin to help make editing commit
+messages smoother by displaying the diff in a vertical split. I found it really
+useful until I discovered verbose mode for `git commit` which loads the diff
+into the buffer too. I think it still has potential due to the neat layout it
+provides and bindings to navigate the diff buffer. YMMV
 
 
-## Git config
+### Branch managers
 
-We can't discuss using vim with git without covering how to work with git's
-configuration to help integrate it better!
-
-- `$HOME/.gitconfig`
-- global and project-local
-- mergetool setup for vim and nvim
-- vim-fugitive with mergetool (should this be here or under fugitive section? so
-  many cross-cutting concerns I'm not sure how to structure the article...)
-- diff - from git's side
-
-
-## Neovim vs Vim
-
-- differences that affect working with git
-- no interactive stdin with `:!command` in neovim
-- less differences now both have async and :terminal
+I recently discovered some cool plugins for managing Git branches (and related
+tasks). [Twiggy][twiggy] and [Merginal][merginal] are both very similar and
+provide a command to open a buffer in a vertical split for performing actions on
+branches, such as switching, merging, pulling, pushing, stashing, and deleting.
+These are recent discoveries and I believe show much promise. I also think that
+these finds highlight the richness of the Vim plugin ecosystem. There are so
+many lesser-known and useful plugins which may fit in perfectly with your
+workflow.
 
 
+## Github specific goodies
 
-## Tips and tricks (aka I don't know where to put these)
+Github is one of the most popular Git repository hosting services, and it
+follows that there are some helpful Vim plugins for further Git repository
+integration if hosted on Github.
 
-### Editing commit messages
+[rhubarb][rhubarb] is a Vim plugin to complement Fugitive that enables opening a
+Git object on Github in the browser. It's very convenient when you are working
+in Vim on a local repository and wish to refer someone to a particular line or
+file. For example:
 
-`:cq` in vim to exit with a non-zero status. This will abort the commit even if
-you had begun writing a message. If the editor is exited normally without
-writing any message, the commit will be aborted anyway.
+```
+:1,5Gbrowse
+```
 
-
-#### [committia.vim](https://github.com/rhysd/committia.vim)
-
-Committia is a simple plugin to help make editing commit messages smoother.
-This is separate to other plugins like fugitive. If you are already in vim, then fugitive will give a more advanced
-commit workflow. However, committia is useful when you are working on the
-command line and just want to commit with `git commit ...`. In this case, your
-configured editor will launch with the `COMMIT_EDITMSG` file to edit the commit
-message. If you `git commit -v ...`, then you already get the diff view, but
-committia adds some niceties:
-
-- shows diff and status sections in separate buffers, split so everything is
-  visible.
-- `<Plug>` mappings for scrolling the diff buffer from the edit buffer.
-- hook functions for opening windows event.
-
-The workflow can then be along these lines:
-
-1. Run `git commit` from the shell.
-2. Vim opens and committia sorts out the buffers.
-3. Begin typing the commit message.
-4. Press your keybinds to scroll the diff to view more to help draft the commit
-   message.
-5. Close vim to finalize the commit.
+Rhubarb also contains an autocompleter for Github issues when editing commit/tag
+messages.
 
 
-### Tig and friends?
+## My workflow
 
-???
+So what about my workflow, you may ask. Well I consider my workflow to be very
+scattered. I use whichever method of performing a Git action as happens to be
+most convenient at the time. Generally I use Tmux and have a pane/window open
+that I can switch to and run Git commands when I need to do a series of
+Git-specific actions. Otherwise I try to stay in Vim and much as possible to
+avoid context-switching. To this end, I find GitGutter great in vim to see which
+lines have been changed and not staged. I'm also beginning to use Fugitive more
+frequently, and often experiment with other plugins to see how they can help.
 
-### github-specific
+Something I can't stress enough is the importance of learning a tool and forcing
+yourself to use that tool everywhere possible until it reaches muscle memory if
+it's to actually be an improvement to your workflow. I've found that it's no
+point having convenient plugins installed if I end up forgetting about them and
+falling back to less efficient methods simply because they are the ones I'm most
+familiar with. That said, sometimes the most efficient method is the one that
+requires less context switching. If in the cli, then `git status` is faster than
+switching to Vim and running `:Gstatus`, and vice versa.
 
-- autocompletion for github issues
-- hub
-- `:Gbrowse` with fugitive and rhubarb
 
+## Conclusion/Takeaways
+
+Vim and Git are two powerful tools which can complement each other with a bit of
+configuration work.
+
+If you only want to install the minimum of Vim plugins, make one of them
+Fugitive.vim, and the other GitGutter.
+
+Experiment! You are working with two mature, powerful tools which can be used
+and extended in many ways to suit your workflow.
+
+
+
+_This work is licensed under a [Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International License][license].
+Permissions beyond the scope of this license may be available by
+contacting the author._
+
+
+[committia]: https://github.com/rhysd/committia.vim
+[gitgutter]: https://github.com/airblade/vim-gitgutter
+[gv]: https://github.com/junegunn/gv.vim
+[magit]: https://magit.vc/
+[merginal]: https://github.com/idanarye/vim-merginal
+[rhubarb]: https://github.com/tpop/vim-rhubarb
+[signify]: https://github.com/mhinz/vim-signify
+[tig-exploror]: https://github.com/iberianpig/tig-explorer.vim
+[tig]: https://github.com/jonas/tig
+[twiggy]: https://github.com/sodapopcan/vim-twiggy
+[vim-fugitive]: https://github.com/tpope/vim-fugitive
+[vimagit]: https://github.com/jreybert/vimagit
+[vimcasts-vimdiff]: http://vimcasts.org/episodes/fugitive-vim-resolving-merge-conflicts-with-vimdiff/
+[reddit-rebase-bindings]: https://www.reddit.com/r/git/comments/6lln75/vim_keybindings_for_interactive_rebase/
+[vimcasts-fugitive]: http://vimcasts.org/blog/2011/05/the-fugitive-series/
+[tpope-gitrebase]: https://github.com/tpope/vim-git/blob/master/ftplugin/gitrebase.vim
+[csswizardry-tweet]: https://twitter.com/csswizardry/status/841666536267997185
