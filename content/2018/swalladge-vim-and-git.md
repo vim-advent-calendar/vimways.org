@@ -50,7 +50,7 @@ relied on, the `core.editor` git config can be set:
     editor = "vim"
 ```
 
-When editing a commit message in Vim and wish to abort, you can use the `:cq`
+When editing a commit message in Vim and you wish to abort, you can use the `:cq`
 command to exit with a non-zero status. This will cause Git to abort the commit,
 even if you had begun writing a message. This trick works for other Git commands
 where normally exiting the editor submits the action without prompting.
@@ -99,10 +99,10 @@ the buffer number in the status line as a quick reference when giving the buffer
 number to `do` or `dp`. The item `%n` will do that. See `:h 'statusline'` for
 more.
 
-For further information, I recommend the [vimcasts screencast on resolving merge
+For further information, I recommend the [Vimcasts screencast on resolving merge
 conflicts][vimcasts-vimdiff].
 
-Likewise, git `difftool` can be set to use Vim too for displaying diffs:
+Likewise, `git difftool` can be set to use Vim too for displaying diffs:
 
 ```config
 [diff]
@@ -132,7 +132,7 @@ available commands. Add keybindings for these for even more efficiency!
 
 ## The Vim perspective
 
-Ok, so the flip side: how can Git be integrated into Vim?
+OK, so the flip side: how can Git be integrated into Vim?
 
 ### Vanilla
 
@@ -199,13 +199,13 @@ setlocal spell
 **The** Git plugin. There are many articles about Fugitive so I won't go into it
 in much detail. Basically, it provides many Vim commands for working with the
 repo, a diffing setup for staging changes, interactive status window, etc. It is
-very powerful and worth reading the docs and other resources for learning more
+very powerful and it's worth reading the docs and other resources for learning more
 about what can be achieved with Fugitive. I highly recommend the [Vimcasts
 series on Fugitive][vimcasts-fugitive].
 
 Some of its features I use consistently are:
 
-- `%{FugitiveStatusline()}` to display current branch in the statusline.
+- `%{FugitiveStatusline()}` to display the current branch in the statusline.
 - `:Gblame` for instant `git blame` in Vim.
 - `:Gdiff` for staging hunks and viewing diffs.
 
@@ -219,7 +219,7 @@ been faster, but recent refactoring efforts in GitGutter has levelled the
 playing field. I'd recommend GitGutter for its extra features if you only use
 Git, or Signify if you also need support for other VCSs.
 
-Both plugins support functions to embed number of added/removed/modified lines
+Both plugins support functions to embed the number of added/removed/modified lines
 in the statusline. For example, my current statusline generating function
 includes:
 
@@ -238,9 +238,9 @@ if l:hunks[0] || l:hunks[1] || l:hunks[2]
 
 #### Vimagit
 
-[Vimagit][vimagit] is an attempt to bring some of Emacs' famous [Magit][magit]
+[Vimagit][vimagit] is an attempt to bring some of Emacs's famous [Magit][magit]
 to Vim.  It provides a single buffer where you can launch Git commands, stage
-hunks/files, and commit.  Its interface is very nice (imho), but unfortunately
+hunks/files, and commit.  Its interface is very nice (IMHO), but unfortunately
 it suffers from low performance. Worth checking out but is perhaps not mature
 enough to support efficient workflows yet.
 
@@ -291,18 +291,18 @@ So what about my workflow, you may ask. Well I consider my workflow to be very
 scattered. I use whichever method of performing a Git action as happens to be
 most convenient at the time. Generally I use Tmux and have a pane/window open
 that I can switch to and run Git commands when I need to do a series of
-Git-specific actions. Otherwise I try to stay in Vim and much as possible to
-avoid context-switching. To this end, I find GitGutter great in vim to see which
+Git-specific actions. Otherwise I try to stay in Vim as much as possible to
+avoid context switching. To this end, I find GitGutter great in Vim to see which
 lines have been changed and not staged. I'm also beginning to use Fugitive more
 frequently, and often experiment with other plugins to see how they can help.
 
 Something I can't stress enough is the importance of learning a tool and forcing
 yourself to use that tool everywhere possible until it reaches muscle memory if
-it's to actually be an improvement to your workflow. I've found that it's no
+it's to actually be an improvement to your workflow. I've found that there's no
 point having convenient plugins installed if I end up forgetting about them and
 falling back to less efficient methods simply because they are the ones I'm most
 familiar with. That said, sometimes the most efficient method is the one that
-requires less context switching. If in the cli, then `git status` is faster than
+requires less context switching. If in the CLI, then `git status` is faster than
 switching to Vim and running `:Gstatus`, and vice versa.
 
 
