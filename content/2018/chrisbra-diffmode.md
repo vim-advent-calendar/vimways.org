@@ -169,25 +169,25 @@ Here is an asciicast:
 Here is an example where the indent heuristics might come handy. Say you have the following file:
 
 ```ruby
-  def finalize(values)
+def finalize(values)
 
-    values.each do |v|
-      v.finalize
-    end
+  values.each do |v|
+    v.finalize
+  end
 ```
 
 And later the file has been changed to the following:
 
 ```ruby
-  def finalize(values)
+def finalize(values)
 
-    values.each do |v|
-      v.prepare
-    end
+  values.each do |v|
+    v.prepare
+  end
 
-    values.each do |v|
-      v.finalize
-    end
+  values.each do |v|
+    v.finalize
+  end
 ```
 
 The default diff, running `$ vimdiff file1.rb file2.rb` would then look like this:
