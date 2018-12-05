@@ -1,8 +1,8 @@
 ---
 title: "Vim and Git"
-publishDate: 2018-12-12
-date: 2018-12-12
-draft: true
+publishDate: 2018-12-05
+date: 2018-12-05
+draft: false
 description: Tips for integrating Vim and Git.
 slug: "vim-and-git"
 author:
@@ -14,8 +14,6 @@ author:
   irc: "swalladge"
   homepage: "https://swalladge.id.au"
 ---
-
-# Vim and Git
 
 Vim and Git are both highly complex, configurable developer tools. Developers
 who use Vim are likely to also need to use Git frequently. This article attempts
@@ -37,8 +35,8 @@ is explicitly made.
 
 From the perspective of Git there are several opportunities to utilize Vim:
 
-- editing commit/tag messages
-- resolving merge conflicts (yay!)
+- editing commit/tag messages,
+- resolving merge conflicts (yay!),
 - interactive rebasing
 
 ### Editing commit messages
@@ -47,7 +45,7 @@ If you have the `EDITOR` environment variable already set to Vim, Git should
 automatically use Vim to edit messages. If environment variables aren't to be
 relied on, the `core.editor` git config can be set:
 
-```
+```config
 [core]
     editor = "vim"
 ```
@@ -73,7 +71,7 @@ the `Gdiff` command supplied by [vim-fugitive][vim-fugitive]. Example
 configuration below (this is my config with Neovim; launching Vim in diffmode is
 slightly different):
 
-```
+```config
 [merge]
     tool = nvimdiff4
     # if not using a tool name with builtin support, must supply mergetool cmd
@@ -106,7 +104,7 @@ conflicts][vimcasts-vimdiff].
 
 Likewise, git `difftool` can be set to use Vim too for displaying diffs:
 
-```
+```config
 [diff]
     tool = nvimdiff2
 
@@ -114,25 +112,27 @@ Likewise, git `difftool` can be set to use Vim too for displaying diffs:
     cmd = nvim -d $LOCAL $REMOTE
 ```
 
-
 ### Interactive rebasing
 
 I haven't had to perform rebases very often and so can't speak authoritatively
 on the subject. I need to include it here though for completeness.
 
 I do know that Vim is perfectly suited to the task though. Common actions map
-neatly to Vim idioms: change a command (`ciw`), remove a commit (`dd`), or
-reorder lines (`<count>dd`, move up/down, `p` or `P`). Vim also includes
-commands to quickly change a command (`:Pick`, `:Squash`, etc.) or cycle between
-them (`:Cycle`). See [gitrebase.vim][tpope-gitrebase] for all available
-commands. Add keybindings for these for even more efficiency!
+neatly to Vim idioms:
 
+Task | Vim commands
+---|---
+Change a command | `ciw`
+Remove a commit | `dd`
+Reorder lines | `<count>dd`, move up/down, `p` or `P`
 
+Vim also includes commands to quickly change a command (`:Pick`, `:Squash`, etc.)
+or cycle between them (`:Cycle`). See [gitrebase.vim][tpope-gitrebase] for all
+available commands. Add keybindings for these for even more efficiency!
 
 ## The Vim perspective
 
 Ok, so the flip side: how can Git be integrated into Vim?
-
 
 ### Vanilla
 
@@ -144,7 +144,7 @@ One way is to shell out directly to Git to run a command. Be aware that
 interactive stdin is impossible currently in Neovim so any commands that prompt
 for input will fail.
 
-```
+```vim
 :!git stash
 ```
 
@@ -162,7 +162,7 @@ Vim to get back to a shell.
 different commits and don't want to deal with Vim complaining that a file has
 changed on disk.
 
-```vimscript
+```vim
 set autoread
 set checktime
 ```
@@ -170,7 +170,7 @@ set checktime
 Nobody wants to commit merge conflict markers, so let's highlight these so we
 can't miss them:
 
-```vimscript
+```vim
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 ```
 
@@ -178,7 +178,7 @@ Generally the first line of commit messages should be a maximum of 50 characters
 long, and the body 72 characters. Correct spelling is also nice. With some
 config, Vim can help!
 
-```vimscript
+```vim
 " Note: put this in ftplugin/gitcommit.vim or in a filetype autocmd.
 
 " show the body width boundary
@@ -192,9 +192,7 @@ match ErrorMsg /\%1l.\%>51v/
 setlocal spell
 ```
 
-
 ### Plugins
-
 
 #### [Fugitive.vim][vim-fugitive]
 
@@ -225,7 +223,7 @@ Both plugins support functions to embed number of added/removed/modified lines
 in the statusline. For example, my current statusline generating function
 includes:
 
-```vimscript
+```vim
 let l:hunks = GitGutterGetHunkSummary()
 if l:hunks[0] || l:hunks[1] || l:hunks[2]
   let l:line .= '%#GitGutterAdd# +' . l:hunks[0] .
@@ -237,7 +235,6 @@ if l:hunks[0] || l:hunks[1] || l:hunks[2]
 #### GV
 
 [GV][gv] is an excellent Git browser for Vim.
-
 
 #### Vimagit
 
@@ -254,7 +251,7 @@ enough to support efficient workflows yet.
 messages smoother by displaying the diff in a vertical split. I found it really
 useful until I discovered verbose mode for `git commit` which loads the diff
 into the buffer too. I think it still has potential due to the neat layout it
-provides and bindings to navigate the diff buffer. YMMV
+provides and bindings to navigate the diff buffer. YMMV.
 
 
 ### Branch managers
@@ -280,7 +277,7 @@ Git object on Github in the browser. It's very convenient when you are working
 in Vim on a local repository and wish to refer someone to a particular line or
 file. For example:
 
-```
+```vim
 :1,5Gbrowse
 ```
 
@@ -345,3 +342,4 @@ contacting the author._
 [vimcasts-fugitive]: http://vimcasts.org/blog/2011/05/the-fugitive-series/
 [tpope-gitrebase]: https://github.com/tpope/vim-git/blob/master/ftplugin/gitrebase.vim
 [csswizardry-tweet]: https://twitter.com/csswizardry/status/841666536267997185
+[license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
