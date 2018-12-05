@@ -19,7 +19,6 @@ body {
 
 pre, code {
 	font-family: $firaMono;
-	font-size: 0.8em;
 	border-radius: 3px;
 }
 
@@ -35,10 +34,6 @@ p code {
 	color: #06287e;
 	padding: 0 0.25rem;
 	line-height: 1rem;
-}
-
-li code {
-	font-size: 0.8rem;
 }
 
 p img {
@@ -314,6 +309,7 @@ p {
 	li {
 		display: inline-block;
 		list-style-position: inside;
+		margin-bottom: 3px;
 		a {
 			background-color: $cornsilk-dark;
 			display: block;
