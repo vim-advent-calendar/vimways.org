@@ -2,7 +2,7 @@
 title: "Formatting lists with Vim"
 publishDate: 2018-12-06
 date: 2018-12-06
-draft: false
+draft: true
 description: "Understanding how Vim understands lists"
 slug: "formatting-lists-with-vim"
 author:
