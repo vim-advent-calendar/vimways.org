@@ -158,14 +158,23 @@ Vim to get back to a shell.
 
 ### Configuration
 
-`autoread` and `checktime` are useful if you leave Vim open while checking out
-different commits and don't want to deal with Vim complaining that a file has
-changed on disk.
+The `autoread` option will make Vim automatically read the file again if it
+detects the file has been changed outside of Vim. The `:checktime` command
+checks if any buffers have been changed outside of Vim. This is especially
+useful when in an autocmd that runs `:checktime` in cases where a file is likely
+to have changed outside of Vim (I use `FocusGained` and `CursorHold`). Together
+they are very useful when checking out different commits and don't want Vim
+complaining that a file has changed on disk and prompting for an action.
 
 ```vim
 set autoread
-set checktime
+autocmd FocusGained,CursorHold ?* if getcmdwintype() == '' | checktime | endif
 ```
+
+Warning: with this configuration, changes to a buffer from inside Vim are lost
+when it reloads the changed file from disk. This may be safer with Vim config
+that automatically writes files. See [this blog post][alberto-autowrite] for
+more info on the topic.
 
 Nobody wants to commit merge conflict markers, so let's highlight these so we
 can't miss them:
@@ -343,3 +352,4 @@ contacting the author._
 [tpope-gitrebase]: https://github.com/tpope/vim-git/blob/master/ftplugin/gitrebase.vim
 [csswizardry-tweet]: https://twitter.com/csswizardry/status/841666536267997185
 [license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[alberto-autowrite]: http://albertomiorin.com/blog/2012/12/10/autoread-and-autowrite-in-vim/index.html
