@@ -172,7 +172,7 @@ autocmd FocusGained,CursorHold ?* if getcmdwintype() == '' | checktime | endif
 ```
 
 Warning: with this configuration, changes to a buffer from inside Vim are lost
-when it reloads the changed file from disk. This may be safer with Vim config
+when it reloads the changed file from disk. This may be safer with a Vim config
 that automatically writes files. See [this blog post][alberto-autowrite] for
 more info on the topic.
 
