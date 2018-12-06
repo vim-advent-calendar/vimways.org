@@ -4,14 +4,12 @@ date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-07
 draft: true
 description: "mappings"
-slug: "mappings"
+slug: "on-mappings-and-vim-design"
 author:
   name: "Markzen"
   email: "gh nick at proton mail"
   github: "fcpg"
 ---
-
-# Mappings
 
 ## On The Genealogy of Modality
 
@@ -50,7 +48,9 @@ functions.
 
 The general syntax to create mappings is:
 
-    {map-cmd} [modifiers] {lhs} {rhs}
+```
+{map-cmd} [modifiers] {lhs} {rhs}
+```
 
 '{map-cmd}' is one of the several mapping-defining Ex commands we will examine
 shortly. '[modifiers]' is an optional list of modifiers. '{lhs}' is the key
@@ -489,14 +489,16 @@ annoyance is words like `file-1.txt`: hitting `<C-a>` will turn it to
 `file0.txt`, to the surprise of many users, as Vim assumes the next number is
 '-1', not '1'. Let's write a mapping to change this behavior.
 
-    function! Increment() abort
-      call search('\d\@<!\d\+\%#\d', 'b')
-      call search('\d', 'c')
-      norm! v
-      call search('\d\+', 'ce')
-      exe "norm!" "\<C-a>"
-      return ''
-    endfun
+```vim
+function! Increment() abort
+  call search('\d\@<!\d\+\%#\d', 'b')
+  call search('\d', 'c')
+  norm! v
+  call search('\d\+', 'ce')
+  exe "norm!" "\<C-a>"
+  return ''
+endfun
+```
 
 The `Increment()` function finds the sequence of digits under the cursor or
 following it, then selects it in visual mode, and finally runs `<C-a>` on it.
@@ -504,7 +506,9 @@ The visual mode version of `<C-a>` is a relatively recent addition, so Vim 8 or
 a late Vim 7 version is required. Now, let's remap the normal mode `<C-a>` to
 our function:
 
-    nnoremap <silent> <C-a> @=Increment()<cr>
+```vim
+nnoremap <silent> <C-a> @=Increment()<cr>
+```
 
 The effect is to execute the `Increment()` function in the expression register,
 which as we saw increases the next number ignoring leading minuses and returns
@@ -523,7 +527,9 @@ The built-in [`feedkeys()`][fk] function inserts keys into the internal Vim
 buffer containing all keys left to execute, either typed by the user or coming
 from mappings. This can sound somewhat low-level, but it is a very useful tool.
 
-    nnoremap <silent> <C-g> :call feedkeys(nr2char(getchar()),'nt')<cr>
+```vim
+nnoremap <silent> <C-g> :call feedkeys(nr2char(getchar()),'nt')<cr>
+```
 
 This mapping waits for a key after hitting `<C-g>` and executes it, ignoring any
 mapping for that key -- a kind of "just-once-noremap". `getchar()` is first
@@ -535,28 +541,30 @@ to process the key as though the user typed it. Even though it remaps the useful
 
 Here's a longer example (inspired from igemnace on #vim):
 
-    function! QuickBuffer(pattern) abort
-      if empty(a:pattern)
-        call feedkeys(":B \<C-d>")
-        return
-      elseif a:pattern is '*'
-        call feedkeys(":ls!\<cr>:B ")
-        return
-      elseif a:pattern =~ '^\d\+$'
-        execute 'buffer' a:pattern
-        return
-      endif
-      let l:globbed = '*' . join(split(a:pattern, ' '), '*') . '*'
-      try
-        execute 'buffer' l:globbed
-      catch
-        call feedkeys(':B ' . l:globbed . "\<C-d>\<C-u>B " . a:pattern)
-      endtry
-    endfun
+```vim
+function! QuickBuffer(pattern) abort
+  if empty(a:pattern)
+    call feedkeys(":B \<C-d>")
+    return
+  elseif a:pattern is '*'
+    call feedkeys(":ls!\<cr>:B ")
+    return
+  elseif a:pattern =~ '^\d\+$'
+    execute 'buffer' a:pattern
+    return
+  endif
+  let l:globbed = '*' . join(split(a:pattern, ' '), '*') . '*'
+  try
+    execute 'buffer' l:globbed
+  catch
+    call feedkeys(':B ' . l:globbed . "\<C-d>\<C-u>B " . a:pattern)
+  endtry
+endfun
 
-    command! -nargs=* -complete=buffer B call QuickBuffer(<q-args>)
+command! -nargs=* -complete=buffer B call QuickBuffer(<q-args>)
 
-    nnoremap <Leader>b :B<cr>
+nnoremap <Leader>b :B<cr>
+```
 
 Hitting `<Leader>b` will run the user-defined Ex command `B`, which will in turn
 call the `QuickBuffer()` function. When the latter is called without argument,
@@ -598,31 +606,35 @@ Lazy-loading them could definitely save some time during startup.
 
 The initialization goes like this:
 
-    " in plugin/flattery.vim
-    if get(g:, 'flattery_autoload', 1)
-      for op in [s:flattery_f_map, s:flattery_t_map]
-        for cmd in ['nm', 'xm', 'om']
-          exe cmd '<silent><expr>' op
-                \ 'FlatteryLoad("'.op.'")'
-          exe cmd '<silent>' '<Plug>(flattery)'.op
-                \ op
-        endfor
-      endfor
-    else
-      call flattery#SetPlugMaps()
-      call flattery#SetUserMaps()
-    endif
+```vim
+" in plugin/flattery.vim
+if get(g:, 'flattery_autoload', 1)
+  for op in [s:flattery_f_map, s:flattery_t_map]
+    for cmd in ['nm', 'xm', 'om']
+      exe cmd '<silent><expr>' op
+            \ 'FlatteryLoad("'.op.'")'
+      exe cmd '<silent>' '<Plug>(flattery)'.op
+            \ op
+    endfor
+  endfor
+else
+  call flattery#SetPlugMaps()
+  call flattery#SetUserMaps()
+endif
+```
 
 If the `g:flattery_autoload` variable is true or does not exist, this code will
 create a mapping on `s:flattery_f_map` and `s:flattery_t_map` (script-local
 variables containing `"f"` and `"t"` by default) to some `FlatteryLoad()`
 function. This is similar to this:
 
-    nmap <silent><expr> f FlatteryLoad("f")
-    nmap <silent><expr> t FlatteryLoad("t")
+```vim
+nmap <silent><expr> f FlatteryLoad("f")
+nmap <silent><expr> t FlatteryLoad("t")
 
-    nmap <silent> <Plug>(flattery)f f
-    nmap <silent> <Plug>(flattery)t t
+nmap <silent> <Plug>(flattery)f f
+nmap <silent> <Plug>(flattery)t t
+```
 
 This is done for normal, visual and operator-pending mode. The `<Plug>` mappings
 make it possible for the user to map them to what they want without setting
@@ -630,17 +642,19 @@ variables, and still benefit from lazy loading if needed.
 
 Here is the `FlatteryLoad()` function:
 
-    " in plugin/flattery.vim
-    function! FlatteryLoad(o) abort
-      call flattery#SetPlugMaps()
-      call flattery#SetUserMaps()
-      for op in [s:flattery_f_map, s:flattery_t_map]
-        for cmd in ['nun', 'xu', 'ou']
-          exe cmd op
-        endfor
-      endfor
-      return "\<Plug>(flattery)".a:o
-    endfun
+```vim
+" in plugin/flattery.vim
+function! FlatteryLoad(o) abort
+  call flattery#SetPlugMaps()
+  call flattery#SetUserMaps()
+  for op in [s:flattery_f_map, s:flattery_t_map]
+    for cmd in ['nun', 'xu', 'ou']
+      exe cmd op
+    endfor
+  endfor
+  return "\<Plug>(flattery)".a:o
+endfun
+```
 
 It calls the autoloaded `flattery#SetPlugMaps()` and `flattery#SetUserMaps()`
 functions, which sets all the plugin mappings starting with `f` and `t` eg.

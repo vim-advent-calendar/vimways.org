@@ -30,7 +30,9 @@
 						<li><a href="https://github.com/{{ .github }}">GitHub</a></li>
 						{{ end }}
 						{{ if .email }}
+						{{ if in .email "@" }}
 						<li><a href="mailto:{{ .email }}">Email</a></li>
+						{{ end }}
 						{{ end }}
 						{{ end }}
 					</ul>
