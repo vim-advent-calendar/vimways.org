@@ -330,7 +330,7 @@ contacting the author._
 [gv]: https://github.com/junegunn/gv.vim
 [magit]: https://magit.vc/
 [merginal]: https://github.com/idanarye/vim-merginal
-[rhubarb]: https://github.com/tpop/vim-rhubarb
+[rhubarb]: https://github.com/tpope/vim-rhubarb
 [signify]: https://github.com/mhinz/vim-signify
 [tig-exploror]: https://github.com/iberianpig/tig-explorer.vim
 [tig]: https://github.com/jonas/tig
