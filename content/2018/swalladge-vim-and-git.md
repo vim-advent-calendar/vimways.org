@@ -52,8 +52,20 @@ relied on, the `core.editor` git config can be set:
 
 When editing a commit message in Vim and you wish to abort, you can use the `:cq`
 command to exit with a non-zero status. This will cause Git to abort the commit,
-even if you had begun writing a message. This trick works for other Git commands
-where normally exiting the editor submits the action without prompting.
+even if you had begun writing a message. Similarly, this trick can be used to
+abort a merge or exit `difftool` if the corresponding `trustExitCode` option is
+set to `true`:
+
+```gitconfig
+[difftool]
+    trustExitCode = true
+
+# the option is mergetool.<tool>.trustExitCode
+# replace nvimdiff4 with the name of the mergetool you use
+[mergetool "nvimdiff4"]
+    trustExitCode = true
+    ...
+```
 
 Additionally, be sure to use `git commit -v` or set `commit.verbose = true` in
 your gitconfig file to have the full patch shown in Vim when editing the commit
