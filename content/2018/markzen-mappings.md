@@ -3,7 +3,7 @@ title: "On Mappings - Basics"
 date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-07
 draft: true
-description: "mappings basics"
+description: "The basics of custom mappings"
 slug: "on-mappings-basics"
 author:
   name: "Markzen"
@@ -34,7 +34,7 @@ like an 'if' statement in C or in another programming language. Thus, in Vim the
 media (the key) is definitely the message (the function to execute).
 
 Obviously, since alphanumeric keys are used to write "editing programs", there is
-a need to separate "programming mode" where the user hits `dw` to delete a word,
+a need to separate "programming mode" where the user hits `dw` to delete until next word,
 from "insertion mode", where the user just wants to type text and not execute
 programs. That is why Vim is a *modal editor*, contrary to, say, Emacs. Once you
 go the modal road, it makes sense to define [extra modes][em] for things like
@@ -48,14 +48,14 @@ functions.
 
 The general syntax to create mappings is:
 
-```
+```text
 {map-cmd} [modifiers] {lhs} {rhs}
 ```
 
-'{map-cmd}' is one of the several mapping-defining Ex commands we will examine
-shortly. '[modifiers]' is an optional list of modifiers. '{lhs}' is the key
+`{map-cmd}` is one of the several mapping-defining Ex commands we will examine
+shortly. `[modifiers]` is an optional list of modifiers. `{lhs}` is the key
 sequence that will trigger the mapping: if it contains a literal blank (space,
-tab or linefeed), it must be escaped. '{rhs}' is the key sequence that will be
+tab or linefeed), it must be escaped. `{rhs}` is the key sequence that will be
 triggered, as though the user typed these keys directly (for the most
 part--there are a few differences).
 
@@ -63,13 +63,15 @@ part--there are a few differences).
 
 Each Vim mode has its own [mapping-defining commands][mc]:
 
-* `nmap` for normal mode
-* `imap` for insert mode
-* `vmap` for visual mode and select mode
-* `xmap` for visual mode only
-* `cmap` for command-line mode
-* `omap` for operator-pending mode
-* `tmap` for terminal mode
+Command | Modes
+---|---
+`nmap` | normal mode
+`imap` | insert mode
+`vmap` | visual mode and select mode
+`xmap` | visual mode only
+`cmap` | command-line mode
+`omap` | operator-pending mode
+`tmap` | terminal mode
 
 Most are self-explanatory. `vmap` defines mappings both for visual mode and
 select mode; if you do not know what [select mode][sm] is, it is similar to
@@ -80,10 +82,10 @@ define visual mode mappings. However, some plugins can take advantage of it, for
 instance snippet plugins that expand shortcuts into text or code with parts that
 the user may want to change, like some default variable name. Selecting the
 variable in select mode enables the user to type the new name "over" the visual
-selection, or to hit some control char (eg. `<Tab>`) to go to the next
+selection, or to hit some control key (eg. `<Tab>`) to go to the next
 occurrence. Unfortunately, if the user made some mappings with `vmap`, this can
 interfere with that process, if there are mappings starting with a printable
-char like `<Space>` or `,`. Thus, it is best to use `xmap` to define mappings
+character like `<Space>` or `,`. Thus, it is best to use `xmap` to define mappings
 for visual mode (and `smap` for select mode if you ever need it).
 
 `omap` is for [operator-pending mode][om], ie. the mode where extra key(s) are
@@ -108,9 +110,11 @@ its standard function (going to the first non-blank of the next line), it also
 temporarily turns off search highlighting. You come up with the following
 command:
 
-    nmap <Return> :nohls<Return><Return>
+```vim
+nmap <Return> :nohls<Return><Return>
+```
 
-It calls the [`nohls`][nh] Ex command on the command-line, runs it, and then
+It calls the [`:nohls`][nh] Ex command on the command-line, runs it, and then
 finally sends a `<Return>` to go to the next line. You execute this nmap
 command, hit `<Return>`, and... Vim seems to hang (hit `<C-c>` to interrupt).
 What gives?
@@ -120,27 +124,36 @@ remember, the RHS of a mapping runs as though the user typed it. So, when you
 hit `<Return>` to run the mapping, the mapping will also "hit" `<Return>` at the
 end--and you get an infinite recursion!
 
-    nmap <Return> :nohls<Return><Return>
-    "       ^                      |
-    "       `---[recursive call]---'
+```vim
+nmap <Return> :nohls<Return><Return>
+"       ^                      |
+"       `---[recursive call]---'
+```
 
 What you meant, of course, was to execute the core function of the unmapped
 `<Return>`, not to run the mapping again. In other words, you do not want
 mappings to apply in the RHS. That is exactly what the [_noremap_][nr] version
 of mapping-defining commands do. Try:
 
-    nnoremap <Return> :nohls<Return><Return>
-    "                                  ^ [Built-in <Return>]
+```vim
+nnoremap <Return> :nohls<Return><Return>
+"                                  ^ [Built-in <Return>]
+```
 
 Bingo, everything works as intended.
 
 Each mapping-creating command has its noremap version:
 
-* nnoremap
-* inoremap
-* xnoremap
-* cnoremap
-* onoremap
+* `nnoremap`
+
+* `inoremap`
+
+* `xnoremap`
+
+* `cnoremap`
+
+* `onoremap`
+
 * etc.
 
 As a rule of thumb, use the noremap versions unless you actually need to run
@@ -159,7 +172,9 @@ turns off echo area visual feedback for the duration of the mapping execution.
 This is especially useful if you run Ex commands in the RHS that you do not want
 to expose to the user. For instance:
 
-    xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
+```vim
+xnoremap <silent> p p:if v:register == '"'<Bar>let @@=@0<Bar>endif<cr>
+```
 
 This extends `p` in visual mode (note the _noremap_), so that if you paste from
 the unnamed (ie. default) register, that register content is not replaced by
@@ -184,8 +199,10 @@ return, along with `<Enter>` or `<Return>`.
 for the buffer that was current when the mapping was created. It is useful in
 filetype-specific settings, eg. in `/.vim/after/ftplugin/help.vim`:
 
-    nnoremap <silent><buffer> zl
-     \ :call search('<Bar>[^ <Bar>]\+<Bar>\<Bar>''[A-Za-z0-9_-]\{2,}''')<cr>
+```vim
+nnoremap <silent><buffer> zl
+  \ :call search('<Bar>[^ <Bar>]\+<Bar>\<Bar>''[A-Za-z0-9_-]\{2,}''')<cr>
+```
 
 A buffer-local mapping on `zl` is created on buffers with the `help` filetype,
 ie. help buffers created with `:help`. The mapping jumps to the next tag in the
@@ -195,8 +212,10 @@ do not want to show this RHS on the command-line each time we use the mapping.
 
 Here is the backward-jumping version of the mapping:
 
-    nnoremap <silent><buffer> zh
-     \ :call search('<Bar>[^ <Bar>]\+<Bar>\<Bar>''[A-Za-z0-9_-]\{2,}''','b')<cr>
+```vim
+nnoremap <silent><buffer> zh
+ \ :call search('<Bar>[^ <Bar>]\+<Bar>\<Bar>''[A-Za-z0-9_-]\{2,}''','b')<cr>
+ ```
 
 #### Unique: Is This Seat Taken?
 
@@ -204,9 +223,11 @@ Here is the backward-jumping version of the mapping:
 This can be useful for plugin authors, who want to offer default mappings but
 are still careful not to override the users' own mappings:
 
-    nnoremap <unique><silent> <LocalLeader>a :call ThisPluginFunction()<cr>
+```vim
+nnoremap <unique><silent> <LocalLeader>a :call ThisPluginFunction()<cr>
+```
 
-If there already is a mapping on `<LocalLeader>a`, then the `nnoremap` above
+If there already is a mapping on `<LocalLeader>a`, then the `:nnoremap` above
 will fail (the error can be silenced with `silent! nnoremap <unique> ...`).
 `<LocalLeader>` is expanded to some user-defined key, and is typically used for
 buffer-local settings.
@@ -220,7 +241,9 @@ containing the key sequence to run. So this is a level of indirection to make
 things more dynamic; typically, it contains some conditional to either run one
 sequence or the other. Here is an example:
 
-    inoremap <expr> jk pumvisible() ? "<C-e>" : "<Esc>"
+```vim
+inoremap <expr> jk pumvisible() ? "<C-e>" : "<Esc>"
+```
 
 This is the "classic" `jk` to exit insert mode, with a twist: if the pop-up menu
 is visible (this is the menu showing completion candidates), then it will close
@@ -233,10 +256,12 @@ result of that evaluation becomes the final RHS.
 
 Here is another example:
 
-    onoremap <expr> il ':<C-u>norm! `['.strpart(getregtype(), 0, 1).'`]<cr>'
+```vim
+onoremap <expr> il ':<C-u>norm! `['.strpart(getregtype(), 0, 1).'`]<cr>'
+```
 
 This is an operator-pending mapping, that selects the last piece of changed text
-(most often, some pasted text), in the same visual mode (char, line or block) as
+(most often, some pasted text), in the same visual mode (character, line or block) as
 that of the used register. It can be used to indent some pasted lines, with
 `>il`. The `<expr>` modifier is necessary to evaluate the `strpart(...)` part of
 the RHS; it is then concatenated to the leading and trailing literal strings, to
@@ -261,7 +286,9 @@ or `d`.
 Mapping-defining commands are standard Ex commands, so they can be separated by
 the [`|`][ba] character. What do you think the following command will do?
 
-    nnoremap <F7> :echo "foo"|echo "bar"
+```vim
+nnoremap <F7> :echo "foo"|echo "bar"
+```
 
 This command actually contains two parts: first, the `nnoremap` Ex command, then
 the `echo "bar"` one. So, it will map `<F7>` to `:echo "foo"`, _then_ it will
@@ -272,9 +299,11 @@ In order to map `<F7>` to `echo "foo"|echo "bar"`, the `|` character must be
 escaped, either with `\|` or with the Vim notation `<Bar>` (in five characters).
 The following two commands do the same thing:
 
-    " same thing
-    nnoremap <F7> :echo "foo"\|echo "bar"
-    nnoremap <F7> :echo "foo"<Bar>echo "bar"
+```vim
+" same thing
+nnoremap <F7> :echo "foo"\|echo "bar"
+nnoremap <F7> :echo "foo"<Bar>echo "bar"
+```
 
 Pick your favorite method. Also, do not forget to add a trailing `<cr>` to those
 mappings if you want to run the command-line when calling the mappings;
@@ -284,8 +313,8 @@ or cancel.
 #### We Don't Need No True Control
 
 You can use literal control chars in your mappings, by hitting [`<C-v>`][cv]
-followed by the control char in insert or command-line mode. For instance,
-pressing `<C-v>` then the tab key will insert a literal tab char (you can use
+followed by the control character in insert or command-line mode. For instance,
+pressing `<C-v>` then the tab key will insert a literal tab character (you can use
 `:set list` to show them). However, it is not very convenient to work with
 literal control chars: the graphic representation can be confusing (eg. `^[` for
 the Escape key), and it can insert a terminal-dependent sequence, like `^[OP`,
@@ -308,12 +337,16 @@ As a convenience, Vim provides two customizable Vim notation expansions that you
 can use in your mappings: [`<Leader>`][le] and [`<LocalLeader>`][ll]. You can
 set their value via the `mapleader` and `maplocalleader` global variables, eg.:
 
-    let mapleader = "\<Space>"
-    let maplocalleader = "&"
+```vim
+let mapleader = "\<Space>"
+let maplocalleader = "&"
+```
 
 You can then use it like this:
 
-    nnoremap <silent> <Leader>w :w<cr>
+```vim
+nnoremap <silent> <Leader>w :w<cr>
+```
 
 Now hitting `<Space>w` will save the current buffer.
 
@@ -321,7 +354,9 @@ It is called "leader" as it is generally the first key of a group of mappings. A
 common setting is to undefine the original behavior of that key, so that it does
 not interfer or trigger inadvertently:
 
-    nnoremap <Space> <Nop>
+```vim
+nnoremap <Space> <Nop>
+```
 
 Leader and LocalLeader let the user change several mappings at one fell swoop
 just by changing the value of the `mapleader` and `maplocalleader` variables,
@@ -329,13 +364,17 @@ but this is not something that occurs very often. Also, note that the mechanism
 is a mere convenience: `<Leader>` is expanded in mapping commands, but not
 elsewhere. This does *NOT* echo a space:
 
-    " No expansion: echoes `<Leader>` in eight chars
-    :echo "\<Leader>"
+```vim
+" No expansion: echoes `<Leader>` in eight chars
+:echo "\<Leader>"
+```
 
 And if you show a mapping containing Leader, you will see its expansion (the
 `<Space>` character):
 
-    :nmap <Leader>w
+```vim
+:nmap <Leader>w
+```
 
 So all in all, there is not a whole lot to gain with Leader and LocalLeader,
 but they at least show intent, and it can make it easier to search through your
