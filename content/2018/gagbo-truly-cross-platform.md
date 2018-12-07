@@ -157,10 +157,11 @@ the same function as before, replacing only the `toupper...` line with
 This method should also work on Windows, since it also provides
 [hostname](https://ss64.com/nt/hostname.html), but I have not tested it yet.
 
-***EDIT*** : **Just as shown below with the `execuable()` function, vim provides a
-`hostname()` vimscript function which take away the need for system calls. That
-is better for performance and portability ; so if your hostname does not go past
-256 characters, calling `hostname()` is better than calling `system('hostname')`.**
+***EDIT*** : **Just as shown below with the `executable()` function, Vim provides a
+`hostname()` vimscript function which takes away the need for system calls. That
+is better for performance and portability; so if your hostname does not go past
+256 characters, calling `hostname()` is better than calling `system('hostname')`.
+As always with Vim, check `:h hostname()` for further information**
 
 In order to show how this can be useful I will have to present a little my work environment.
 
