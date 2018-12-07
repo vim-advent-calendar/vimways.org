@@ -184,7 +184,7 @@ autocmd vimrc FileType txt call PlainText()
 
 Why am I setting `'comments'` to an empty value? Well as described in the help it assumes, like many other things in Vim, that you are working with something resembling C code. As such this can cause issues if we match lists that use asterisks in `'formatlistpat'`.
 
-As a note for the more savvy reader, you may be thinking why not make this "pseudo filetype" a fully-fledged filetype with its own files somewhere in my `'runtimepath'? This is simply a personal preference: I prefer a more monolithic organisation of my configuration.
+As a note for the more savvy reader, you may be thinking why not make this "pseudo filetype" a fully-fledged filetype with its own files somewhere in my `'runtimepath'`? This is simply a personal preference: I prefer a more monolithic organisation of my configuration.
 
 And finally my `'formatlistpat'`.
 
