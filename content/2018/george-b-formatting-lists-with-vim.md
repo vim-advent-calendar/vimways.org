@@ -82,7 +82,7 @@ Though as one may expect by removing something from the default setting we've br
 
 ## Some filetypes will set formatlistpat
 
-It is interesting to note that Vim will set `'formatlistpat'` for some fileptyes. At the time of writing this consists of the following:
+It is interesting to note that Vim will set `'formatlistpat'` for some filetypes. At the time of writing this consists of the following:
 
 ```vim
 runtime/ftplugin/rmd.vim:      setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*[-*+]\\s\\+
@@ -127,7 +127,7 @@ Part | Description
 `b`  | Flag denoting whitespace is required after the string
 `:`  | Delimiter denoting the end of flags
 `-`  | The string literal `-`
-`,`  | Delimieter denoting ending of a setting
+`,`  | Delimiter denoting ending of a setting
 `f`  | Flag denoting only the first line has this string
 `b`  | Flag denoting whitespace is required after the string
 `:`  | Delimiter denoting the end of flags
@@ -166,13 +166,13 @@ I simply call the function above upon entering Vim with an autocommand.
 autocmd vimrc BufEnter * call EmptyBuffer()
 ```
 
-I also set this pseudo filetype for any "blank" buffers I pull up, here the autocommand is making use of `:setfiletpye` to only set the filetype if it has not otherwise been set.
+I also set this pseudo filetype for any "blank" buffers I pull up, here the autocommand is making use of `:setfiletype` to only set the filetype if it has not otherwise been set.
 
 ```vim
 autocmd vimrc BufRead,BufNewFile * setfiletype txt
 ```
 
-I then have a function which I call when the pseudo filetpye of "txt" has been set, the below is a truncated version as to only illustrate formatting settings.
+I then have a function which I call when the pseudo filetype of "txt" has been set, the below is a truncated version as to only illustrate formatting settings.
 
 ```vim
 function! PlainText()
@@ -208,9 +208,9 @@ This handles a broader range of lists.
 
 ```text
 1.  Typical item the default handles
-a.  An item with an alaphabetic character and punctuation
+a.  An item with an alphabetic character and punctuation
 (2) An item with punctuation preceding and following it
-•   An item consiting of leading punctuation
+•   An item consisting of leading punctuation
 ```
 
 I hope this has shown how to extend Vim's `'formatlistpat'` and how other settings interplay with it.
