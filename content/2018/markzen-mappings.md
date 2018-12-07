@@ -63,15 +63,15 @@ part--there are a few differences).
 
 Each Vim mode has its own [mapping-defining commands][mc]:
 
-Command | Modes
+Modes | Command
 ---|---
-`nmap` | normal mode
-`imap` | insert mode
-`vmap` | visual mode and select mode
-`xmap` | visual mode only
-`cmap` | command-line mode
-`omap` | operator-pending mode
-`tmap` | terminal mode
+normal mode            | `nmap`
+insert mode            | `imap`
+visual and select mode | `vmap`
+visual mode only       | `xmap`
+command-line mode      | `cmap`
+operator-pending mode  | `omap`
+terminal mode          | `tmap`
 
 Most are self-explanatory. `vmap` defines mappings both for visual mode and
 select mode; if you do not know what [select mode][sm] is, it is similar to
@@ -144,17 +144,15 @@ Bingo, everything works as intended.
 
 Each mapping-creating command has its noremap version:
 
-* `nnoremap`
-
-* `inoremap`
-
-* `xnoremap`
-
-* `cnoremap`
-
-* `onoremap`
-
-* etc.
+Modes | Recursive command | Non-recursive command
+---|---|---
+normal mode            | `nmap` | `nnoremap`
+insert mode            | `imap` | `inoremap`
+visual and select mode | `vmap` | `vnoremap`
+visual mode only       | `xmap` | `xnoremap`
+command-line mode      | `cmap` | `cnoremap`
+operator-pending mode  | `omap` | `onoremap`
+terminal mode          | `tmap` | `tnoremap`
 
 As a rule of thumb, use the noremap versions unless you actually need to run
 mappings in the RHS.
