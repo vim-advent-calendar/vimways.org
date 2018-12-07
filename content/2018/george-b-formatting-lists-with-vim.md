@@ -66,7 +66,7 @@ An item of particular importance when setting `'formatlistpat'` is that we will 
 set formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 ```
 
-Now to use the example of the alphabetical listing used earlier, how may we change `'formatlistpat'` to recognize this as a list? Changing the matching of a digit to a group matching a digit or an alphabetic character seems like a simple solution. We could do so with the following (note the three backslashes that precede the pipe).
+Now, to use the example of the alphabetical listing used earlier, how may we change `'formatlistpat'` to recognise this as a list? Changing the matching of a digit to a group matching a digit or an alphabetic character seems like a simple solution. We could do so with the following (note the three backslashes that precede the pipe).
 
 ```vim
 set formatlistpat=^\\s*\\(\\d\\\|\\a\\)\\+[\\]:.)}\\t\ ]\\s*
@@ -78,7 +78,7 @@ However this will end up matching too many structures of text. The punctuation-m
 set formatlistpat=^\\s*\\(\\d\\\|\\a\\)\\+[\\]:.)}\\t]\\s*
 ```
 
-Though, as one may expect, by removing something that was in the default setting we've broken the matching of lists that are prefixed by numbers alone. I.e. "1. " is still recognised, but "1 " no longer is. Rather than continuing example after example, I'll stop here, and what I consider to be a comprehensive solution for my personal needs will follow in the final section.
+Though, as one may expect, by removing something that was in the default setting, we've broken the matching of lists that are prefixed by numbers alone. I.e. "1. " is still recognised, but "1 " no longer is. Rather than continuing example after example, I'll stop here, and what I consider to be a comprehensive solution for my personal needs will follow in the final section.
 
 ## Some filetypes will set formatlistpat
 
