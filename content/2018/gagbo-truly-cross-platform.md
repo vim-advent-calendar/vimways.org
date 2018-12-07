@@ -157,6 +157,11 @@ the same function as before, replacing only the `toupper...` line with
 This method should also work on Windows, since it also provides
 [hostname](https://ss64.com/nt/hostname.html), but I have not tested it yet.
 
+***EDIT*** : **Just as shown below with the `execuable()` function, vim provides a
+`hostname()` vimscript function which take away the need for system calls. That
+is better for performance and portability ; so if your hostname does not go past
+256 characters, calling `hostname()` is better than calling `system('hostname')`.**
+
 In order to show how this can be useful I will have to present a little my work environment.
 
 I am currently a PhD student in computational mechanics, which is one heavy user of [High Performance Computing](https://en.wikipedia.org/w/index.php?title=High-performance_computing&redirect=no).  The laboratory has a Linux-powered [cluster](https://en.wikipedia.org/wiki/Computer_cluster) on which all the heavy simulations are run. The software we use is written in C++ and we built a DSL to communicate input parameters through plain-text files to the software.
