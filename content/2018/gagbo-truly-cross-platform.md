@@ -35,7 +35,7 @@ to `uname` will give the running environment. The function below returns a strin
 containing the value of the running environment.
 
 ```vim
-function! whichEnv() abort
+function! WhichEnv() abort
     if has('win64') || has('win32') || has('win16')
         return 'WINDOWS'
     else
@@ -46,11 +46,11 @@ endfunction
 """""""""""""""""""""""""""""
 " Later use in another file "
 """""""""""""""""""""""""""""
-if (whichEnv() =~# 'WINDOWS')
+if (WhichEnv() =~# 'WINDOWS')
     " Enable Windows specific settings/plugins
-else if (whichEnv() =~# 'LINUX')
+else if (WhichEnv() =~# 'LINUX')
     " Enable Linux specific settings/plugins
-else if (whichEnv() =~# 'DARWIN')
+else if (WhichEnv() =~# 'DARWIN')
     " Enable MacOS specific settings/plugins
 else
     " Other cases I can't think of like MINGW
