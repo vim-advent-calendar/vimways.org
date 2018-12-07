@@ -8,7 +8,7 @@ slug: "formatting-lists-with-vim"
 author:
   name: "George Brown"
   email: "321.george@gmail.com"
-  github: "https://github.com/george-b"
+  github: "george-b"
 ---
 
 ## Use of formatoptions and the fo-table
