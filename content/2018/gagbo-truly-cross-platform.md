@@ -197,7 +197,7 @@ function! Config_setHost() abort
     if exists('g:Hostname')
         return
     endif
-       let g:host = system('hostname')
+       let g:Hostname = system('hostname')
 endfunction
 
 call Config_setHost()
