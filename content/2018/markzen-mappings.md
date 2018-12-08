@@ -1,10 +1,10 @@
 ---
-title: "On Mappings - Basics"
+title: "For Mappings And A Tutorial"
 date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-07
 draft: true
-description: "The basics of custom mappings"
-slug: "on-mappings-basics"
+description: "First meeting with custom mappings"
+slug: "for-mappings-and-a-tutorial"
 author:
   name: "Markzen"
   email: "gh nick at proton mail"

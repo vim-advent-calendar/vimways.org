@@ -1,10 +1,10 @@
 ---
-title: "On Mappings - Part II"
+title: "The Mapping Business"
 date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-07
 draft: true
-description: "mappings recipes"
-slug: "on-mappings-part-ii"
+description: "Tools of the mapping trade"
+slug: "the-mapping-business"
 author:
   name: "Markzen"
   email: "gh nick at proton mail"
@@ -107,7 +107,7 @@ In user's vimrc:
 
 Problem solved.
 
-### Situation Under Control-R
+### Never Give Up Control-R -- W.W.
 
 [`<C-r>`][cr] inserts the content of a register from insert and command-line
 mode. It is notably useful in visual mode, when the mapping needs to work with
