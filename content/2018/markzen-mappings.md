@@ -31,7 +31,7 @@ building blocks of what we could call the "Vim editing programming language".
 For instance, `dw` is like a program statement that deletes chars from cursor to
 the beginning of next word; it's a piece of code every Vim user will understand,
 like an 'if' statement in C or in another programming language. Thus, in Vim the
-media (the key) is definitely the message (the function to execute).
+medium (the key) is definitely the message (the function to execute).
 
 Obviously, since alphanumeric keys are used to write "editing programs", there is
 a need to separate "programming mode" where the user hits `dw` to delete until next word,
