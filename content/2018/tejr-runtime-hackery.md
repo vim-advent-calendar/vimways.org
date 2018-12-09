@@ -330,3 +330,4 @@ Don’t stop me now
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [sc]: https://www.shellcheck.net/
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
+[uf]: https://vimhelp.appspot.com/usr_41.txt.html#undo_ftplugin
