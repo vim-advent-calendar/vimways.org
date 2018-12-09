@@ -18,16 +18,17 @@ author:
 Enhanced runtime powers
 -----------------------
 
-In an earlier article on beginning the process of breaking up a long vimrc into
-a .vim runtime directory, we hinted at a few more specific possibilities for
-leveraging the runtime directory structure, but did not go into any detail:
+In [an earlier article][ea] on beginning the process of breaking up a long
+[vimrc][rc] into a `~/.vim` runtime directory, we hinted at a few more specific
+possibilities for leveraging the runtime directory structure, but did not go
+into any detail:
 
 1. Preventing specific code in the stock runtime directory from running
 2. Writing custom compiler definitions
 3. Automatically loading functions only when they’re called
 
 In this followup article, we’ll go through each of these, further demonstrating
-how you can use the `'runtimepath'` structure and logic to your benefit.
+how you can use the [`'runtimepath'`][ro] structure and logic to your benefit.
 
 That’s nice, but it’s wrong
 ---------------------------
@@ -45,7 +46,7 @@ Accommodating plugin authors will sometimes provide variable options to allow
 you to tweak commonly-requested things. For example, the stock indenting
 behaviour for the `html` filetype does not add a level of indent after opening
 a `<p>` paragraph block, as it does for an element like `<body>`. Fortunately,
-there’s a documented option variable that switches this behaviour named
+there’s a [documented option variable][hs] that switches this behaviour named
 `html_indent_inctags`, which we can define in `~/.vim/indent/html.vim`. This
 will get loaded just *before* `$VIMRUNTIME/indent/html.vim`:
 
@@ -63,37 +64,36 @@ global variable has done its job:
 Other times, the thing annoying you may be just a little thing that’s not
 configurable, but it’s easy enough to *reverse* it. For example, if you’re a
 Perl developer, you might find it annoying that when editing buffers with the
-`perl` filetype, the `#` comment leader is automatically added when you press
-"Enter" in insert mode while composing a comment. You would rather type (or not
-type) it yourself, as the `python` filetype does by default.
+`perl` filetype, the `#` **comment leader** is automatically added when you
+press "Enter" in insert mode while composing a comment. You would rather type
+(or not type) it yourself, as the `python` filetype does by default.
 
 You might check the Vim documentation, and find this unwanted behaviour is
-caused by the `r` flag in the `'formatoptions'` option. Since the previous
-article, now that you know where to look, you start by checking
-`$VIMRUNTIME/ftplugin/perl.vim`, and sure enough, you find this:
+caused by the [`r` flag][ft] in the [`'formatoptions'`][fo] option. You then
+check `$VIMRUNTIME/ftplugin/perl.vim`, and sure enough, you find this line:
 
     setlocal formatoptions+=crqol
 
-It doesn’t look like there’s a variable option you can set to fix it, and so
-you add in a couple of lines to `~/.vim/after/ftplugin/perl.vim` to *correct*
-the option after loading instead, and you’re done:
+It doesn’t look like there’s a variable option you can set to *prevent* the
+setting, and so you add in a couple of lines to
+`~/.vim/after/ftplugin/perl.vim` to *correct* it instead, and you’re done:
 
     setlocal formatoptions-=r
 
-Note that you don’t need to add a `b:undo_ftplugin` command here, either; the
-stock filetype plugin already includes a revert command for `'formatoptions'`,
-so you can fix this annoying problem with just one line. You can do all this
-without having to touch the main runtime files at all.
+Note that you don’t need to add a [`b:undo_ftplugin`][uf] command here, either;
+the stock filetype plugin already includes a revert command for
+`'formatoptions'`, so you can fix this annoying problem with just one line.
 
 ### Blocking unwanted configuration
 
-Perhaps the filetype plugin or indent plugin for your favourite language is
-just irredeemably wrong for you. For example, suppose you’re annoyed with the
-stock indenting behaviour for `php`; you find you just can’t predict where
-you’ll end up on any given new line, and it’s just too frustrating to deal with
-it. Rather than carefully undoing each of its settings, you decide it would be
-better if all near-1000 lines of `$VIMRUNTIME/indent/php.vim` just didn’t load
-at all, so you can go back to `'autoindent'` until you can find or write
+Perhaps a filetype plugin or indent plugin for a given language is just
+irredeemably wrong for you. For example, suppose you’re annoyed with the stock
+indenting behaviour for `php`; you find you just can’t predict where you’ll end
+up on any given new line, you can’t configure it to make it work the way you
+want it to, and it’s just too frustrating to deal with it. Rather than
+carefully undoing each of its settings, you decide it would be better if all
+near-1000 lines of `$VIMRUNTIME/indent/php.vim` just didn’t load at all, so you
+can go back to plain old [`'autoindent'`][ai] until you can find or write
 something better.
 
 Fortunately, at the very beginning of the disliked file, we find a **load
@@ -116,7 +116,8 @@ indent mess and do things our way. Indeed, we add three lines to a new file in
 The stock `$VIMRUNTIME/indent/php.vim` still loads after this script, but it
 reaches its load guard and halts, leaving our single setting intact. In doing
 this, we’ve now replaced the `php` indent plugin with our own. Perhaps we’ll
-refine it a bit more later, or write an `'indentexpr'` for it that we prefer.
+refine it a bit more later, or write an [`'indentexpr'`][ie] for it that we
+prefer.
 
 ### Advanced example
 
@@ -140,7 +141,7 @@ as primary buffer filetypes.  What to do?
 
 Perhaps there’s a way to disable *just* the filetype plugins for `html`, and
 *only* when the active buffer is actually a `markdown` buffer? Looking at
-`$VIMRUNTIME/ftplugin/html.vim`, we notice our old friend the load guard:
+`$VIMRUNTIME/ftplugin/html.vim`, we notice our old friend, the load guard:
 
     if exists("b:did_ftplugin") | finish | endif
 
@@ -156,36 +157,38 @@ Checker, linter, candlestick-maker
 ----------------------------------
 
 One of the lesser-used subdirectories in the Vim runtime directory structure is
-`compiler`. This is for files that set `'makeprg'` and `'errorformat'` options,
-so that the right `:make` or `:lmake` command runs for the current buffer, and
-so that any output or errors that program returns are correctly interpreted
-according to `'errorformat'` for use in the quickfix and location lists. These
-files are sourced using the `:compiler` command.
+`compiler`. This is for files that set [`'makeprg'`][mp] and
+[`'errorformat'`][ef] options, so that the right [`:make`][mk] or
+[`:lmake`][ml] command runs for the current buffer, and so that any output or
+errors that program returns are correctly interpreted according to
+`'errorformat'` for use in the quickfix and location lists. These files are
+sourced using the [`:compiler`][cm] command.
 
 Vim includes some `:compiler` definitions in its included runtime files, and
 not just for C or C++ compilers; there’s `$VIMRUNTIME/compiler/tidy.vim` for
 HTML checking, and `$VIMRUNTIME/compiler/perl.vim` for Perl syntax checking, to
 name a couple. This is because there’s no particular need for the program named
-by `'makeprg'` to have anything to do with the `make` program, or a compiler
-for a compiled language; it can just as easily be a **syntax checker** to
-identify erroneous constructs, or a **linter**, to point out bad practices that
-aren’t necessarily errors. What the `:compiler` command provides the user is an
-abstraction for configuring these, and switching between them cleanly.
+by `'makeprg'` to have anything to do with an actual `make` program, or a
+compiler for a compiled language; it can just as easily be a **syntax checker**
+to identify erroneous constructs, or a **linter**, to point out bad practices
+that aren’t necessarily errors. What the `:compiler` command provides the user
+is an abstraction for configuring these, and switching between them cleanly.
 
 ### Switching between compilers
 
 As an example to make the usefulness of this clear, consider how we might like
 to specify `'makeprg'` for editing shell scripts written for GNU Bash. Bash can
-be an awkward and difficult language, and ideally we’d want a linter as well as
-a syntax checker to let us know if we right anything potentially erroneous.
+be an awkward and difficult language, and if we have to write a lot of it,
+ideally we’d want a linter as well as a syntax checker to let us know if we
+write anything potentially erroneous.
 
 Here are two different tools for syntax checking and linting Bash, both
 candidates for a new `:compiler` definition:
 
-* `bash -n` will **check** the syntax of a shell script, to establish whether
-  it will run at all.
-* `shellcheck -s bash` will **lint** it, looking for bad practices in a shell
-  script that might misbehave in unexpected ways.
+* [`bash -n`][ib] will **check** the syntax of a shell script, to establish
+  whether it will run at all.
+* [`shellcheck -s bash`][sc] will **lint** it, looking for bad practices in a
+  shell script that might misbehave in unexpected ways. 
 
 Ideally, a Bash programmer would want to be able to run *either*, switching
 between them as needed, without losing the benefit of the quickfix or location
@@ -193,12 +196,12 @@ list when `:make` or `:lmake` is run.
 
 First of all, with our new knowledge of the Vim runtime directory structure, we
 know that because this logic is specific to the `sh` filetype, we should put it
-in a filetype plugin in `~/.vim/after/ftplugin/sh/compilers.vim`. There’s no
+in a filetype plugin in `~/.vim/after/ftplugin/sh/compiler.vim`. There’s no
 point enabling switching between these two programs for any other filetype.
 
 After experimenting with the values for ``makeprg'` and `'errorformat'`, and
-running `:make` on a few Bash files and inspecting the output in the quickfix
-list with `:copen`, we find the following values work well:
+testing them by running `:make` on a few Bash files and inspecting the output
+in the quickfix list with `:copen`, we find the following values work well:
 
     makeprg=bash\ -n\ --\ %:S
     errorformat=%f:\ line\ %l:\ %m
@@ -227,8 +230,8 @@ set the options appropriately for the two different programs, using `,b` for
           \ . '|nunmap <buffer> ,s'
 
 This works OK, but there’s quite a lot going on here for something that seems
-like it should be simpler. It would be nice to avoid all the script-local
-function guff, too.
+like it should be simpler. It would be nice to avoid all the
+[script-variable][sv] function guff, too.
 
 ### Separating compiler definitions out
 
@@ -279,3 +282,20 @@ Automatic for the people
 
 Don’t stop me now
 -----------------
+
+[ai]: https://vimhelp.appspot.com/options.txt.html#%27autoindent%27
+[ea]: https://vimways.org/2018/from-vimrc-to-vim/
+[ef]: https://vimhelp.appspot.com/options.txt.html#%27errorformat%27
+[fo]: https://vimhelp.appspot.com/options.txt.html#%27formatoptions%27
+[ft]: http://vimhelp.appspot.com/change.txt.html#fo-table
+[hi]: https://vimhelp.appspot.com/indent.txt.html#ft-html-indent
+[ie]: https://vimhelp.appspot.com/options.txt.html#%27indentexpr%27
+[mk]: https://vimhelp.appspot.com/quickfix.txt.html#%3Amake
+[ml]: https://vimhelp.appspot.com/quickfix.txt.html#%3Almake
+[mp]: https://vimhelp.appspot.com/options.txt.html#%27makeprg%27
+[rc]: https://vimhelp.appspot.com/usr_05.txt.html#vimrc-intro
+[ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
+[cm]: https://vimhelp.appspot.com/quickfix.txt.html#%3Acompiler
+[sc]: https://www.shellcheck.net/
+[ib]: https://www.gnu.org/software/bash/manual/html_node/Invoking-Bash.html#Invoking-Bash
+[sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
