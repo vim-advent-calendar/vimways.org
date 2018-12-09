@@ -6,6 +6,8 @@ slug: "runtime-hackery"
 author:
   name: "Tom Ryder"
   email: "tom@sanctum.geek.nz"
+  irc: "tejr"
+  homepage: "https://sanctum.geek.nz/"
 ---
 
 > You have your way. I have my way. As for the right way, the correct way, and
