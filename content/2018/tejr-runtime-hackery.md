@@ -185,7 +185,7 @@ write anything potentially erroneous.
 Here are two different tools for syntax checking and linting Bash, both
 candidates for a new `:compiler` definition:
 
-* [`bash -n`][ib] will **check** the syntax of a shell script, to establish
+* [`bash -n`][bn] will **check** the syntax of a shell script, to establish
   whether it will run at all.
 * [`shellcheck -s bash`][sc] will **lint** it, looking for bad practices in a
   shell script that might misbehave in unexpected ways. 
@@ -297,5 +297,5 @@ Don’t stop me now
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [cm]: https://vimhelp.appspot.com/quickfix.txt.html#%3Acompiler
 [sc]: https://www.shellcheck.net/
-[ib]: https://www.gnu.org/software/bash/manual/html_node/Invoking-Bash.html#Invoking-Bash
+[bn]: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
