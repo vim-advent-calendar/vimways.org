@@ -235,7 +235,7 @@ function guff, too.
 ### Separating compiler definitions out
 
 The `:compiler` command allows us to separate this logic out somewhat, by
-putting the options settings in separate files in `~/.vim/compilers`.
+putting the options settings in separate files in `~/.vim/compiler`.
 
 Our `~/.vim/compiler/bash.vim` file might look like this:
 
