@@ -284,6 +284,8 @@ Don’t stop me now
 -----------------
 
 [ai]: https://vimhelp.appspot.com/options.txt.html#%27autoindent%27
+[bn]: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html
+[cm]: https://vimhelp.appspot.com/quickfix.txt.html#%3Acompiler
 [ea]: https://vimways.org/2018/from-vimrc-to-vim/
 [ef]: https://vimhelp.appspot.com/options.txt.html#%27errorformat%27
 [fo]: https://vimhelp.appspot.com/options.txt.html#%27formatoptions%27
@@ -295,7 +297,5 @@ Don’t stop me now
 [mp]: https://vimhelp.appspot.com/options.txt.html#%27makeprg%27
 [rc]: https://vimhelp.appspot.com/usr_05.txt.html#vimrc-intro
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
-[cm]: https://vimhelp.appspot.com/quickfix.txt.html#%3Acompiler
 [sc]: https://www.shellcheck.net/
-[bn]: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
