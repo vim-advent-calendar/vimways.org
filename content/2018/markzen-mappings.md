@@ -385,7 +385,7 @@ and syntax; hopefully this should get you started if you never wrote mappings
 before, or it might have given you some ideas for your future mappings.
 
 In part two, we will present a few mapping-related tools and tricks to help you
-unleash the madman<C-w> power user in you. 
+unleash the madman`<C-w>` power user in you. 
 
 That's all for now, vimfolks!
 
