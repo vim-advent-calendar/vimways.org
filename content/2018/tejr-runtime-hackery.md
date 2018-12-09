@@ -46,7 +46,7 @@ Accommodating plugin authors will sometimes provide variable options to allow
 you to tweak commonly-requested things. For example, the stock indenting
 behaviour for the `html` filetype does not add a level of indent after opening
 a `<p>` paragraph block, as it does for an element like `<body>`. Fortunately,
-there’s a [documented option variable][hs] that switches this behaviour named
+there’s a [documented option variable][hi] that switches this behaviour named
 `html_indent_inctags`, which we can define in `~/.vim/indent/html.vim`. This
 will get loaded just *before* `$VIMRUNTIME/indent/html.vim`:
 
