@@ -1,6 +1,5 @@
 ---
 title: "For Mappings And A Tutorial"
-date: 2018-10-14T11:11:59+02:00
 description: "First meeting with custom mappings"
 slug: "for-mappings-and-a-tutorial"
 publishDate: 2018-12-08

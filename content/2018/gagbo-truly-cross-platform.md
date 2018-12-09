@@ -1,6 +1,5 @@
 ---
 title: "Make your setup truly cross-platform"
-date: 2018-10-07
 publishDate: 2018-12-07
 draft: false
 description: "How to deal with platform/host-specific issues"
