@@ -1,6 +1,5 @@
 ---
 title: "if_pyth (= the python interface) cookbook"
-date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-10
 draft: true
 description: Describe how to achieve some commonly desired idioms using the vim python interface

@@ -1,5 +1,6 @@
 ---
 title: "About Vimways"
+publishDate: 2018-12-01
 slug: "about"
 type: "meta"
 layout: "single"
