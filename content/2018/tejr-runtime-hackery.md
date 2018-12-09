@@ -50,14 +50,18 @@ there’s a [documented option variable][hs] that switches this behaviour named
 `html_indent_inctags`, which we can define in `~/.vim/indent/html.vim`. This
 will get loaded just *before* `$VIMRUNTIME/indent/html.vim`:
 
-    " Indent after <p> paragraph tags too
-    let html_indent_inctags = 'p'
+```vim
+" Indent after <p> paragraph tags too
+let html_indent_inctags = 'p'
+```
 
 Ideally, we should clear the variable away again afterwards in
 `$VIMRUNTIME/after/indent/html.vim`, since after the stock file has run, this
 global variable has done its job:
 
-    unlet html_indent_inctags
+```vim
+unlet html_indent_inctags
+```
 
 ### Reversing unwanted configuration
 
@@ -72,13 +76,17 @@ You might check the Vim documentation, and find this unwanted behaviour is
 caused by the [`r` flag][ft] in the [`'formatoptions'`][fo] option. You then
 check `$VIMRUNTIME/ftplugin/perl.vim`, and sure enough, you find this line:
 
-    setlocal formatoptions+=crqol
+```vim
+setlocal formatoptions+=crqol
+```
 
 It doesn’t look like there’s a variable option you can set to *prevent* the
 setting, and so you add in a couple of lines to
 `~/.vim/after/ftplugin/perl.vim` to *correct* it instead, and you’re done:
 
-    setlocal formatoptions-=r
+```vim
+setlocal formatoptions-=r
+```
 
 Note that you don’t need to add a [`b:undo_ftplugin`][uf] command here, either;
 the stock filetype plugin already includes a revert command for
@@ -99,19 +107,23 @@ something better.
 Fortunately, at the very beginning of the disliked file, we find a **load
 guard**:
 
-    if exists("b:did_indent")
-        finish
-    endif
-    let b:did_indent = 1
+```vim
+if exists("b:did_indent")
+    finish
+endif
+let b:did_indent = 1
+```
 
 This cuts the whole script off if `b:did_indent` has been set. This suggests
 that if we set that variable *before* this script loads, we could avoid the
 indent mess and do things our way. Indeed, we add three lines to a new file in
 `~/.vim/indent/php.vim`, and we’re done:
 
-    let b:did_indent = 1
-    setlocal autoindent
-    let b:undo_indent = 'setlocal autoindent<'
+```vim
+let b:did_indent = 1
+setlocal autoindent
+let b:undo_indent = 'setlocal autoindent<'
+```
 
 The stock `$VIMRUNTIME/indent/php.vim` still loads after this script, but it
 reaches its load guard and halts, leaving our single setting intact. In doing
@@ -132,7 +144,9 @@ looking in `$VIMRUNTIME/ftplugin/markdown.vim`.
 Unfortunately, in that file you find that the behaviour is hard-coded, and runs
 unconditionally:
 
-    runtime! ftplugin/html.vim ftplugin/html_*.vim ftplugin/html/*.vim
+```vim
+runtime! ftplugin/html.vim ftplugin/html_*.vim ftplugin/html/*.vim
+```
 
 That line runs all the filetype plugins it can find for the `html` filetype. We
 can’t coax the stock plugin into disabling the unwanted behaviour, but we don’t
@@ -143,15 +157,19 @@ Perhaps there’s a way to disable *just* the filetype plugins for `html`, and
 *only* when the active buffer is actually a `markdown` buffer? Looking at
 `$VIMRUNTIME/ftplugin/html.vim`, we notice our old friend, the load guard:
 
-    if exists("b:did_ftplugin") | finish | endif
+```vim
+if exists("b:did_ftplugin") | finish | endif
+```
 
 So, it looks like if we can arrange things so that `b:did_ftplugin` is set just
 before this script loads, we can meet our goal. Sure enough, putting this in
 `~/.vim/ftplugin/html.vim` does the trick:
 
-    if &filetype ==# 'markdown'
-      let b:did_ftplugin = 1
-    endif
+```vim
+if &filetype ==# 'markdown'
+  let b:did_ftplugin = 1
+endif
+```
 
 Checker, linter, candlestick-maker
 ----------------------------------
@@ -203,31 +221,36 @@ After experimenting with the values for ``makeprg'` and `'errorformat'`, and
 testing them by running `:make` on a few Bash files and inspecting the output
 in the quickfix list with `:copen`, we find the following values work well:
 
-    makeprg=bash\ -n\ --\ %:S
-    errorformat=%f:\ line\ %l:\ %m
-
-    makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
-    errorformat=%f:%l:%c:\ %m\ [SC%n]
+```vim
+" Bash
+makeprg=bash\ -n\ --\ %:S
+errorformat=%f:\ line\ %l:\ %m
+" ShellCheck
+makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
+errorformat=%f:%l:%c:\ %m\ [SC%n]
+```
 
 To switch between them, we might set up functions and mappings like this, to
 set the options appropriately for the two different programs, using `,b` for
 `bash` and `,s` for `shellcheck`:
 
-    function! s:SwitchCompilerBash() abort
-      setlocal makeprg=bash\ -n\ --\ %:S
-      setlocal errorformat=%f:\ line\ %l:\ %m
-    endfunction
-    function! s:SwitchCompilerShellCheck() abort
-      setlocal makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
-      setlocal errorformat=%f:%l:%c:\ %m\ [SC%n]
-    endfunction
-    nnoremap <buffer> ,b
-          \ :<C-U>call <SID>SwitchCompilerBash()<CR>
-    nnoremap <buffer> ,s
-          \ :<C-U>call <SID>SwitchCompilerShellCheck()<CR>
-    let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
-          \ . '|nunmap <buffer> ,b'
-          \ . '|nunmap <buffer> ,s'
+```vim
+function! s:SwitchCompilerBash() abort
+  setlocal makeprg=bash\ -n\ --\ %:S
+  setlocal errorformat=%f:\ line\ %l:\ %m
+endfunction
+function! s:SwitchCompilerShellCheck() abort
+  setlocal makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
+  setlocal errorformat=%f:%l:%c:\ %m\ [SC%n]
+endfunction
+nnoremap <buffer> ,b
+      \ :<C-U>call <SID>SwitchCompilerBash()<CR>
+nnoremap <buffer> ,s
+      \ :<C-U>call <SID>SwitchCompilerShellCheck()<CR>
+let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
+      \ . '|nunmap <buffer> ,b'
+      \ . '|nunmap <buffer> ,s'
+```
 
 This works OK, but there’s quite a lot going on here for something that seems
 like it should be simpler. It would be nice to avoid all the
@@ -240,36 +263,44 @@ putting the options settings in separate files in `~/.vim/compiler`.
 
 Our `~/.vim/compiler/bash.vim` file might look like this:
 
-    setlocal makeprg=bash\ -n\ --\ %:S
-    setlocal errorformat=%f:\ line\ %l:\ %m
+```vim
+setlocal makeprg=bash\ -n\ --\ %:S
+setlocal errorformat=%f:\ line\ %l:\ %m
+```
 
 Similarly, our `~/.vim/compiler/shellcheck.vim` might look like this:
 
-    setlocal makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
-    setlocal errorformat=%f:%l:%c:\ %m\ [SC%n]
+```vim
+setlocal makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
+setlocal errorformat=%f:%l:%c:\ %m\ [SC%n]
+```
 
 With these files installed, we can test switching between them with
 `:compiler`:
 
-    :compiler bash
-    :set errorformat? makeprg?
-      errorformat=%f: line %l: %m
-      makeprg=bash -n -- %:S
-    :compiler shellcheck
-    :set errorformat? makeprg?
-      errorformat=%f:%l:%c: %m [SC%n]
-      makeprg=shellcheck -s bash -f gcc -- %:S
+```vim
+:compiler bash
+:set errorformat? makeprg?
+  errorformat=%f: line %l: %m
+  makeprg=bash -n -- %:S
+:compiler shellcheck
+:set errorformat? makeprg?
+  errorformat=%f:%l:%c: %m [SC%n]
+  makeprg=shellcheck -s bash -f gcc -- %:S
+```
 
 This simple abstraction allows us to refactor the compiler-switching code in
 our ftplugin to the following, foregoing any need for the functions:
 
-    nnoremap <buffer> ,b
-          \ :<C-U>compiler bash<CR>
-    nnoremap <buffer> ,s
-          \ :<C-U>compiler shellcheck<CR>
-    let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
-          \ . '|nunmap <buffer> ,b'
-          \ . '|nunmap <buffer> ,s'
+```vim
+nnoremap <buffer> ,b
+      \ :<C-U>compiler bash<CR>
+nnoremap <buffer> ,s
+      \ :<C-U>compiler shellcheck<CR>
+let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
+      \ . '|nunmap <buffer> ,b'
+      \ . '|nunmap <buffer> ,s'
+```
 
 Note that the above compiler file examples are greatly simplified from the
 recommended practices in `:help write-compiler-plugin`. For example, you would
