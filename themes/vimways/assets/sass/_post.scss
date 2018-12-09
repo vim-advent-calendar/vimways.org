@@ -34,7 +34,7 @@
 			@media only screen and (width: 1024px) {
 				&:active {
 					min-width: 100%;
-					width: fit-content;
+					width: calc(166% + 3rem);
 					&:after {
 						display: none;
 					}
@@ -55,7 +55,7 @@
 			@media only screen and (min-width: 1025px) {
 				&:hover {
 					min-width: 100%;
-					width: fit-content;
+					width: calc(166% + 3rem);
 					&:after {
 						display: none;
 					}
