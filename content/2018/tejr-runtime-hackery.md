@@ -106,10 +106,8 @@ guard**:
 
 This cuts the whole script off if `b:did_indent` has been set. This suggests
 that if we set that variable *before* this script loads, we could avoid the
-indent mess and do things our way.
-
-Indeed, three lines later in a new file in `~/.vim/indent/php.vim`, and we’re
-done:
+indent mess and do things our way. Indeed, we add three lines to a new file in
+`~/.vim/indent/php.vim`, and we’re done:
 
     let b:did_indent = 1
     setlocal autoindent
