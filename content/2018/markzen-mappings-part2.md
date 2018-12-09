@@ -372,7 +372,7 @@ Until then, merry xmaps to all!
 
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-[fp]: https://vimways.org/2018/
+[fp]: https://vimways.org/2018/for-mappings-and-a-tutorial/
 [pg]: http://vimhelp.appspot.com/map.txt.html#%3CPlug%3E
 [cr]: http://vimhelp.appspot.com/cmdline.txt.html#c_%3CC-R%3E
 [if]: http://vimhelp.appspot.com/options.txt.html#%27isf%27
