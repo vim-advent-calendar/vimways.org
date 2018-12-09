@@ -209,8 +209,8 @@ list with `:copen`, we find the following values work well:
     errorformat=%f:%l:%c:\ %m\ [SC%n]
 
 To switch between them, we might set up functions and mappings like this, to
-set the options appropriately for the two different programs, using `,cb` for
-`bash` and `,cs` for `shellcheck`:
+set the options appropriately for the two different programs, using `,b` for
+`bash` and `,s` for `shellcheck`:
 
     function! s:SwitchCompilerBash() abort
       setlocal makeprg=bash\ -n\ --\ %:S
@@ -220,13 +220,13 @@ set the options appropriately for the two different programs, using `,cb` for
       setlocal makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
       setlocal errorformat=%f:%l:%c:\ %m\ [SC%n]
     endfunction
-    nnoremap <buffer> ,cb
+    nnoremap <buffer> ,b
           \ :<C-U>call <SID>SwitchCompilerBash()<CR>
-    nnoremap <buffer> ,cs
+    nnoremap <buffer> ,s
           \ :<C-U>call <SID>SwitchCompilerShellCheck()<CR>
     let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
-          \ . '|nunmap <buffer> ,cb'
-          \ . '|nunmap <buffer> ,cs'
+          \ . '|nunmap <buffer> ,b'
+          \ . '|nunmap <buffer> ,s'
 
 This works OK, but there’s quite a lot going on here for something that seems
 like it should be simpler. It would be nice to avoid all the script-local
@@ -262,13 +262,13 @@ With these files installed, we can test switching between them with
 This simple abstraction allows us to refactor the compiler-switching code in
 our ftplugin to the following, foregoing any need for the functions:
 
-    nnoremap <buffer> ,cb
+    nnoremap <buffer> ,b
           \ :<C-U>compiler bash<CR>
-    nnoremap <buffer> ,cs
+    nnoremap <buffer> ,s
           \ :<C-U>compiler shellcheck<CR>
     let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
-          \ . '|nunmap <buffer> ,cb'
-          \ . '|nunmap <buffer> ,cs'
+          \ . '|nunmap <buffer> ,b'
+          \ . '|nunmap <buffer> ,s'
 
 Note that the above compiler file examples are greatly simplified from the
 recommended practices in `:help write-compiler-plugin`. For example, you would
