@@ -1,6 +1,6 @@
 ---
 title: "Death by a thousand files"
-publishDate: 2018-12-09
+publishDate: 2018-12-10
 draft: true
 description: "Free yourself from the tyranny of files"
 slug: "death-by-a-thousand-files"
