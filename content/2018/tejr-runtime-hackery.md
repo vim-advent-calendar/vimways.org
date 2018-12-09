@@ -320,7 +320,7 @@ Don’t stop me now
 [ea]: https://vimways.org/2018/from-vimrc-to-vim/
 [ef]: https://vimhelp.appspot.com/options.txt.html#%27errorformat%27
 [fo]: https://vimhelp.appspot.com/options.txt.html#%27formatoptions%27
-[ft]: http://vimhelp.appspot.com/change.txt.html#fo-table
+[ft]: https://vimhelp.appspot.com/change.txt.html#fo-table
 [hi]: https://vimhelp.appspot.com/indent.txt.html#ft-html-indent
 [ie]: https://vimhelp.appspot.com/options.txt.html#%27indentexpr%27
 [mk]: https://vimhelp.appspot.com/quickfix.txt.html#%3Amake
