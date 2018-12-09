@@ -23,8 +23,8 @@ a .vim runtime directory, we hinted at a few more specific possibilities for
 leveraging the runtime directory structure, but did not go into any detail:
 
 1. Preventing specific code in the stock runtime directory from running
-2. Using the `:compiler` command
-3. Automatically loading functions only when they’re needed
+2. Writing custom compiler definitions
+3. Automatically loading functions only when they’re called
 
 In this followup article, we’ll go through each of these, further demonstrating
 how you can use the `'runtimepath'` structure and logic to your benefit.
