@@ -38,20 +38,24 @@ documentation. The user will then be able to map his own LHS to your simple LHS,
 and your implementation details will not be exposed. An example will make this
 clear:
 
-    " ]&MyPluginIndentLine is an intermediate, "pivot" LHS/RHS
-    nnoremap <silent> ]&MyPluginIndentLine ...internal RHS...
-    nmap <silent> <LocalLeader>f ]&MyPluginIndentLine
+```vim
+" ]&MyPluginIndentLine is an intermediate, "pivot" LHS/RHS
+nnoremap <silent> ]&MyPluginIndentLine ...internal RHS...
+nmap <silent> <LocalLeader>f ]&MyPluginIndentLine
+```
 
 Now, if the user want to change the default mapping from `<LocalLeader>f` to
 something else, say, `<Leader><Tab>`, they will just need to add this in their
 vimrc:
 
-    nmap <Leader><Tab> ]&MyPluginIndentLine
+```vim
+nmap <Leader><Tab> ]&MyPluginIndentLine
+```
 
 Then, if you later modify the internal RHS part, your users will not have to
 change anything. Note that all mappings except the one to the internal RHS are
 _not_ of the noremap family, since we do want all mappings to chain together;
-`nnoremap` in any of those would break the chain.
+`:nnoremap` in any of those would break the chain.
 
 This setting would work, but there is a flaw: the intermediate LHS, namely
 `]&MyPluginIndentLine`, interfers with normal usage. We paid attention to use a
@@ -65,12 +69,16 @@ normal keys, it gets totally out of the way of other mappings that do not use
 `<Plug>` themselves. To use it, just replace the arbitrary `]&` prefix above
 with `<Plug>`:
 
-    nnoremap <silent> <Plug>MyPluginIndentLine ...internal RHS...
-    nmap <silent> <LocalLeader>f <Plug>MyPluginIndentLine
+```vim
+nnoremap <silent> <Plug>MyPluginIndentLine ...internal RHS...
+nmap <silent> <LocalLeader>f <Plug>MyPluginIndentLine
+```
 
 And in the user's vimrc:
 
-    nmap <Leader><Tab> <Plug>MyPluginIndentLine
+```vim
+nmap <Leader><Tab> <Plug>MyPluginIndentLine
+```
 
 Note that the RHS comprises, firstly, the expansion of `<Plug>` (we do not need
 to know what it is exactly, though you can get an idea with `:echo "\<Plug>"`),
@@ -78,8 +86,10 @@ followed by all the individual letters of "MyPluginIndentLine". This is not some
 special command-line or function-invoking mode! Therefore, conflicts could
 theoretically arise. Suppose we write a snippet plugin with these two mappings:
 
-    nnoremap <silent> <Plug>MyPluginFor ...internal RHS 1...
-    nnoremap <silent> <Plug>MyPluginFori ...internal RHS 2...
+```vim
+nnoremap <silent> <Plug>MyPluginFor ...internal RHS 1...
+nnoremap <silent> <Plug>MyPluginFori ...internal RHS 2...
+```
 
 The first mapping might insert some for-loop snippet, and the second one could
 insert a for-loop variant that uses a variable called 'i'.
@@ -88,8 +98,10 @@ So far so good, but now a user finds it convenient to go into insert mode right
 after inserting the first for-loop variant, and they want to make a mapping for
 it:
 
-    " Intent: call <Plug>MyPluginFor and hit 'i' to go into insert mode
-    nmap <Leader>i <Plug>MyPluginFori
+```vim
+" Intent: call <Plug>MyPluginFor and hit 'i' to go into insert mode
+nmap <Leader>i <Plug>MyPluginFori
+```
 
 You see the problem: the mapping will inadvertently call the wrong mapping from
 our snippet plugin!
@@ -97,13 +109,17 @@ our snippet plugin!
 Even though those cases are rare, it is common practice to avoid them altogether
 by surrounding the part after `<Plug>` in braces:
 
-    nmap <silent> <LocalLeader>f <Plug>(MyPluginFor)
-    nmap <Leader><Tab> <Plug>(MyPluginFori)
+```vim
+nmap <silent> <LocalLeader>f <Plug>(MyPluginFor)
+nmap <Leader><Tab> <Plug>(MyPluginFori)
+```
 
 In user's vimrc:
 
-    " Intent: call <Plug>(MyPluginFor) and hit 'i' to go into insert mode
-    nmap <Leader>i <Plug>(MyPluginFor)i
+```vim
+" Intent: call <Plug>(MyPluginFor) and hit 'i' to go into insert mode
+nmap <Leader>i <Plug>(MyPluginFor)i
+```
 
 Problem solved.
 
@@ -113,7 +129,9 @@ Problem solved.
 mode. It is notably useful in visual mode, when the mapping needs to work with
 the selection eg.:
 
-    xnoremap <silent> <Leader>gf y:pedit <C-r><C-r>"<cr>
+```vim
+xnoremap <silent> <Leader>gf y:pedit <C-r><C-r>"<cr>
+```
 
 This will open the filename expected in the visual selection into the preview
 window. Doubling the `<C-r>` inserts the content literally, in case there were
@@ -122,13 +140,17 @@ some control characters in the filename that might be interpreted by Vim.
 The expression register can also be used, opening some interesting
 possibilities:
 
-    inoremap <C-g><C-t> [<C-r>=strftime("%d/%b/%y %H:%M")<cr>]
+```vim
+inoremap <C-g><C-t> [<C-r>=strftime("%d/%b/%y %H:%M")<cr>]
+```
 
 That mapping will insert the current date an time between brackets.
 
 Another example, from command-line mode:
 
-    cnoremap <C-x>_ <C-r>=split(histget('cmd', -1))[-1]<cr>
+```vim
+cnoremap <C-x>_ <C-r>=split(histget('cmd', -1))[-1]<cr>
+```
 
 This will insert the last space-separated word from the last command-line, as 
 `<M-_>` in Bash.
@@ -137,7 +159,9 @@ This will insert the last space-separated word from the last command-line, as
 followed by some control characters. Here is an example with `<C-r><C-f>`, which
 inserts the filename under the cursor:
 
-    nnoremap <silent> <Leader>gf :pedit <C-r><C-f><cr>
+```vim
+nnoremap <silent> <Leader>gf :pedit <C-r><C-f><cr>
+```
 
 This is the normal mode version of the preview mapping we saw above (the
 filename recognition will depend on the [`'isfname'`][if] option). Note that on
@@ -147,7 +171,9 @@ insert on the command-line the filename under the cursor, and `<cword>` will
 insert the current word. If a filename is not expected, you can always use
 [`expand()`][ed] like this:
 
-    nnoremap <silent> c<Tab> :let @/=expand('<cword>')<cr>cgn
+```vim
+nnoremap <silent> c<Tab> :let @/=expand('<cword>')<cr>cgn
+```
 
 This mapping sets the last search pattern to the word under the cursor, and
 changes it with the `cgn` sequence--making the whole thing conveniently
