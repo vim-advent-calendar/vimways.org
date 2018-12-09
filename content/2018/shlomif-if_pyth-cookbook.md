@@ -4,6 +4,14 @@ date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-10
 draft: true
 description: Describe how to achieve some commonly desired idioms using the vim python interface
+author:
+  name: "Shlomi Fish"
+  email: "shlomif@cpan.org"
+  github: "shlomif"
+  picture: "https://secure.gravatar.com/avatar/ac125fe03b42874a2d82175f16f5b8e3?s=400"
+  twitter: "@shlomif"
+  irc: "rindolf"
+  homepage: "https://www.shlomifish.org/"
 ---
 
 # if_pyth (= the python interface) cookbook

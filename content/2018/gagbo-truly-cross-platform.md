@@ -1,15 +1,19 @@
 ---
 title: "Make your setup truly cross-platform"
-date: 2018-10-14T11:11:59+02:00
-publishDate: 2018-12-02
-draft: true
-description: An article on this or that.
+date: 2018-10-07
+publishDate: 2018-12-07
+draft: false
+description: "How to deal with platform/host-specific issues"
+slug: "make-your-setup-truly-cross-platform"
+author:
+  name: "Gerry Agbobada"
+  github: "gagbo"
 ---
 
 Make your setup truly cross-platform
 ===============================================================================
 Once you have taken the time to setup Vim exactly the way you want, you might
-still encounter configuration issues. My whole `~/.vim` folder is under version
+still encounter configuration issues. My whole `~/.vim/` directory is under version
 control so I can just clone it on any computer I want my familiar Vim
 experience.
 
@@ -31,7 +35,7 @@ to `uname` will give the running environment. The function below returns a strin
 containing the value of the running environment.
 
 ```vim
-function! whichEnv() abort
+function! WhichEnv() abort
     if has('win64') || has('win32') || has('win16')
         return 'WINDOWS'
     else
@@ -42,11 +46,11 @@ endfunction
 """""""""""""""""""""""""""""
 " Later use in another file "
 """""""""""""""""""""""""""""
-if (whichEnv() =~# 'WINDOWS')
+if (WhichEnv() =~# 'WINDOWS')
     " Enable Windows specific settings/plugins
-else if (whichEnv() =~# 'LINUX')
+else if (WhichEnv() =~# 'LINUX')
     " Enable Linux specific settings/plugins
-else if (whichEnv() =~# 'DARWIN')
+else if (WhichEnv() =~# 'DARWIN')
     " Enable MacOS specific settings/plugins
 else
     " Other cases I can't think of like MINGW
@@ -59,7 +63,7 @@ spoken with a MacOS user (I don't use it personnally), there seems to be cases
 where using these flags for MacOS detection is not working as
 [one would guess](https://github.com/vim-advent-calendar/ideas/pull/12#issuecomment-435005197).
 
-Intermission : external shell calls optimizations
+Intermission: external shell calls optimizations
 -------------------------------------------------------------------------------
 External shell calls are costly, mostly because of the context switching they
 require. They are not very long, but one of the big advantages of vim is the
@@ -67,19 +71,30 @@ very quick startup time, and having too many external calls in your startup
 will definitely have consequences on your experience.
 
 To illustrate this, let's compare the startup time of Vim with a one-liner
-vimrc, where :
+vimrc, where:
+
 - one case has `let g:dummy_string = 'dummy string'` (no external shell call),
+
 - the other case has `let g:dummy_string = system('date')` (one external shell
   call)
 
-The command I used to compare the startup times was `vim --noplugin -u
-one_liner_vimrc --startuptime startup.txt`, and here is the final result :
-- no external call : `002.369  000.003: --- VIM STARTED ---`
-- external call : `093.497  000.002: --- VIM STARTED ---`
+The command I used to compare the startup times was:
+
+```bash
+$ vim --noplugin -u one_liner_vimrc --startuptime startup.txt
+```
+
+and here is the final result:
+
+Condition | Duration in milliseconds
+---|---
+No external call | 002.369
+External call | 093.497
 
 The 90 ms difference in startup time is entirely due to the external system call
-(see `:h startuptime` for help on the syntax) :
-```
+(see `:h startuptime` for help on the syntax):
+
+```bash
 # No external call
 001.246  000.021  000.021: sourcing no_externalcall_vimrc
 
@@ -90,7 +105,7 @@ The 90 ms difference in startup time is entirely due to the external system call
 Caching the results from any external system call as
 much as possible is important when crafting flexible `.vim/` startup scripts.
 Here is the final function I use (and call in my other scripts) to know my
-environment. The result of `system` is stored in a global variable and used
+environment. The result of `system()` is stored in a global variable and used
 in all scripts.
 
 ```vim
@@ -142,32 +157,35 @@ the same function as before, replacing only the `toupper...` line with
 This method should also work on Windows, since it also provides
 [hostname](https://ss64.com/nt/hostname.html), but I have not tested it yet.
 
-In order to show
-how this can be useful I will have to present a little my work environment.
-I am currently a PhD student in computational mechanics, which
-is one heavy user of High Performance Computing
-([HPC](https://en.wikipedia.org/w/index.php?title=High-performance_computing&redirect=no)
-: the laboratory has a Linux-powered
-[cluster](https://en.wikipedia.org/wiki/Computer_cluster) on which all the heavy
-simulations are run. The software we use is written in C++ and we built a DSL to
-communicate input parameters through plain-text files to the software.
+***EDIT*** : **Just as shown below with the `executable()` function, Vim provides a
+`hostname()` vimscript function which takes away the need for system calls. That
+is better for performance and portability; so if your hostname does not go past
+256 characters, calling `hostname()` is better than calling `system('hostname')`.
+As always with Vim, check `:h hostname()` for further information**
+
+In order to show how this can be useful I will have to present a little my work environment.
+
+I am currently a PhD student in computational mechanics, which is one heavy user of [High Performance Computing](https://en.wikipedia.org/w/index.php?title=High-performance_computing&redirect=no).  The laboratory has a Linux-powered [cluster](https://en.wikipedia.org/wiki/Computer_cluster) on which all the heavy simulations are run. The software we use is written in C++ and we built a DSL to communicate input parameters through plain-text files to the software.
 
 This means I need to edit text from multiple places on
-multiple machines for my work :
+multiple machines for my work:
 
 - I might want to edit files directly on my office Windows machine. This machine
     is a little beefy and I can use it to test locally developments which need
     more computational power to be run.
+
 - I might want to edit files stored on the cluster from my office Windows
     machine (with ssh). This is useful to work on the code and/or launch tests
     directly in the correct environment.
+
 - I might want to edit files stored on the cluster from my laptop running Linux
     (with ssh). This is useful when I want to change quickly simulation
     parameters.
+
 - I might want to edit files directly on my laptop. This is where I work on
     code the most.
 
-Therefore, I use Vim to edit text in 2 Linux environments (my laptop and the
+Therefore, I use Vim to edit text in two Linux environments (my laptop and the
 front node of the cluster), but I do have specific issues related to the way I
 access the files (either "natively" or through ssh using a Windows client are
 the two extremes). So in the following snippet, I use the "host specific" method
@@ -185,7 +203,7 @@ function! Config_setHost() abort
     if exists('g:Hostname')
         return
     endif
-       let g:host = system('hostname')
+       let g:Hostname = system('hostname')
 endfunction
 
 call Config_setHost()
@@ -195,7 +213,7 @@ if g:Hostname =~? 'front'
 endif
 ```
 
-Host specific settings are good when you know you're only cloning your `~/.vim`
+Host specific settings are good when you know you're only cloning your `~/.vim/`
 directory in a few computers on which you know what is installed. Using this to
 differentiate between 50 hosts means you will need very long if statements which
 get quickly hard to read.
@@ -203,17 +221,21 @@ get quickly hard to read.
 I still find this useful for clipboard handling or other purely host-specific
 settings.
 
-**Security note** : as you can see in the last snippet, you have to put the
+**Security note**: as you can see in the last snippet, you have to put the
 hostname in your configuration in order to make these specific settings. This
 information will then be available to anyone who can see your configuration
 files on the internet. If this is an issue (especially regarding version
-control on online git repositories), I think the best thing to do is to :
-- keep these if statements in separate `.vim` files,
-- Move these `.vim` files in a specific folder under `~/.vim` like
-    `host_settings`
-- `runtime` the settings in the version controlled file.
+control on online git repositories), I think the best thing to do is to:
 
-Eventually the configuration looks like this :
+- keep these if statements in separate `*.vim` files,
+
+- move these `*.vim` files in a specific directory under `~/.vim/` like
+    `host_settings`,
+
+- `:runtime` the settings in the version controlled file.
+
+Eventually the configuration looks like this:
+
 ```vim
 """"""""""""""""""""""""""""""
 " vimrc (version-controlled) "
@@ -232,7 +254,7 @@ runtime host_settings/34.vim
 """""""""""""""""""""""""""""
 "       .gitignore          "
 """""""""""""""""""""""""""""
-# Ignore the host_settings folder in version control
+# Ignore the host_settings directory in version control
 host_settings/
 
 " All files below are now private
@@ -243,12 +265,11 @@ if g:Hostname =~? 'front'
     set clipboard=exclude:.*
     set runtimepath+=~/.fzf
 endif
-
-
 ```
 
 If all snippets can be run at the same location, you can even use globs to hide
-even file names :
+even file names:
+
 ```vim
 """"""""""""""""""""""""""""""
 " vimrc (version-controlled) "
@@ -267,7 +288,7 @@ runtime! host_settings/*.vim " Beware of the '!', it is necessary
 """""""""""""""""""""""""""""
 "       .gitignore          "
 """""""""""""""""""""""""""""
-# Ignore the host_settings folder in version control
+# Ignore the host_settings directory in version control
 host_settings/
 
 " All files below are now private
@@ -284,14 +305,13 @@ endif
 if g:Hostname =~? 'front'
     set runtimepath+=~/.fzf
 endif
-
 ```
 
 Dependencies specific settings
 -------------------------------------------------------------------------------
 Even on the same environment, dependencies might not be fulfilled on all the
-target machines. These dependencies can be separated into 2 categories, Vim's
-*features* and external *dependencies*. The difference I make between these 2
+target machines. These dependencies can be separated into two categories, Vim's
+*features* and external *dependencies*. The difference I make between these two
 is that *features* are defined at compilation time in Vim and that
 *dependencies* are external to Vim's compilation.
 
@@ -300,17 +320,19 @@ can directly use vimscript to know if Vim has a feature or not, using the
 `has()` function.
 See `:h has()` for all the features you can test for
 directly within vim.
+
 ```vim
 if has('cscope')
-" Enable all the plugins or change settings to use cscope support
+    " Enable all the plugins or change settings to use cscope support
 endif
 ```
 
-For external dependencies (like the linters you might want to set as `makeprg`
+For external dependencies (like the linters you might want to set as `'makeprg'`
 or the LSP servers you want to start for a project), using `executable()`
 instead of using a call to [which](https://linux.die.net/man/1/which) is very
-important, as it is way faster than `system`. I ran the same test case as
-before with a vimrc which only include an `executable()` call :
+important, as it is way faster than `system()`. I ran the same test case as
+before with a vimrc which only include an `executable()` call:
+
 ```vim
 if executable('rg')
     let g:string_date = 'dummy string'
@@ -318,62 +340,61 @@ if executable('rg')
 endif
 ```
 
-and the results are almost the same as the *no external call* case :
-```
+and the results are almost the same as the *no external call* case:
+
+```bash
 # Important lines only
 001.991  000.136  000.136: sourcing exec_vimrc
 003.383  000.005: --- VIM STARTED ---
 ```
 
 
-Bonus round : Vim 8+ and Neovim compatibility
+Bonus round: Vim 8+ and Neovim compatibility
 -------------------------------------------------------------------------------
 Vim 8+ is important because I make heavy usage of the package feature for this
 adaptation.
 
-First step is to symlink the folders of course. We only want one copy of the
-`.vim` folder on the system, Vim does not care about `init.vim` and Neovim does
-not care about `vimrc`
+First step is to symlink the directories of course. We only want one copy of the
+`~/.vim/` directory on the system, Vim does not care about `init.vim` and Neovim does
+not care about `vimrc`.
 
 After a few updates I made in my plugins and/or colorschemes, I noticed I
-always had 2 files to change : `init.vim` and `vimrc`. I still want to keep the
+always had two files to change: `init.vim` and `vimrc`. I still want to keep the
 files different because there are a few settings which are actually specific to
 one software, but duplicating changes is a code smell.
 
 My solution is to use
-`runtime` heavily and externalize all the common parts of my old `vimrc`.
-`runtime` will look for files to source with the given name in your
-`runtimepath` and will source the first one it finds. Choosing a "unique"
-folder for the sourced files (like `settings`) allows to store them all with
-any name as long as they are in the `runtimepath`. I choose to leave them
-directly in the `~/.vim` folder to have them under version control of course :
-```
+`:runtime` heavily and externalize all the common parts of my old `vimrc`.
+`:runtime` will look for files to source with the given name in your
+`'runtimepath'` and will source the first one it finds. Choosing a "unique"
+directory for the sourced files (like `settings/`) allows to store them all with
+any name as long as they are in the `'runtimepath'`. I choose to leave them
+directly in the `~/.vim/` directory to have them under version control of course:
+
+```bash
 $ ls ~/.vim
 ... some files
 init.vim
 vimrc
 settings/
-... other folders
+... other directories
 
 $ ls ~/.vim/settings
 colors.vim
 ale.vim
 ... other files
-
 ```
 
 ```vim
 " In vimrc
 set autoindent " 'vim-specific' setting
 runtime settings/fold_fillchars.vim
-
 ```
 
-
-`if has('nvim')` is exactly what you want to separate the 2 cases in your
+`if has('nvim')` is exactly what you want to separate the two cases in your
 scripts. For example, to load plugins only for Vim or only for Neovim, you can
 put your optional plugins in `~/.vim/pack/vim_or_neovim/opt` and then use this
-kind of snippets :
+kind of snippets:
 
 ```vim
 if has('nvim')
@@ -388,15 +409,13 @@ endif
 
 
 Results
--------------------------------------------------------------------------------
+-------
+
 You can see a few of those principles applied on my [current
 repo](https://framagit.org/gagbo/vim-setup). Be warned that it is still a little
 bit messy, because tidying all the files and plugins is very low priority on my
 TODO list. And also because writing this post made me verify and learn new
 things about how to further smooth my truly cross platform setup.
-
-
-Gerry
 
 This article is licensed under
 [Creative Commons v4.0](https://creativecommons.org/licenses/by/4.0/)

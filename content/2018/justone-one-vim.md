@@ -61,7 +61,7 @@ The first step is opening just one more file.  First, open a single file in Vim 
 
 3. Save our state with:
 
-        :mksession! session.vim`
+        :mksession! session.vim
 
 The `:mksession!` command saved the state of your windows (and many other things) into a file, so you can always return to the layout you have now by quitting vim and running `vim -S session.vim` (or running `:bufdo bdelete | source session.vim` to reuse your current vim instance).
 
