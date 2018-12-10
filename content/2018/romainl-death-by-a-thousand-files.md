@@ -65,8 +65,7 @@ At the project level… it gets a little complicated.
 Directories, files, paragraphs, lines, words, numbers, signs, etc. The way
 computers have been designed for the last 40+ years make us think about those
 things as… *things*. Physical objects with which we interact as if they were
-*real*. We "cut" them as if they were tomatoes, "navigate" from one to another
-as if they were harbors, etc.
+*real*.
 
 But how necessary are those metaphors for thinking about our program/data flow?
 Why should we care about paths, directories, or file names at all?
@@ -74,19 +73,18 @@ Why should we care about paths, directories, or file names at all?
 ## Source code as a hierarchy
 
 Because the file system is usually exposed as a hierarchy of (hierarchies of)
-directories and files, knowledge workers naturally store the matter on which
-they work and the fruit of their work into directories and files.  Directories
-and files are where we, programmers, store the instructions that make our
-program, just like our forefathers did with punch cards in file cabinets or
-like ancient librarians did with rolls in Alexandria. Hell, some frameworks
-even go to great lengths to enforce a "standard" directory structure in the
-hope of making projects easier to grok, by people and machines alike.
+directories and files, knowledge workers naturally store their stuff into
+directories and files.  Directories and files are where we, programmers, store
+the instructions that make our program, just like our forefathers did with punch
+cards in file cabinets or like ancient librarians did with rolls in Alexandria.
+Hell, some frameworks even go to great lengths to enforce a "standard" directory
+structure in the hope of making projects easier to grok, by people and machines
+alike.
 
 There's nothing inherently wrong with any of that, of course: we are just using
-a convenient and well understood metaphor.
-
-But there are a number of fundamental limitations with that approach when
-considered from a programmer's point of view.
+a convenient and well understood metaphor.  But there are a number of
+fundamental limitations with that approach when considered from a programmer's
+point of view.
 
 ### There's only one way to get from point A to point B
 
@@ -125,26 +123,100 @@ that must be maintained in real time.
 But what to do with that *other* project? And that one? More maps, more
 juggling.
 
-### The tree that hides the forest
+## The tree that hides the forest
 
-I intentionally avoided talking about "files" and "directories" in this section
-because the problem—and the maps we maintain to make sense of it—is not
+I intentionally avoided talking about "files" and "directories" in the previous
+section because the problem—and the maps we maintain to make sense of it—is not
 restricted to files and directories. In fact, the fundamental "things" we deal
-with when programming are not files and directories; **we actually deal with
-the *symbols* that are stored in those files and directories**.
+with when programming are not files and directories; **we actually deal with the
+*symbols* that are stored in those files and directories**.
 
-**Those symbols are what makes our program**, not files. Files and directories
-are byproducts of the way we *organize* our source code, not our primary matter.
-I believe those metaphors and the rigid, hierarchical vision that comes with
-them, are dragging us down and forcing us to look in the wrong place for
-solutions to largely imaginary problems.
+**Those symbols are the meat and bones of our program**, not files. Files and
+directories are byproducts of the way we *organize* our source code, not our
+primary matter.  I believe those metaphors and the rigid, hierarchical vision
+that comes with them, are dragging us down and forcing us to look in the wrong
+place for solutions to largely imaginary problems.
 
-### See the forest for the trees
+The thing is… most of the programming paradigms, languages, and frameworks we
+use come with their own hierarchies and metaphors that must be handled on top of
+the file system. That's even more resources to add to our mental maps *and more
+indirections* to deal with.
 
-The core issue, here is 
+B may be a file but it can be a symbol stored in a file named after B or after
+something else entirely and we have to keep a map of what symbol is in what file
+on top of a map of files and directories. Or worse: rebuild that map every time
+we need to access B! Sadly, we tend to **default to the same base strategy**
+whether we are looking for a symbol or a file: files and directories.  Whatever
+tool we use, be it a classic file explorer or the fuzzy finder *du jour*,
+**looking up a *file* in order to access a *symbol* within that file is not
+efficient**.
 
-### Conventions to the rescue
+It's slow because it's a two-steps process. It's mentally taxing because we must
+summon that infamous multi-layered map. It's error-prone because that map is
+rarely complete or even accurate. It's non-deterministic because the effort it
+takes to access the desired resource *will* vary with the use case and because
+we always start from a different point on the map anyway.
+
+But the worst aspect of that strategy is that we inevitably try to optimize the
+wrong things. My strategy is still fundamentally broken but by God that plugin
+is so *smooth* and *asynchronous* and *blazing fast* that I stopped caring!!
 
 ## Moving with intent II
+
+Like with the smaller motions mentioned earlier, Vim offers many ways to move
+around your project(s) **with intent**. What follows is an overview of those
+methods.
+
+### Files
+
+
+### Buffers
+
+
+### Search
+
+
+### Tags
+
+
+### Includes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> ## Conventions: seeing the forest for the trees
+
+> In focusing too much on the file system we tend to forget that our languages and
+> frameworks and programming patterns *also* enforce **conventions**. Conventions
+> that should be leveraged to make our lives easier.
+
+> Some conventions deal with *naming* files, directories, and symbols.
+
+> Other conventions deal with *relationships* between those things.
+
 
 [//]: # ( Vim: set spell spelllang=en tw=80: )
