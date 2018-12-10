@@ -323,13 +323,13 @@ If a particular script defines long functions that are not actually called that
 often, it can slow down your startup time. This isn’t so much of a problem if
 the functionality is really useful *and* will always be needed promptly in
 every editor session, but for functions that are called less often—particularly
-for `map` and `autocmd` targets that are specific to certain filetypes—it would
-be preferable to arrange for function definitions to be loaded only at the time
-they’re actually needed, to keep Vim startup snappy.
+for [`:map`][ma] and [`:autocmd`][ac] targets that are specific to certain
+filetypes—it would be preferable to arrange for function definitions to be
+loaded only at the time they’re actually needed, to keep Vim startup snappy.
 
 We’ve already seen that putting such code in filetype-specific plugins where
 possible is a great start. We can build further on this with another useful
-application of Vim’s runtime directory structure—the **autoload** structure.
+application of Vim’s runtime directory structure—the [**autoload** system][al].
 This approach loads functions at the time they’re called, just before executing
 them.
 
@@ -423,7 +423,7 @@ dynamic plugin.
 Indeed, this is exactly what `autoload` makes possible. We can put the entirety
 of the script functions excluding the mapping targets into a file
 `~/.vim/autoload/perl/version/bump.vim`, changing nothing except to rename the
-last two functions using a `#`-separated path prefix syntax for autoloading:
+last two functions using the `#`-separated path prefix syntax for autoloading:
 
 ```vim
 " Interface functions
@@ -442,10 +442,10 @@ filesystem slashes `/`, and the last one is replaced with `.vim`. This is how
 the autoloading process finds the function’s definition at the time it needs
 it.
 
-Similar to the previous `:runtime` wrappers we’ve observed, Vim iterates
-through the `autoload` directories of each directory in `'runtimepath'`, in
+Similar to the previous [`:runtime`][rt] wrappers we’ve observed, Vim looks
+through any `autoload` subdirectories of each directory in `'runtimepath'`, in
 order, until a file with a relative path corresponding to the called function’s
-prefix is found. If it finds one, it sources it.
+prefix is found and sourced.
 
 Here are some other examples of autoloaded function names, and where in
 `~/.vim` that Vim looks for them:
@@ -496,8 +496,7 @@ let b:undo_ftplugin .= '|nunmap <buffer> <Plug>(PerlBumpMinor)'
 
 Applying this process rigorously can shave a lot of wasted time from your Vim
 startup process. This was the main design goal for autoloading, as the Vim
-plugin ecosystem—and users’ startup times—grew towards the first release of the
-feature in Vim 7.0.
+plugin ecosystem grew towards the first release of the feature in Vim 7.0.
 
 Carefully examining what needs to load, and when—along with some careful
 experimentation—will make clearer to you what code can have its loading
@@ -531,7 +530,9 @@ small, relatively simple files in just the right places in your home directory.
 There’s some kind of aesthetic appeal in that—maybe even a weird kind of beauty
 that only a Vim enthusiast could love.
 
+[ac]: https://vimhelp.appspot.com/autocmd.txt.html#%3Aautocmd
 [ai]: https://vimhelp.appspot.com/options.txt.html#%27autoindent%27
+[al]: https://vimhelp.appspot.com/eval.txt.html#autoload
 [bn]: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html
 [cm]: https://vimhelp.appspot.com/quickfix.txt.html#%3Acompiler
 [ea]: https://vimways.org/2018/from-vimrc-to-vim/
@@ -543,12 +544,14 @@ that only a Vim enthusiast could love.
 [he]: https://vimhelp.appspot.com/helphelp.txt.html#%3Ahelp
 [hi]: https://vimhelp.appspot.com/indent.txt.html#ft-html-indent
 [ie]: https://vimhelp.appspot.com/options.txt.html#%27indentexpr%27
+[ma]: https://vimhelp.appspot.com/map.txt.html#%3Amap
 [mk]: https://vimhelp.appspot.com/quickfix.txt.html#%3Amake
 [ml]: https://vimhelp.appspot.com/quickfix.txt.html#%3Almake
 [mp]: https://vimhelp.appspot.com/options.txt.html#%27makeprg%27
 [pt]: https://vimhelp.appspot.com/map.txt.html#%3CPlug%3E
 [rc]: https://vimhelp.appspot.com/usr_05.txt.html#vimrc-intro
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
+[rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
 [sc]: https://www.shellcheck.net/
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
 [uf]: https://vimhelp.appspot.com/usr_41.txt.html#undo_ftplugin
