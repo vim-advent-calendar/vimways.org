@@ -440,8 +440,8 @@ dynamic plugin.
 
 Indeed, this is exactly what `autoload` makes possible. We can put the entirety
 of the script functions excluding the mapping targets into a file
-`~/.vim/autoload/perl/version/bump.vim`, changing nothing except to rename the
-last two functions, using the `#`-separated path prefix syntax for autoloading:
+`~/.vim/autoload/perl/version/bump.vim`, changing only the names of the last
+two functions to include the `#`-separated path prefix syntax for autoloading:
 
 ```vim
 " Interface functions
