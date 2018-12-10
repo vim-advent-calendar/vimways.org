@@ -134,7 +134,7 @@ endif
 let b:did_indent = 1
 ```
 
-This cuts the whole script off at the [`:finish`][fi] command if `b:did_indent`
+This cuts the whole script off at the [`:finish`][fn] command if `b:did_indent`
 has been set. This suggests that if we set that variable *before* this script
 loads, we could avoid its mess entirely. We add three lines to a new file in
 `~/.vim/indent/php.vim`, and we’re done:
