@@ -206,7 +206,7 @@ candidates for a new `:compiler` definition:
 * [`bash -n`][bn] will **check** the syntax of a shell script, to establish
   whether it will run at all.
 * [`shellcheck -s bash`][sc] will **lint** it, looking for bad practices in a
-  shell script that might misbehave in unexpected ways. 
+  shell script that might misbehave in unexpected ways.
 
 Ideally, a Bash programmer would want to be able to run *either*, switching
 between them as needed, without losing the benefit of the quickfix or location
@@ -311,8 +311,188 @@ directory, though, this is mostly a detail.
 Automatic for the people
 ------------------------
 
+It may be the case that your script defines long functions that are not
+actually called that often, which can slow down your startup time. This isn’t
+so much of a problem if the functionality is really useful and will always be
+needed promptly, but for functions that are called less often—particularly for
+`map` and `autocmd` targets—it would be preferable to arrange for function
+definitions to be loaded only at the time they’re actually needed, to keep Vim
+startup snappy.
+
+We can accomplish this with another useful application of Vim’s runtime
+directory structure—the **autoload** process. This loads functions at the time
+they’re called, and doubles as a useful way to provide interfaces to scripts
+while keeping (and loading) internally used functions private.
+
+Consider the following script-local variable and functions from a filetype
+plugin for `perl`, which do something *very* specific; all they do is bump
+version numbers in Perl scripts:
+
+    let s:pattern = '\m\C^'
+          \ . '\(our\s\+\$VERSION\s*=\D*\)'
+          \ . '\(\d\+\)\.\(\d\+\)'
+          \ . '\(.*\)'
+
+    " Helper function to format a number without decreasing its digit count
+    function! s:Format(old, new) abort
+      return repeat('0', strlen(a:old) - strlen(a:new)).a:new
+    endfunction
+
+    " Version number bumper
+    function! s:Bump(major) abort
+      let l:view = winsaveview()
+      let l:li = search(s:pattern)
+      if !l:li
+        echomsg 'No version number declaration found'
+        return
+      endif
+      let l:matches = matchlist(getline(l:li), s:pattern)
+      let [l:lvalue, l:major, l:minor, l:rest]
+            \ = matchlist(getline(l:li), s:pattern)[1:4]
+      if a:major
+        let l:major = s:Format(l:major, l:major + 1)
+        let l:minor = s:Format(l:minor, 0)
+      else
+        let l:minor = s:Format(l:minor, l:minor + 1)
+      endif
+      let l:version = l:major.'.'.l:minor
+      call setline(l:li, l:lvalue.l:version.l:rest)
+      if a:major
+        echomsg 'Bumped major $VERSION: '.l:version
+      else
+        echomsg 'Bumped minor $VERSION: '.l:version
+      endif
+      call winrestview(l:view)
+    endfunction
+
+    " Interface functions
+    function! s:BumpMinor() abort
+      call s:Bump(0)
+    endfunction
+    function! s:BumpMajor() abort
+      call s:Bump(1)
+    endfunction
+
+The script includes mapping targets to the last two functions:
+
+    nnoremap <buffer> <Plug>(PerlBumpMinor)
+          \ :<C-U>call <SID>BumpMinor()<CR>
+    nnoremap <buffer> <Plug>(PerlBumpMajor)
+          \ :<C-U>call <SID>BumpMajor()<CR>
+
+These in turn are bound by the user to the mappings they actually want, for
+example `,b` and `,B`:
+
+    nmap <buffer> ,b <Plug>(PerlBumpMinor)
+    nmap <buffer> ,B <Plug>(PerlBumpMajor)
+
+There’s no way you would need to load such specific (and somewhat heavy) code
+on every Vim startup. You probably wouldn’t even want to load it every time you
+edit a Perl file—after all, how likely are you to bump the version number of a
+script every time you look at it?
+
+Ideally, you’d just define the mappings in some special way so that Vim knows
+where to load the rest of it, and does so only when they’re actually called.
+The functions and any variables would then stay defined as normal for the rest
+of the Vim session.
+
+Indeed, this is just what `autoload` allows. We can put the entirety of the
+script functions up to the mappings into a file
+`~/.vim/autoload/perl/version/bump.vim`, and rename the last two functions
+using the `#` syntax for autoloading:
+
+    " Interface functions
+    function! perl#version#bump#BumpMinor() abort
+      call s:Bump(0)
+    endfunction
+    function! perl#version#bump#BumpMajor() abort
+      call s:Bump(1)
+    endfunction
+
+### Autoload identifier prefixes
+
+The prefix `perl#version#bump#` for the new function names specifies the path
+at which the autoloader can find the file containing the functions. All of the
+`#` symbols bar the last one are replaced with filesystem slashes `/`, and the
+last one is replaced with `.vim`. This is how the autoloading process finds the
+function’s definition at the time it needs it.
+
+As with the previous `:runtime` wrappers, we’ve observed, it iterates through
+the `autoload` directories of each directory in `'runtimepath'`, in order,
+until it finds a file with a relative path corresponding to the called
+function’s prefix, and sources that.
+
+Here are some other examples of autoloaded function names and where Vim looks
+for them:
+
+* `foo#Example()` goes in `~/.vim/autoload/foo.vim`
+* `foo#bar#baz#Example()` goes in `~/.vim/autoload/foo/bar/baz.vim`
+* `foo#bar#()` goes in `~/.vim/autoload/foo/bar.vim`
+
+Note that as demonstrated in the last example above, there doesn’t actually
+have to be a function name following the final `#`. You can use this to load
+only one function per file, if you wish.
+
+### Autoloading encapsulation
+
+For our example, you might be wondering why we only have to rename the last two
+functions. The reason is that the script-local variable `s:pattern` and the
+script-local functions `s:Format()` and `s:Bar()` are loaded as part of that
+file, even though they weren’t explicitly autoloaded themselves. They are
+thereby pulled in *indirectly* by the `perl#version#bump#BumpMinor()` and
+`perl#version#bump#BumpMajor()` functions’ autoload processes, and remain
+visible in the same scope. Because they’re only used internally by our mapped
+functions, and don’t need to be callable from outside the script, there’s no
+need to rename them, and we still get the benefit of deferring their loading.
+
+### Reducing a plugin to just two lines
+
+With this done, we can alter the `<Plug>` mappings with the new function names
+as the *only* content in a `perl` filetype plugin, perhaps
+`~/.vim/after/ftplugin/perl/version_bump.vim`, and we’re done; the filetype
+plugin now loads only two commands, and (of course) only when a `perl` buffer
+is loaded.
+
+    nnoremap <buffer> <Plug>(PerlBumpMinor)
+          \ :<C-U>call perl#version#bump#BumpMinor()<CR>
+    nnoremap <buffer> <Plug>(PerlBumpMajor)
+          \ :<C-U>call perl#version#bump#BumpMajor()<CR>
+    let b:undo_ftplugin .= '|nunmap <buffer> <Plug>(PerlBumpMinor)'
+          \ '|nunmap <buffer> <Plug>(PerlBumpMajor)'
+
+Applying this rigorously can shave a lot of wasted time from your Vim startup
+process, which was the main design goal for autoloading as the Vim plugin
+ecosystem grew towards the release of Vim 7.0. Carefully examining what needs
+to load, and when, along with some careful experimentation, will make clearer
+to you what code can be deferred until later.
+
+Autoloading is the second-closest thing you have to a “magic bullet” in
+speeding up Vim. The closest thing, of course, is never to load the code at
+all, especially if you learn that [what you want is already built in to
+Vim][vt]…
+
 Don’t stop me now
 -----------------
+
+Over our two articles on this topic, we’ve gone through a pretty rapid-fire
+survey of the most important parts of good `:runtime` and `'runtimepath'` usage
+for your own personal `~/.vim` directory—and yet, with every example, we’ve
+demonstrated merely a few simple possibilities of what can be done with this
+design.
+
+The “overlaying” runtime directory approach Vim takes to its configuration is
+one of the best things about the editor, striking a great balance between user
+customizability for enthusiasts and “hard core” Vimmers and their particular
+areas of interest, while still working just fine out of the box for everyone
+and everything else. With trading vimrc files being a cultural tradition since
+the 90s, it’s so easy to overlook what’s possible just outside the box.
+
+The author hopes you have a new appreciation for the power that this
+much-overlooked design gives to you—all of it attained not by mastering an
+entire language like Emacs Lisp, but merely by putting a few small, relatively
+simple files in just the right places on your filesystem. There’s some kind of
+aesthetic appeal in that—maybe even a kind of weird beauty that only a Vimmer
+could love.
 
 [ai]: https://vimhelp.appspot.com/options.txt.html#%27autoindent%27
 [bn]: https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html
@@ -331,3 +511,4 @@ Don’t stop me now
 [sc]: https://www.shellcheck.net/
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
 [uf]: https://vimhelp.appspot.com/usr_41.txt.html#undo_ftplugin
+[vt]: https://vimways.org/2018/you-should-be-using-tags-in-vim/
