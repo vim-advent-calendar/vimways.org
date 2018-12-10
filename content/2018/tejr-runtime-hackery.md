@@ -364,7 +364,7 @@ them.
 ### Candidates for autoloading
 
 Consider the following script-local variable `s:pattern`, and functions
-`s:Format()`, `s:Bump`, `s:BumpMinor`, and `s:BumpMajor`, from a filetype
+`s:Format()`, `s:Bump()`, `s:BumpMinor()`, and `s:BumpMajor()`, from a filetype
 plugin, `perl_version_bump.vim`. This plugin does something very specific: it
 finds and increments version numbers in buffers of the `perl` filetype.
 
