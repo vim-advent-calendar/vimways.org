@@ -241,7 +241,7 @@ put it in a filetype plugin in `~/.vim/after/ftplugin`, perhaps named
 `compiler.vim`. This is because there’s no point enabling switching between
 these two programs for any other filetype.
 
-After experimenting with the values for ``makeprg'` and `'errorformat'`, and
+After experimenting with the values for `'makeprg'` and `'errorformat'`, and
 testing them by running `:make` on a few Bash files and inspecting the output
 in the quickfix list with `:copen`, we find the following values work well:
 
