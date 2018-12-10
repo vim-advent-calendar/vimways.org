@@ -19,11 +19,10 @@ Enhanced runtime powers
 -----------------------
 
 In [an earlier article][ea] on beginning the process of breaking up a long
-[vimrc][rc] into a `~/.vim` runtime directory, we hinted at a few more specific
-possibilities for leveraging the runtime directory structure, but did not go
-into any detail:
+[vimrc][rc] into a `~/.vim` runtime directory, we hinted at a few more
+possibilities for leveraging the runtime directory structure:
 
-1. Preventing specific code in the stock runtime directory from running
+1. Disabling specific parts of the stock runtime directory
 2. Writing custom compiler definitions
 3. Automatically loading functions only when they’re called
 
@@ -33,25 +32,24 @@ how you can use the [`'runtimepath'`][ro] structure and logic to your benefit.
 That’s nice, but it’s wrong
 ---------------------------
 
-Sometimes, you just plain don’t like something that the stock runtime files do.
-You don’t want to edit the included runtime files directly, because they’ll
-just get overwritten again the next time you upgrade Vim, and you can’t carry
-them around as part of your personal configuration. You don’t want to maintain
-a hacked-up copy of the full runtime files in your own configuration, either.
-It would be better to work *around* the unwanted lines, if we could.
-Fortunately, `'runtimepath'` lets us do exactly that.
+Sometimes, you just plain don’t like something that the stock runtime files
+bundled with Vim do. You don’t want to edit the included runtime files
+directly, because they’ll just get overwritten again the next time you upgrade
+Vim. You don’t want to maintain a hacked-up copy of the full runtime files in
+your own configuration, either. It would be best to find a way to work *around*
+the unwanted lines. Fortunately, `'runtimepath'` lets us do exactly that.
 
 ### Variable options
 
-Accommodating plugin authors will sometimes provide variable options to allow
-you to tweak commonly-requested things. You should always look for these first;
-you may not even need to read any Vim script to do it, as they are often
-described in [`:help`][he] topics.
+Accommodating plugin authors will sometimes provide **variable options**,
+allowing you to tweak the way the plugin works. You should always look for
+these first; you may not even need to read any Vim script to do what you want,
+as the relevant options are often described in [`:help`][he] topics.
 
 For example, the stock indenting behavior for the `html` filetype does not add
-a level of indent after opening a paragraph block with a `<p>` tag, even though
-it *does* add indentation after an element like `<body>`. Fortunately, there’s
-a [documented option variable][hi] that switches this behavior named
+a level of indentation after opening a paragraph block with a `<p>` tag, even
+though it *does* add indentation after an element like `<body>`. Fortunately,
+there’s a [documented option variable][hi] that modifies this behavior named
 `html_indent_inctags`, which we can define in `~/.vim/indent/html.vim`. This
 will get loaded just *before* `$VIMRUNTIME/indent/html.vim`:
 
@@ -72,45 +70,59 @@ unlet html_indent_inctags
 ### Reversing unwanted configuration
 
 Other times, the behavior annoying you may be just a little thing that’s not
-directly configurable, but it’s still easy enough to *reverse* it. For example,
-if you’re a Perl developer, you might find it annoying that when editing
-buffers with the `perl` filetype, the `#` **comment leader** is automatically
-added when you press "Enter" in insert mode while composing a comment. You
-would rather type (or not type) it yourself, as the `python` filetype does by
-default.
+directly configurable, but it’s still easy enough to *reverse* it.
+
+For example, if you’re a Perl developer, you might find it annoying that when
+editing buffers with the `perl` filetype, the `#` **comment leader** is
+automatically added when you press "Enter" in insert mode while composing a
+comment. You would rather type (or not type) it yourself, as the `python`
+filetype does by default.
 
 You might check the Vim documentation, and find this unwanted behavior is
-caused by the [`r` flag][ft] in the [`'formatoptions'`][fo] option. You then
-check `$VIMRUNTIME/ftplugin/perl.vim`, and sure enough, you find this line:
+caused by the [`r` flag][ft]’s presence in the value of the
+[`'formatoptions'`][fo] option. You didn’t set that in your vimrc, and it only
+happens to buffers with the `perl` filetype, so you check
+`$VIMRUNTIME/ftplugin/perl.vim` to find what’s setting the unwanted flag.
+
+Sure enough, you find this line:
 
 ```vim
 setlocal formatoptions+=crqol
 ```
 
 It doesn’t look like there’s a variable option you can set to *prevent* the
-setting, and so you add in a couple of lines to
-`~/.vim/after/ftplugin/perl.vim` to *correct* it instead:
+setting, so instead you add in a couple of lines to
+`~/.vim/after/ftplugin/perl.vim` to *correct* it after the stock plugin has
+loaded:
 
 ```vim
 setlocal formatoptions-=r
 ```
 
-This does the trick. Note that you don’t need to add a [`b:undo_ftplugin`][uf]
-command here, either; the stock filetype plugin already includes a revert
-command for `'formatoptions'`, so you can fix this annoying problem with just
-one line.
+You reload your `perl` buffer, and examine the value of `'formatoptions'`; sure
+enough, the `r` flag has gone, and the unwanted behavior has stopped.
+
+```vim
+:set formatoptions?
+  formatoptions=jcrqol
+```
+
+Note that you didn’t need to add a [`b:undo_ftplugin`][uf] command in this
+case, because the stock filetype plugin already includes a revert command for
+`'formatoptions'`, so you can fix this problem with just one line.
 
 ### Blocking unwanted configuration
 
-Perhaps a filetype plugin or indent plugin for a given language is just
-irredeemably wrong for you. For example, suppose you’re annoyed with the stock
-indenting behavior for `php`. You just can’t predict where you’ll end up on
-any new line, you can’t configure it to make it work the way you want it to,
-and it’s just too frustrating to deal with it. Rather than carefully undoing
-each of the plugin’s settings, you decide it would be better if all near-1000
-lines of `$VIMRUNTIME/indent/php.vim` just didn’t load at all, so you can go
-back to plain old [`'autoindent'`][ai] until you can find or write something
-better.
+Maybe it’s not just a little thing, though. Perhaps a filetype plugin or indent
+plugin for a given language just does everything completely wrong for you.
+
+For example, suppose you’re annoyed with the stock indenting behavior for
+`php`. You can’t predict where you’ll end up on any new line, you can’t
+configure it to make it work the way you want it to, and it’s too frustrating
+to deal with it. Rather than carefully undoing each of the plugin’s settings,
+you decide it would be better if all near-1000 lines of
+`$VIMRUNTIME/indent/php.vim` just didn’t load at all, so you can go back to
+plain old [`'autoindent'`][ai] until you can find or write something better.
 
 Fortunately, at the very beginning of the disliked file, we find a **load
 guard**:
@@ -122,10 +134,10 @@ endif
 let b:did_indent = 1
 ```
 
-This cuts the whole script off if `b:did_indent` has been set. This suggests
-that if we set that variable *before* this script loads, we could avoid the
-indent mess entirely, and do things our way. We add three lines to a new file
-in `~/.vim/indent/php.vim`, and we’re done:
+This cuts the whole script off at the [`:finish`][fi] command if `b:did_indent`
+has been set. This suggests that if we set that variable *before* this script
+loads, we could avoid its mess entirely. We add three lines to a new file in
+`~/.vim/indent/php.vim`, and we’re done:
 
 ```vim
 let b:did_indent = 1
@@ -133,11 +145,13 @@ setlocal autoindent
 let b:undo_indent = 'setlocal autoindent<'
 ```
 
-The stock `$VIMRUNTIME/indent/php.vim` still loads after this script, but
-execution never gets past the load guard, leaving our single setting of
-`'autoindent'`intact. In doing this, we’ve now replaced the `php` indent plugin
-with our own. Perhaps we’ll refine it a bit more later, or write an
-[`'indentexpr'`][ie] for it that we prefer.
+The stock `$VIMRUNTIME/indent/php.vim` still loads after this script, and will
+still appear in the output of [`:scriptnames`][sn], but execution never gets
+past the load guard, leaving our single setting of `'autoindent'`intact.
+
+In doing the above, we’ve now replaced the `php` indent plugin with our own.
+Perhaps we’ll refine it a bit more later, or write an [`'indentexpr'`][ie] for
+it that we prefer.
 
 ### Advanced example
 
@@ -159,7 +173,7 @@ runtime! ftplugin/html.vim ftplugin/html_*.vim ftplugin/html/*.vim
 That line runs all the filetype plugins it can find for the `html` filetype. We
 can’t coax the stock plugin into disabling the unwanted behavior, but we don’t
 want to completely *disable* the stock plugin for `markdown` or `html` as
-primary buffer filetypes, either.  What to do?
+primary buffer filetypes, either. What to do?
 
 Perhaps there’s a way to disable *just* the filetype plugins for `html`, and
 *only* when the active buffer is actually a `markdown` buffer? Looking at
@@ -169,8 +183,8 @@ Perhaps there’s a way to disable *just* the filetype plugins for `html`, and
 if exists("b:did_ftplugin") | finish | endif
 ```
 
-It looks like if we can arrange things so that `b:did_ftplugin` is set just
-before this script loads, we can meet our goal. Sure enough, putting this in
+It looks like if we can set `b:did_ftplugin` immediately before this script
+loads, we can meet our goal. Sure enough, putting this in
 `~/.vim/ftplugin/html.vim` does the trick:
 
 ```vim
@@ -183,42 +197,46 @@ Checker, linter, candlestick-maker
 ----------------------------------
 
 One of the lesser-used subdirectories in the Vim runtime directory structure is
-`compiler`. This is for files that set [`'makeprg'`][mp] and
-[`'errorformat'`][ef] options, so that the right [`:make`][mk] or
-[`:lmake`][ml] command runs for the current buffer, and any output or errors
-that program returns are correctly interpreted according to the value of
-`'errorformat'` for use in the quickfix and location lists. The files defining
-these two options are sourced using the [`:compiler`][cm] command.
+`compiler`. This is for files that set the [`'makeprg'`][mp] and
+[`'errorformat'`][ef] options so that a useful [`:make`][mk] or [`:lmake`][ml]
+command runs for the current buffer, and any output or errors that the program
+returns are correctly interpreted according to the value of `'errorformat'` for
+use in the [quickfix][qf] or [location][ll] lists. The files defining these two
+options are sourced using the [`:compiler`][cm] command.
 
-Vim includes some `:compiler` definitions in its runtime files, and not just
-for C or C++ compilers; there’s `$VIMRUNTIME/compiler/tidy.vim` for HTML
-checking, and `$VIMRUNTIME/compiler/perl.vim` for Perl syntax checking, to name
-just a couple. Note that there’s no particular need for the program named by
-`'makeprg'` to have anything to do with an actual `make` program, or a compiler
-for a compiled language; it can just as easily be a **syntax checker** to
-identify erroneous constructs, or a **linter**, to point out bad practices that
-aren’t necessarily errors. What the `:compiler` command provides for the user
-is an abstraction for configuring these, and switching between them cleanly.
+Vim includes some `compiler` definitions in its runtime files, and not just for
+C or C++ compilers; there’s `$VIMRUNTIME/compiler/tidy.vim` for HTML checking,
+and `$VIMRUNTIME/compiler/perl.vim` for Perl syntax checking, to name just a
+couple. You can also write your own definitions, and put them in
+`~/.vim/compiler`.
+
+Note that there’s no particular need for the program named by `'makeprg'` to
+have anything to do with an actual `make` program, nor a compiler for a
+compiled language; it can just as easily be a **syntax checker** to identify
+erroneous constructs, or a **linter** to point out bad practices that aren’t
+necessarily errors. What the `:compiler` command provides for the user is an
+abstraction for configuring these, and switching between them cleanly.
 
 ### Switching between compilers
 
 As an example to make the usefulness of this clear, consider how we might like
 to specify `'makeprg'` and `'errorformat'` for editing shell scripts written
-for GNU Bash. Bash can be an awkward and difficult language, and if we have to
-write a lot of it, ideally we’d want a linter as well as a syntax checker to
-let us know if we write anything potentially erroneous.
+for GNU Bash. Bash can be an [awkward and difficult language][pf], and if we
+have to write a lot of it, ideally we’d want a linter as well as a syntax
+checker to let us know if we write anything potentially erroneous.
 
-Here are two different tools for syntax checking and linting Bash, and
-candidates for new `:compiler` definitions:
+Here are two different tools for syntax checking and linting Bash, both with
+potential as `compiler` definitions:
 
 * [`bash -n`][bn] will **check** the syntax of a shell script, to establish
   whether it will run at all.
 * [`shellcheck -s bash`][sc] will **lint** it, looking for bad practices in a
   shell script that might misbehave in unexpected ways.
 
-Ideally, a Bash programmer would want to be able to run *either*, switching
-between them as needed, without losing the benefit of showing the output in the
-quickfix or location list when `:make` or `:lmake` is run.
+Ideally, a Bash programmer would want to be able to run *either* of these
+programs, switching between them as needed, without losing the benefit of
+showing the output in the quickfix or location list when `:make` or `:lmake` is
+run. So, let’s write a script to accommodate that.
 
 First of all, because this logic is specific to the `sh` filetype, we decide to
 put it in a filetype plugin in `~/.vim/after/ftplugin`, perhaps named
@@ -239,7 +257,7 @@ errorformat=%f:%l:%c:\ %m\ [SC%n]
 ```
 
 To switch between the two sets of values, we might set up functions and
-mappings like this, using `,b` for `bash` and `,s` for `shellcheck`:
+mappings like so, using `,b` for `bash` and `,s` for `shellcheck`:
 
 ```vim
 function! s:SwitchCompilerBash() abort
@@ -320,12 +338,13 @@ Automatic for the people
 ------------------------
 
 If a particular script defines long functions that are not actually called that
-often, it can slow down your startup time. This isn’t so much of a problem if
+often, it can make Vim slow to start. This may not be so much of a problem if
 the functionality is really useful *and* will always be needed promptly in
-every editor session, but for functions that are called less often—particularly
-for [`:map`][ma] and [`:autocmd`][ac] targets that are specific to certain
-filetypes—it would be preferable to arrange for function definitions to be
-loaded only at the time they’re actually needed, to keep Vim startup snappy.
+every editor session. For functions that are called less often, it would be
+preferable to arrange for function definitions to be loaded only at the time
+they’re actually needed, to keep Vim startup snappy. This would be particularly
+applicable for [`:map`][ma] and [`:autocmd`][ac] targets that are specific to
+certain filetypes, especially so if they’re not needed very often.
 
 We’ve already seen that putting such code in filetype-specific plugins where
 possible is a great start. We can build further on this with another useful
@@ -335,7 +354,7 @@ them.
 
 ### Candidates for autoloading
 
-Consider the following script-local variable `s:pattern` and functions
+Consider the following script-local variable `s:pattern`, and functions
 `s:Format()`, `s:Bump`, `s:BumpMinor`, and `s:BumpMajor`, from a filetype
 plugin, `perl_version_bump.vim`. This plugin does something very specific: it
 finds and increments version numbers in buffers of the `perl` filetype.
@@ -390,7 +409,8 @@ endfunction
 There’s no way you would need to load such niche code every time Vim starts.
 You probably wouldn’t even want all of it to load it every time you edit a Perl
 file—after all, how likely are you to bump the version number of a script every
-time you look at it?
+time you look at it? We’d like to arrange to load all this only when it’s
+actually needed.
 
 ### Autoloading from mappings to functions
 
@@ -423,7 +443,7 @@ dynamic plugin.
 Indeed, this is exactly what `autoload` makes possible. We can put the entirety
 of the script functions excluding the mapping targets into a file
 `~/.vim/autoload/perl/version/bump.vim`, changing nothing except to rename the
-last two functions using the `#`-separated path prefix syntax for autoloading:
+last two functions, using the `#`-separated path prefix syntax for autoloading:
 
 ```vim
 " Interface functions
@@ -442,11 +462,6 @@ filesystem slashes `/`, and the last one is replaced with `.vim`. This is how
 the autoloading process finds the function’s definition at the time it needs
 it.
 
-Similar to the previous [`:runtime`][rt] wrappers we’ve observed, Vim looks
-through any `autoload` subdirectories of each directory in `'runtimepath'`, in
-order, until a file with a relative path corresponding to the called function’s
-prefix is found and sourced.
-
 Here are some other examples of autoloaded function names, and where in
 `~/.vim` that Vim looks for them:
 
@@ -457,6 +472,11 @@ Here are some other examples of autoloaded function names, and where in
 Per the last example above, note that there doesn’t actually have to be a
 function name following the final `#`. You can use this to load only one
 function per file, if you wish.
+
+Similar to the previous [`:runtime`][rt] wrappers we’ve observed, Vim looks
+through any `autoload` subdirectories of each directory in `'runtimepath'`, in
+order, until a file with a relative path corresponding to the called function’s
+prefix is found and sourced.
 
 ### Autoloading encapsulation
 
@@ -501,9 +521,9 @@ plugin ecosystem grew towards the first release of the feature in Vim 7.0.
 Carefully examining what needs to load, and when—along with some careful
 experimentation—will make clearer to you what code can have its loading
 deferred until later. Autoloading is the second-closest thing you have to a
-“magic bullet” in speeding up Vim. The closest thing, of course, is never to
-load the code at all, especially if you learn that [the feature you wanted is
-already built in][vt]…
+“magic bullet” in [quickening][qk] Vim. The closest thing, of course, is never
+to load the code at all, especially if you learn that [the feature you wanted
+is already built in][vt]…
 
 Don’t stop me now
 -----------------
@@ -539,20 +559,26 @@ that only a Vim enthusiast could love.
 [ed]: http://whattheemacsd.com/
 [ef]: https://vimhelp.appspot.com/options.txt.html#%27errorformat%27
 [ep]: https://www.emacswiki.org/emacs/DotEmacsBankruptcy
+[fn]: https://vimhelp.appspot.com/repeat.txt.html#%3Afinish
 [fo]: https://vimhelp.appspot.com/options.txt.html#%27formatoptions%27
 [ft]: https://vimhelp.appspot.com/change.txt.html#fo-table
 [he]: https://vimhelp.appspot.com/helphelp.txt.html#%3Ahelp
 [hi]: https://vimhelp.appspot.com/indent.txt.html#ft-html-indent
 [ie]: https://vimhelp.appspot.com/options.txt.html#%27indentexpr%27
+[ll]: https://vimhelp.appspot.com/quickfix.txt.html#location-list
 [ma]: https://vimhelp.appspot.com/map.txt.html#%3Amap
 [mk]: https://vimhelp.appspot.com/quickfix.txt.html#%3Amake
 [ml]: https://vimhelp.appspot.com/quickfix.txt.html#%3Almake
 [mp]: https://vimhelp.appspot.com/options.txt.html#%27makeprg%27
+[pf]: https://mywiki.wooledge.org/BashPitfalls
 [pt]: https://vimhelp.appspot.com/map.txt.html#%3CPlug%3E
+[qf]: https://vimhelp.appspot.com/quickfix.txt.html#quickfix
+[qk]: https://sanctum.geek.nz/blinkenlights/quickening.jpg
 [rc]: https://vimhelp.appspot.com/usr_05.txt.html#vimrc-intro
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
 [sc]: https://www.shellcheck.net/
+[sn]: https://vimhelp.appspot.com/repeat.txt.html#%3Ascriptnames
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
 [uf]: https://vimhelp.appspot.com/usr_41.txt.html#undo_ftplugin
 [vt]: https://vimways.org/2018/you-should-be-using-tags-in-vim/
