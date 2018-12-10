@@ -145,7 +145,7 @@ let b:undo_indent = 'setlocal autoindent<'
 
 The stock `$VIMRUNTIME/indent/php.vim` still loads after this script, and will
 still appear in the output of [`:scriptnames`][sn], but execution never gets
-past the load guard, leaving our single setting of `'autoindent'`intact.
+past the load guard, leaving our single setting of `'autoindent'` intact.
 
 In doing the above, we’ve now replaced the `php` indent plugin with our own.
 Perhaps we’ll refine it a bit more later, or write an [`'indentexpr'`][ie] for
