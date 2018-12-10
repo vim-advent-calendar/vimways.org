@@ -423,7 +423,7 @@ nnoremap <buffer> <Plug>(PerlBumpMajor)
       \ :<C-U>call <SID>BumpMajor()<CR>
 ```
 
-These [`<Plug>` targets][pm] need to be mapped to by the user’s configuration
+These [`<Plug>` targets][pt] need to be mapped to by the user’s configuration
 in `~/.vim/after/ftplugin/perl.vim`, with the actual keys they want to use.
 Here, we’ve used `,b` and `,B`:
 
