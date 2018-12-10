@@ -1,7 +1,8 @@
 ---
 title: "Runtime hackery"
-draft: true
+draft: false
 description: "Disabling runtime files, setting compilers, and autoloading."
+publishDate: 2018-12-10
 slug: "runtime-hackery"
 author:
   name: "Tom Ryder"
@@ -23,7 +24,9 @@ In [an earlier article][ea] on beginning the process of breaking up a long
 possibilities for leveraging the runtime directory structure:
 
 1. Disabling specific parts of the stock runtime directory
+
 2. Writing custom compiler definitions
+
 3. Automatically loading functions only when they’re called
 
 In this followup article, we’ll go through each of these, further demonstrating
@@ -228,6 +231,7 @@ potential as `compiler` definitions:
 
 * [`bash -n`][bn] will **check** the syntax of a shell script, to establish
   whether it will run at all.
+
 * [`shellcheck -s bash`][sc] will **lint** it, looking for bad practices in a
   shell script that might misbehave in unexpected ways.
 
@@ -249,6 +253,7 @@ in the quickfix list with `:copen`, we find the following values work well:
 " Bash
 makeprg=bash\ -n\ --\ %:S
 errorformat=%f:\ line\ %l:\ %m
+
 " ShellCheck
 makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
 errorformat=%f:%l:%c:\ %m\ [SC%n]
@@ -262,14 +267,18 @@ function! s:SwitchCompilerBash() abort
   setlocal makeprg=bash\ -n\ --\ %:S
   setlocal errorformat=%f:\ line\ %l:\ %m
 endfunction
+
 function! s:SwitchCompilerShellCheck() abort
   setlocal makeprg=shellcheck\ -s\ bash\ -f\ gcc\ --\ %:S
   setlocal errorformat=%f:%l:%c:\ %m\ [SC%n]
 endfunction
+
 nnoremap <buffer> ,b
       \ :<C-U>call <SID>SwitchCompilerBash()<CR>
+
 nnoremap <buffer> ,s
       \ :<C-U>call <SID>SwitchCompilerShellCheck()<CR>
+
 let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
       \ . '|nunmap <buffer> ,b'
       \ . '|nunmap <buffer> ,s'
@@ -319,8 +328,10 @@ our filetype plugin to the following, foregoing any need for the functions:
 ```vim
 nnoremap <buffer> ,b
       \ :<C-U>compiler bash<CR>
+
 nnoremap <buffer> ,s
       \ :<C-U>compiler shellcheck<CR>
+
 let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
       \ . '|nunmap <buffer> ,b'
       \ . '|nunmap <buffer> ,s'
@@ -353,7 +364,7 @@ them.
 ### Candidates for autoloading
 
 Consider the following script-local variable `s:pattern`, and functions
-`s:Format()`, `s:Bump`, `s:BumpMinor`, and `s:BumpMajor`, from a filetype
+`s:Format()`, `s:Bump()`, `s:BumpMinor()`, and `s:BumpMajor()`, from a filetype
 plugin, `perl_version_bump.vim`. This plugin does something very specific: it
 finds and increments version numbers in buffers of the `perl` filetype.
 
@@ -399,6 +410,7 @@ endfunction
 function! s:BumpMinor() abort
   call s:Bump(0)
 endfunction
+
 function! s:BumpMajor() abort
   call s:Bump(1)
 endfunction
@@ -417,6 +429,7 @@ The version bumping plugin ends with mapping targets to its last two functions:
 ```vim
 nnoremap <buffer> <Plug>(PerlBumpMinor)
       \ :<C-U>call <SID>BumpMinor()<CR>
+
 nnoremap <buffer> <Plug>(PerlBumpMajor)
       \ :<C-U>call <SID>BumpMajor()<CR>
 ```
@@ -448,6 +461,7 @@ two functions to include the `#`-separated path prefix syntax for autoloading:
 function! perl#version#bump#BumpMinor() abort
   call s:Bump(0)
 endfunction
+
 function! perl#version#bump#BumpMajor() abort
   call s:Bump(1)
 endfunction
@@ -464,7 +478,9 @@ Here are some other examples of autoloaded function names, and where in
 `~/.vim` that Vim looks for them:
 
 * `foo#Example()` goes in `~/.vim/autoload/foo.vim`
+
 * `foo#bar#baz#Example()` goes in `~/.vim/autoload/foo/bar/baz.vim`
+
 * `foo#bar#()` goes in `~/.vim/autoload/foo/bar.vim`
 
 Per the last example above, note that there doesn’t actually have to be a
@@ -506,8 +522,10 @@ plugin now only loads two mappings when the buffer’s `'filetype'` is set to
 ```vim
 nnoremap <buffer> <Plug>(PerlBumpMinor)
       \ :<C-U>call perl#version#bump#BumpMinor()<CR>
+
 nnoremap <buffer> <Plug>(PerlBumpMajor)
       \ :<C-U>call perl#version#bump#BumpMajor()<CR>
+
 let b:undo_ftplugin .= '|nunmap <buffer> <Plug>(PerlBumpMinor)'
       \ . '|nunmap <buffer> <Plug>(PerlBumpMajor)'
 ```
