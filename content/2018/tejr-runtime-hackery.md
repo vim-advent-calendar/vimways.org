@@ -241,7 +241,7 @@ showing the output in the quickfix or location list when `:make` or `:lmake` is
 run. So, let’s write a script to accommodate that.
 
 First of all, because this logic is specific to the `sh` filetype, we decide to
-put it in a filetype plugin in `~/.vim/after/ftplugin`, perhaps named
+put it in a filetype plugin in `~/.vim/after/ftplugin/sh`, perhaps named
 `compiler.vim`. This is because there’s no point enabling switching between
 these two programs for any other filetype.
 
