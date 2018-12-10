@@ -7,6 +7,8 @@ slug: "from-vimrc-to-vim"
 author:
   name: "Tom Ryder"
   email: "tom@sanctum.geek.nz"
+  irc: "tejr"
+  homepage: "https://sanctum.geek.nz/"
 ---
 
 > You can’t have everything. Where would you put it?
