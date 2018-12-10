@@ -143,7 +143,7 @@ possibilities:
 inoremap <C-g><C-t> [<C-r>=strftime("%d/%b/%y %H:%M")<cr>]
 ```
 
-That mapping will insert the current date an time between brackets.
+That mapping will insert the current date and time between brackets.
 
 Another example, from command-line mode:
 
