@@ -86,7 +86,7 @@ There's nothing inherently wrong with any of that, of course: we are just using
 a convenient and well understood metaphor.
 
 But there are a number of fundamental limitations with that approach when
-considered from a programmer's point of view:
+considered from a programmer's point of view.
 
 ### There's only one way to get from point A to point B
 
@@ -125,7 +125,7 @@ that must be maintained in real time.
 But what to do with that *other* project? And that one? More maps, more
 juggling.
 
-### Symbols
+### The tree that hides the forest
 
 I intentionally avoided talking about "files" and "directories" in this section
 because the problem—and the maps we maintain to make sense of it—is not
@@ -133,13 +133,17 @@ restricted to files and directories. In fact, the fundamental "things" we deal
 with when programming are not files and directories; **we actually deal with
 the *symbols* that are stored in those files and directories**.
 
-*Those symbols are what makes our program*, not files. Files and directories
-are byproducts of the way we organize our source code, not our primary matter.
-I believe those metaphors and the rigid, hierarchical vision that comes
-with them, are dragging us down and forcing us to look in wrong directions for
-wrong solutions.
+**Those symbols are what makes our program**, not files. Files and directories
+are byproducts of the way we *organize* our source code, not our primary matter.
+I believe those metaphors and the rigid, hierarchical vision that comes with
+them, are dragging us down and forcing us to look in the wrong place for
+solutions to largely imaginary problems.
 
-## Source code as a network
+### See the forest for the trees
+
+The core issue, here is 
+
+### Conventions to the rescue
 
 ## Moving with intent II
 
