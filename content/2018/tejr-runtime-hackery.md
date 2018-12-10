@@ -277,8 +277,8 @@ let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
 
 This works, but there’s quite a lot going on here for something that seems like
 it should be simpler. It would be nice to avoid all the [script-variable][sv]
-function scaffolding in particular, preferably without having to try to work
-the complex definitions for the settings into the mappings directly.
+function scaffolding in particular, preferably without trying to put the
+complex [`:setlocal`][sl] commands into the right hand side of the mappings.
 
 ### Separating compiler definitions out
 
@@ -576,6 +576,7 @@ that only a Vim enthusiast could love.
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
 [sc]: https://www.shellcheck.net/
+[sl]: https://vimhelp.appspot.com/options.txt.html#%3Asetlocal
 [sn]: https://vimhelp.appspot.com/repeat.txt.html#%3Ascriptnames
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
 [uf]: https://vimhelp.appspot.com/usr_41.txt.html#undo_ftplugin
