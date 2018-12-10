@@ -54,7 +54,6 @@ there’s a [documented option variable][hi] that modifies this behavior named
 will get loaded just *before* `$VIMRUNTIME/indent/html.vim`:
 
 ```vim
-" Indent after <p> paragraph tags too
 let html_indent_inctags = 'p'
 ```
 
@@ -63,7 +62,6 @@ variable away again afterwards in `$VIMRUNTIME/after/indent/html.vim`, since
 after the stock file has run, this global variable has done its job:
 
 ```vim
-" Clear away global variable set as indent option
 unlet html_indent_inctags
 ```
 
