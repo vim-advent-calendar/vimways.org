@@ -1,10 +1,9 @@
 ---
-title: "On Mappings - Basics"
-date: 2018-10-14T11:11:59+02:00
-publishDate: 2018-12-07
-draft: true
-description: "The basics of custom mappings"
-slug: "on-mappings-basics"
+title: "For Mappings And A Tutorial"
+description: "First meeting with custom mappings"
+slug: "for-mappings-and-a-tutorial"
+publishDate: 2018-12-08
+draft: false
 author:
   name: "Markzen"
   email: "gh nick at proton mail"
@@ -31,7 +30,7 @@ building blocks of what we could call the "Vim editing programming language".
 For instance, `dw` is like a program statement that deletes chars from cursor to
 the beginning of next word; it's a piece of code every Vim user will understand,
 like an 'if' statement in C or in another programming language. Thus, in Vim the
-media (the key) is definitely the message (the function to execute).
+medium (the key) is definitely the message (the function to execute).
 
 Obviously, since alphanumeric keys are used to write "editing programs", there is
 a need to separate "programming mode" where the user hits `dw` to delete until next word,
@@ -385,7 +384,7 @@ and syntax; hopefully this should get you started if you never wrote mappings
 before, or it might have given you some ideas for your future mappings.
 
 In part two, we will present a few mapping-related tools and tricks to help you
-unleash the madman<C-w> power user in you. 
+unleash the madman`<C-w>` power user in you. 
 
 That's all for now, vimfolks!
 

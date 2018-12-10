@@ -1,7 +1,6 @@
 ---
 title: "Vim and Git"
 publishDate: 2018-12-05
-date: 2018-12-05
 draft: false
 description: Tips for integrating Vim and Git.
 slug: "vim-and-git"

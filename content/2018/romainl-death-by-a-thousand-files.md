@@ -1,6 +1,5 @@
 ---
 title: "Death by a thousand files"
-date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-09
 draft: true
 description: An article on this or that.

@@ -54,7 +54,6 @@ there’s a [documented option variable][hi] that modifies this behavior named
 will get loaded just *before* `$VIMRUNTIME/indent/html.vim`:
 
 ```vim
-" Indent after <p> paragraph tags too
 let html_indent_inctags = 'p'
 ```
 
@@ -63,7 +62,6 @@ variable away again afterwards in `$VIMRUNTIME/after/indent/html.vim`, since
 after the stock file has run, this global variable has done its job:
 
 ```vim
-" Clear away global variable set as indent option
 unlet html_indent_inctags
 ```
 
@@ -147,7 +145,7 @@ let b:undo_indent = 'setlocal autoindent<'
 
 The stock `$VIMRUNTIME/indent/php.vim` still loads after this script, and will
 still appear in the output of [`:scriptnames`][sn], but execution never gets
-past the load guard, leaving our single setting of `'autoindent'`intact.
+past the load guard, leaving our single setting of `'autoindent'` intact.
 
 In doing the above, we’ve now replaced the `php` indent plugin with our own.
 Perhaps we’ll refine it a bit more later, or write an [`'indentexpr'`][ie] for
@@ -243,7 +241,7 @@ put it in a filetype plugin in `~/.vim/after/ftplugin`, perhaps named
 `compiler.vim`. This is because there’s no point enabling switching between
 these two programs for any other filetype.
 
-After experimenting with the values for ``makeprg'` and `'errorformat'`, and
+After experimenting with the values for `'makeprg'` and `'errorformat'`, and
 testing them by running `:make` on a few Bash files and inspecting the output
 in the quickfix list with `:copen`, we find the following values work well:
 
@@ -279,8 +277,8 @@ let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
 
 This works, but there’s quite a lot going on here for something that seems like
 it should be simpler. It would be nice to avoid all the [script-variable][sv]
-function scaffolding in particular, preferably without having to try to work
-the complex definitions for the settings into the mappings directly.
+function scaffolding in particular, preferably without trying to put the
+complex [`:setlocal`][sl] commands into the right hand side of the mappings.
 
 ### Separating compiler definitions out
 
@@ -329,10 +327,10 @@ let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
 ```
 
 Note that the above compiler file examples are greatly simplified from the
-recommended practices in `:help write-compiler-plugin`. For example, you would
-ideally use the `:CompilerSet` command for the options settings. However, for
-the purposes of configuring things in your personal `~/.vim`, this is mostly a
-detail; you may prefer to keep things simple.
+recommended practices in [`:help write-compiler-plugin`][wc]. For example, you
+would ideally use the `:CompilerSet` command for the options settings. However,
+for the purposes of configuring things in your personal `~/.vim`, this is
+mostly a detail; you may prefer to keep things simple.
 
 Automatic for the people
 ------------------------
@@ -442,8 +440,8 @@ dynamic plugin.
 
 Indeed, this is exactly what `autoload` makes possible. We can put the entirety
 of the script functions excluding the mapping targets into a file
-`~/.vim/autoload/perl/version/bump.vim`, changing nothing except to rename the
-last two functions, using the `#`-separated path prefix syntax for autoloading:
+`~/.vim/autoload/perl/version/bump.vim`, changing only the names of the last
+two functions to include the `#`-separated path prefix syntax for autoloading:
 
 ```vim
 " Interface functions
@@ -578,7 +576,9 @@ that only a Vim enthusiast could love.
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
 [sc]: https://www.shellcheck.net/
+[sl]: https://vimhelp.appspot.com/options.txt.html#%3Asetlocal
 [sn]: https://vimhelp.appspot.com/repeat.txt.html#%3Ascriptnames
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
 [uf]: https://vimhelp.appspot.com/usr_41.txt.html#undo_ftplugin
 [vt]: https://vimways.org/2018/you-should-be-using-tags-in-vim/
+[wc]: https://vimhelp.appspot.com/usr_41.txt.html#write-compiler-plugin

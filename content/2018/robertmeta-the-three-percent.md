@@ -1,6 +1,5 @@
 ---
 title: "The 3% You Need To Know"
-date: 2018-10-14T11:11:59+02:00
 publishDate: 2018-12-08
 draft: true
 description: An article on this or that.

@@ -4,8 +4,76 @@
 	width: 60%;
 	padding: 0 1.5rem 0 0;
 	margin: 0 0 3rem 0;
+	article {
+		overflow: unset;
+		overflow-x: visible;
+	}
 	.highlight {
 		font-size: 0.8rem;
+		position: relative;
+		overflow-x: visible;
+		pre {
+			overflow: hidden;
+			box-sizing: border-box;
+			@media only screen and (max-width: 1023px) {
+				overflow: auto;
+			}
+			@media only screen and (min-width: 1024px) {
+				&:after {
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					background-color: white;
+					font-size: 0.4em;
+					line-height: 2;
+					padding: 0 0.5em;
+					border-radius: 1px 1px 3px 1px;
+					border: 1px solid #f0f0f0;
+				}
+			}
+			@media only screen and (width: 1024px) {
+				&:active {
+					min-width: 100%;
+					width: calc(166% + 3rem);
+					&:after {
+						display: none;
+					}
+				}
+				&:after {
+					content: "Touch to expand";
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					background-color: white;
+					font-size: 0.4em;
+					line-height: 2;
+					padding: 0 0.5em;
+					border-radius: 1px 1px 3px 1px;
+					border: 1px solid #f0f0f0;
+				}
+			}
+			@media only screen and (min-width: 1025px) {
+				&:hover {
+					min-width: 100%;
+					width: calc(166% + 3rem);
+					&:after {
+						display: none;
+					}
+				}
+				&:after {
+					content: "Hover to expand";
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					background-color: white;
+					font-size: 0.4em;
+					line-height: 2;
+					padding: 0 0.5em;
+					border-radius: 1px 1px 3px 1px;
+					border: 1px solid #f0f0f0;
+				}
+			}
+		}
 	}
 }
 aside {

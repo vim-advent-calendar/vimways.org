@@ -1,13 +1,14 @@
 ---
 title: "From .vimrc to .vim"
 publishDate: 2018-12-03
-date: 2018-12-03
 draft: false
 description: "Breaking your long vimrc into a personal runtime directory."
 slug: "from-vimrc-to-vim"
 author:
   name: "Tom Ryder"
   email: "tom@sanctum.geek.nz"
+  irc: "tejr"
+  homepage: "https://sanctum.geek.nz/"
 ---
 
 > You can’t have everything. Where would you put it?
