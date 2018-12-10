@@ -329,10 +329,10 @@ let b:undo_ftplugin .= '|setlocal makeprg< errorformat<'
 ```
 
 Note that the above compiler file examples are greatly simplified from the
-recommended practices in `:help write-compiler-plugin`. For example, you would
-ideally use the `:CompilerSet` command for the options settings. However, for
-the purposes of configuring things in your personal `~/.vim`, this is mostly a
-detail; you may prefer to keep things simple.
+recommended practices in [`:help write-compiler-plugin`][wc]. For example, you
+would ideally use the `:CompilerSet` command for the options settings. However,
+for the purposes of configuring things in your personal `~/.vim`, this is
+mostly a detail; you may prefer to keep things simple.
 
 Automatic for the people
 ------------------------
@@ -582,3 +582,4 @@ that only a Vim enthusiast could love.
 [sv]: https://vimhelp.appspot.com/eval.txt.html#script-variable
 [uf]: https://vimhelp.appspot.com/usr_41.txt.html#undo_ftplugin
 [vt]: https://vimways.org/2018/you-should-be-using-tags-in-vim/
+[wc]: https://vimhelp.appspot.com/usr_41.txt.html#write-compiler-plugin
