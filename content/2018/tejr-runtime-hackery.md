@@ -338,64 +338,70 @@ Consider the following script-local variable `s:pattern` and functions
 This plugin does something very specific: it find and increments version
 numbers in buffers of the `perl` filetype.
 
-    let s:pattern = '\m\C^'
-          \ . '\(our\s\+\$VERSION\s*=\D*\)'
-          \ . '\(\d\+\)\.\(\d\+\)'
-          \ . '\(.*\)'
+```vim
+let s:pattern = '\m\C^'
+      \ . '\(our\s\+\$VERSION\s*=\D*\)'
+      \ . '\(\d\+\)\.\(\d\+\)'
+      \ . '\(.*\)'
 
-    " Helper function to format a number without decreasing its digit count
-    function! s:Format(old, new) abort
-      return repeat('0', strlen(a:old) - strlen(a:new)).a:new
-    endfunction
+" Helper function to format a number without decreasing its digit count
+function! s:Format(old, new) abort
+  return repeat('0', strlen(a:old) - strlen(a:new)).a:new
+endfunction
 
-    " Version number bumper
-    function! s:Bump(major) abort
-      let l:view = winsaveview()
-      let l:li = search(s:pattern)
-      if !l:li
-        echomsg 'No version number declaration found'
-        return
-      endif
-      let l:matches = matchlist(getline(l:li), s:pattern)
-      let [l:lvalue, l:major, l:minor, l:rest]
-            \ = matchlist(getline(l:li), s:pattern)[1:4]
-      if a:major
-        let l:major = s:Format(l:major, l:major + 1)
-        let l:minor = s:Format(l:minor, 0)
-      else
-        let l:minor = s:Format(l:minor, l:minor + 1)
-      endif
-      let l:version = l:major.'.'.l:minor
-      call setline(l:li, l:lvalue.l:version.l:rest)
-      if a:major
-        echomsg 'Bumped major $VERSION: '.l:version
-      else
-        echomsg 'Bumped minor $VERSION: '.l:version
-      endif
-      call winrestview(l:view)
-    endfunction
+" Version number bumper
+function! s:Bump(major) abort
+  let l:view = winsaveview()
+  let l:li = search(s:pattern)
+  if !l:li
+    echomsg 'No version number declaration found'
+    return
+  endif
+  let l:matches = matchlist(getline(l:li), s:pattern)
+  let [l:lvalue, l:major, l:minor, l:rest]
+        \ = matchlist(getline(l:li), s:pattern)[1:4]
+  if a:major
+    let l:major = s:Format(l:major, l:major + 1)
+    let l:minor = s:Format(l:minor, 0)
+  else
+    let l:minor = s:Format(l:minor, l:minor + 1)
+  endif
+  let l:version = l:major.'.'.l:minor
+  call setline(l:li, l:lvalue.l:version.l:rest)
+  if a:major
+    echomsg 'Bumped major $VERSION: '.l:version
+  else
+    echomsg 'Bumped minor $VERSION: '.l:version
+  endif
+  call winrestview(l:view)
+endfunction
 
-    " Interface functions
-    function! s:BumpMinor() abort
-      call s:Bump(0)
-    endfunction
-    function! s:BumpMajor() abort
-      call s:Bump(1)
-    endfunction
+" Interface functions
+function! s:BumpMinor() abort
+  call s:Bump(0)
+endfunction
+function! s:BumpMajor() abort
+  call s:Bump(1)
+endfunction
+```
 
 The script ends with mapping targets to its last two functions:
 
-    nnoremap <buffer> <Plug>(PerlBumpMinor)
-          \ :<C-U>call <SID>BumpMinor()<CR>
-    nnoremap <buffer> <Plug>(PerlBumpMajor)
-          \ :<C-U>call <SID>BumpMajor()<CR>
+```vim
+nnoremap <buffer> <Plug>(PerlBumpMinor)
+      \ :<C-U>call <SID>BumpMinor()<CR>
+nnoremap <buffer> <Plug>(PerlBumpMajor)
+      \ :<C-U>call <SID>BumpMajor()<CR>
+```
 
 These [`<Plug>` targets][pm] need to be mapped to by the user’s configuration
 in `~/.vim/after/ftplugin/perl.vim`, with the keys they actually want; here,
 we’ve used `,b` and `,B`:
 
-    nmap <buffer> ,b <Plug>(PerlBumpMinor)
-    nmap <buffer> ,B <Plug>(PerlBumpMajor)
+```vim
+nmap <buffer> ,b <Plug>(PerlBumpMinor)
+nmap <buffer> ,B <Plug>(PerlBumpMajor)
+```
 
 There’s no way you would need to load such niche code every time Vim starts.
 You probably wouldn’t even want all of it to load it every time you edit a Perl
@@ -412,13 +418,15 @@ of the script functions up to the mappings into a file
 `~/.vim/autoload/perl/version/bump.vim`, and rename the last two functions
 using the `#` syntax for autoloading:
 
-    " Interface functions
-    function! perl#version#bump#BumpMinor() abort
-      call s:Bump(0)
-    endfunction
-    function! perl#version#bump#BumpMajor() abort
-      call s:Bump(1)
-    endfunction
+```vim
+" Interface functions
+function! perl#version#bump#BumpMinor() abort
+  call s:Bump(0)
+endfunction
+function! perl#version#bump#BumpMajor() abort
+  call s:Bump(1)
+endfunction
+```
 
 ### Autoload identifier prefixes
 
@@ -472,12 +480,14 @@ the new function names. This filetype plugin now loads only two commands when
 the buffer’s `'filetype'` is set to `perl`. Here is the `ftplugin` file in its
 entirety:
 
-    nnoremap <buffer> <Plug>(PerlBumpMinor)
-          \ :<C-U>call perl#version#bump#BumpMinor()<CR>
-    nnoremap <buffer> <Plug>(PerlBumpMajor)
-          \ :<C-U>call perl#version#bump#BumpMajor()<CR>
-    let b:undo_ftplugin .= '|nunmap <buffer> <Plug>(PerlBumpMinor)'
-          \ '|nunmap <buffer> <Plug>(PerlBumpMajor)'
+```vim
+nnoremap <buffer> <Plug>(PerlBumpMinor)
+      \ :<C-U>call perl#version#bump#BumpMinor()<CR>
+nnoremap <buffer> <Plug>(PerlBumpMajor)
+      \ :<C-U>call perl#version#bump#BumpMajor()<CR>
+let b:undo_ftplugin .= '|nunmap <buffer> <Plug>(PerlBumpMinor)'
+      \ '|nunmap <buffer> <Plug>(PerlBumpMajor)'
+```
 
 Applying this process rigorously can shave a lot of wasted time from your Vim
 startup process. This was the main design goal for autoloading, as the Vim
