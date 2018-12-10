@@ -573,7 +573,7 @@ that only a Vim enthusiast could love.
 [pf]: https://mywiki.wooledge.org/BashPitfalls
 [pt]: https://vimhelp.appspot.com/map.txt.html#%3CPlug%3E
 [qf]: https://vimhelp.appspot.com/quickfix.txt.html#quickfix
-[qk]: https://sanctum.geek.nz/images/quickening.jpg
+[qk]: ../tejr-runtime-hackery/vim-quickening.jpg
 [rc]: https://vimhelp.appspot.com/usr_05.txt.html#vimrc-intro
 [ro]: https://vimhelp.appspot.com/options.txt.html#%27runtimepath%27
 [rt]: https://vimhelp.appspot.com/repeat.txt.html#%3Aruntime
