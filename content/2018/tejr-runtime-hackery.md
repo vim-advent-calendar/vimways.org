@@ -469,7 +469,8 @@ that they use as the plugin’s **implementation**.
 
 With the above restructuring done, we can adjust the `<Plug>` mappings to use
 the new function names. This filetype plugin now loads only two commands when
-the buffer’s `'filetype'` is set to `perl`; here it is in its entirety:
+the buffer’s `'filetype'` is set to `perl`. Here is the `ftplugin` file in its
+entirety:
 
     nnoremap <buffer> <Plug>(PerlBumpMinor)
           \ :<C-U>call perl#version#bump#BumpMinor()<CR>
