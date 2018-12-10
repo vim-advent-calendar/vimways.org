@@ -29,6 +29,8 @@ header {
 			transform: rotate(-12deg);
 			transform-origin: top left;
 			text-indent: -9000px;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-webkit-tap-highlight-color: transparent;
 		}
 	}
 	ul {
