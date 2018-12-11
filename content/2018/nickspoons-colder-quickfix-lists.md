@@ -331,13 +331,13 @@ its arguments without a trailing newline, which makes it handy for building up
 our rainbow:
 
 ```vim
-  let nr = s:getProperty('nr')
-  let last = s:getProperty('nr', '$')
+  let l:nr = s:getProperty('nr')
+  let l:last = s:getProperty('nr', '$')
   echohl MoreMsg | echon '('
-  echohl Identifier | echon nr
-  if last > 1
+  echohl Identifier | echon l:nr
+  if l:last > 1
     echohl LineNr | echon ' of '
-    echohl Identifier | echon last
+    echohl Identifier | echon l:last
   endif
   echohl MoreMsg | echon ') '
   echohl MoreMsg | echon '['
