@@ -89,6 +89,10 @@ the quickfix/location list stack.
 
 ## Time to customise
 
+> A little bit of vimscript never hurt anybody. If you know what I mean.
+>
+> – nickspoons
+
 Using commands to move back and forth through the quickfix lists is not a
 particularly nice experience. If we're going to use thesse commands often, we
 can benefit from some mappings. `:colder` and `:cnewer` can be used from
@@ -331,13 +335,13 @@ its arguments without a trailing newline, which makes it handy for building up
 our rainbow:
 
 ```vim
-  let nr = s:getProperty('nr')
-  let last = s:getProperty('nr', '$')
+  let l:nr = s:getProperty('nr')
+  let l:last = s:getProperty('nr', '$')
   echohl MoreMsg | echon '('
-  echohl Identifier | echon nr
-  if last > 1
+  echohl Identifier | echon l:nr
+  if l:last > 1
     echohl LineNr | echon ' of '
-    echohl Identifier | echon last
+    echohl Identifier | echon l:last
   endif
   echohl MoreMsg | echon ') '
   echohl MoreMsg | echon '['
@@ -382,7 +386,7 @@ nnoremap <silent> <buffer> <Right> :call quickfixed#newer()<CR>
 
 ### What have we done??
 
-And here's how it all looks when you put it together:
+Here are the final scripts when we put them together:
 
 ```vim
 " ~/.vim/autoload/quickfixed.vim
@@ -412,7 +416,6 @@ endfunction
 function! s:isLast()
   return s:getProperty('nr') == s:getProperty('nr', '$')
 endfunction
-
 
 function! s:history(goNewer)
   " Build the command: one of colder/cnewer/lolder/lnewer
