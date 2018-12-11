@@ -254,7 +254,7 @@ functionality into a script-local (`s:`) function:
 function! s:isLocation()
   " Get dictionary of properties of the current window
   let wininfo = filter(getwininfo(), {i,v -> v.winnr == winnr()})[0]
-  let isloc = wininfo.loclist
+  return wininfo.loclist
 endfunction
 ```
 
@@ -348,6 +348,39 @@ our rainbow:
   echohl None
 ```
 
+#### Tidying up
+
+As a final step, let's refactor one last time - we'll add autoload functions
+`quickfixed#older()` and `quickfixed#newer()` and rename `quickfixed#history()`
+to `s:history()`, allowing us to remove the `1` and `0` arguments from our
+mappings. This tidies up the autoload "interface" as described by Tom in [his
+article][ra], and hides implementation details like the `goNewer` parameter.
+
+We can also use the [`<silent>`][rb] map argument to suppress the `:call
+quickfixed#older()` message which flashes up before our rainbow output gets
+echoed.
+
+```vim
+" ~/.vim/autoload/quickfixed.vim
+function! s:history(goNewer)
+  ...
+endfunction
+
+function! quickfixed#older()
+  call s:history(0)
+endfunction
+
+function! quickfixed#newer()
+  call s:history(1)
+endfunction
+```
+
+```vim
+" ~/.vim/after/ftplugin/qf.vim
+nnoremap <silent> <buffer> <Left> :call quickfixed#older()<CR>
+nnoremap <silent> <buffer> <Right> :call quickfixed#newer()<CR>
+```
+
 ### What have we done??
 
 And here's how it all looks when you put it together:
@@ -357,7 +390,7 @@ And here's how it all looks when you put it together:
 function! s:isLocation()
   " Get dictionary of properties of the current window
   let wininfo = filter(getwininfo(), {i,v -> v.winnr == winnr()})[0]
-  let isloc = wininfo.loclist
+  return wininfo.loclist
 endfunction
 
 function! s:length()
@@ -382,9 +415,9 @@ function! s:isLast()
 endfunction
 
 
-function! quickfixed#history(goNewer)
+function! s:history(goNewer)
   " Build the command: one of colder/cnewer/lolder/lnewer
-  let cmd = (s:isLocation() ? 'l' : 'c') . (a:goNewer ? 'newer' : 'older')
+  let l:cmd = (s:isLocation() ? 'l' : 'c') . (a:goNewer ? 'newer' : 'older')
 
   " Apply the cmd repeatedly until we hit a non-empty list, or first/last list
   " is reached
@@ -392,7 +425,7 @@ function! quickfixed#history(goNewer)
     if (a:goNewer && s:isLast()) || (!a:goNewer && s:isFirst()) | break | endif
     " Run the command. Use :silent to suppress message-history output.
     " Note that the :try wrapper is no longer necessary
-    silent execute cmd
+    silent execute l:cmd
     if s:length() | break | endif
   endwhile
 
@@ -401,13 +434,13 @@ function! quickfixed#history(goNewer)
 
   " Echo a description of the new quickfix / location list.
   " And make it look like a rainbow.
-  let nr = s:getProperty('nr')
-  let last = s:getProperty('nr', '$')
+  let l:nr = s:getProperty('nr')
+  let l:last = s:getProperty('nr', '$')
   echohl MoreMsg | echon '('
-  echohl Identifier | echon nr
-  if last > 1
+  echohl Identifier | echon l:nr
+  if l:last > 1
     echohl LineNr | echon ' of '
-    echohl Identifier | echon last
+    echohl Identifier | echon l:last
   endif
   echohl MoreMsg | echon ') '
   echohl MoreMsg | echon '['
@@ -416,13 +449,21 @@ function! quickfixed#history(goNewer)
   echohl Normal | echon s:getProperty('title')
   echohl None
 endfunction
+
+function! quickfixed#older()
+  call s:history(0)
+endfunction
+
+function! quickfixed#newer()
+  call s:history(1)
+endfunction
 ```
 
 ```vim
 " ~/.vim/after/ftplugin/qf.vim
-" Use <silent> so ":call quickfixed#history(0)" isn't output to the command line
-nnoremap <silent> <buffer> <Left> :call quickfixed#history(0)<CR>
-nnoremap <silent> <buffer> <Right> :call quickfixed#history(1)<CR>
+" Use <silent> so ":call quickfixed#older()" isn't output to the command line
+nnoremap <silent> <buffer> <Left> :call quickfixed#older()<CR>
+nnoremap <silent> <buffer> <Right> :call quickfixed#newer()<CR>
 ```
 
 And after all that, this is how it looks (with Vim's default colorscheme):
@@ -454,5 +495,7 @@ polishing away the rough edges.
 [pb]: http://vimhelp.appspot.com/eval.txt.html#getloclist%28%29
 [qa]: http://vimhelp.appspot.com/eval.txt.html#%3Aechohl
 [qb]: http://vimhelp.appspot.com/eval.txt.html#%3Aechon
+[ra]: https://vimways.org/2018/runtime-hackery/#autoloading-encapsulation
+[rb]: http://vimhelp.appspot.com/map.txt.html#%3Amap-%3Csilent%3E
 [zx]: http://vimhelp.appspot.com/eval.txt.html#lambda
 [zz]: http://vimhelp.appspot.com/eval.txt.html#getwininfo%28%29
