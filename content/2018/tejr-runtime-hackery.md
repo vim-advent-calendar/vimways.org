@@ -61,8 +61,8 @@ let html_indent_inctags = 'p'
 ```
 
 This changes the behavior in the way we need. To be tidy, we should clear the
-variable away again afterwards in `$VIMRUNTIME/after/indent/html.vim`, since
-after the stock file has run, this global variable has done its job:
+variable away again afterwards in `~/.vim/after/indent/html.vim`, since after
+the stock file has run, this global variable has done its job:
 
 ```vim
 unlet html_indent_inctags
