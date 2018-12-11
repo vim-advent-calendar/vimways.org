@@ -89,6 +89,10 @@ the quickfix/location list stack.
 
 ## Time to customise
 
+> A little bit of vimscript never hurt anybody. If you know what I mean.
+>
+> – nickspoons
+
 Using commands to move back and forth through the quickfix lists is not a
 particularly nice experience. If we're going to use thesse commands often, we
 can benefit from some mappings. `:colder` and `:cnewer` can be used from
