@@ -94,6 +94,15 @@ And then further config under `~/.vim/after/plugin/` that will only run if
 Deoplete is loaded. See, it _is_ useful to understand Vim's startup order!
 
 
+### VCS
+
+If you don't already, please consider storing your config in a version control
+system! At the very least this will give you timestamped checkpoints and help
+narrow down the source of a recently introduced bug. Future you will be forever
+thankful.
+
+
+
 ## Why is Vim's startup slow?
 
 OK, we've seen that Vim could end up sourcing many files on startup, especially
