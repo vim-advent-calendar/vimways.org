@@ -382,7 +382,7 @@ nnoremap <silent> <buffer> <Right> :call quickfixed#newer()<CR>
 
 ### What have we done??
 
-And here's how it all looks when you put it together:
+Here are the final scripts when we put them together:
 
 ```vim
 " ~/.vim/autoload/quickfixed.vim
@@ -412,7 +412,6 @@ endfunction
 function! s:isLast()
   return s:getProperty('nr') == s:getProperty('nr', '$')
 endfunction
-
 
 function! s:history(goNewer)
   " Build the command: one of colder/cnewer/lolder/lnewer
