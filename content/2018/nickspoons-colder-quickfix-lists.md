@@ -35,10 +35,10 @@ tool, [`:vimgrep`][aa].
 :vimgrep /^set/j $MYVIMRC
 ```
 
-This command searches for string `set` occurring at the start of lines in file
-`~./vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently points at.
-The `j` flag at the end of the search string indicates that Vim should not jump
-to the first match.
+This command searches for the string `set` occurring at the start of lines in
+the file `~./vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently
+points at.  The `j` flag at the end of the search string indicates that Vim
+should not jump to the first match.
 
 In a clean Vim environment, the above doesn't appear to actually do anything. We
 can verify that it _has_ by navigating to the first match with `:cfirst`
@@ -46,12 +46,12 @@ can verify that it _has_ by navigating to the first match with `:cfirst`
 other matches with `:cnext`, `:cprevious` and `:clast`.
 
 But to get a real overview of your quickfix list, you can't beat opening the
-quickfix window with `:copen`. This is a vim buffer where each line represents a
-quickfix entry, and you can navigate to one by simply moving the cursor over the
-associated line and hitting `<CR>` (Enter/Return). The other command to open the
-quickfix window is `:cwindow`, which only opens the quickfix window if the
-quickfix list contains any records. Use `:cclose` to close the quickfix window,
-or just `:q` it when the quickfix window is focused.
+quickfix window with `:copen`. This is a vim buffer where each line represents
+a quickfix entry, and you can navigate to one by simply moving the cursor over
+the associated line and hitting `<CR>` (Enter/Return). The other command to
+open the quickfix window is `:cwindow`, which only opens the quickfix window if
+the quickfix list contains any _valid_ record. Use `:cclose` to close the
+quickfix window, or just `:q` it when the quickfix window is focused.
 
 Note the common `c` prefix of all of the preceding commands relating to the
 quickfix list and window.
@@ -59,8 +59,8 @@ quickfix list and window.
 ### What is your location?
 
 In addition to the single quickfix list that vim maintains, each window also has
-a "location list". This is essentially exactly the same as the quickfix list,
-except that there are many of them - potentially as many as the number of
+a "location list". This is essentially the same as the quickfix list,
+except that there can be many of them—potentially as many as the number of
 windows that you have split and tabbed your vim into. These can be populated in the
 same way as the quickfix list, but with `l` prefixed commands. So the `:vimgrep`
 command above becomes `:lvimgrep` when you want the results to go to the
@@ -72,7 +72,7 @@ window's location list:
 
 Navigate with `:lfirst`, `:lnext`, `:lprevious`, `:llast`, and open and close
 the location list window for the current window with `:lopen`/`:lwindow` and
-`:lclose` - all the `l` equivalent of their `c` quickfix counterparts.
+`:lclose`—all the `l` equivalent of their `c` quickfix counterparts.
 
 ### I may be an oldie, but I'm a goodie too
 
@@ -151,7 +151,7 @@ E127: Cannot redefine function QFHistory: It is in use
 
 Oops. What does this mean? Well, the error message is actually explaining what's
 happening here pretty well - when we use `:colder` etc., the quickfix/location
-window is being recreated with the new list - which means that the ftplugin
+window is being recreated with the new list—which means that the ftplugin
 script we're currently executing is getting sourced. Because the script creates
 a function, the function is now being re-read and re-defined. This was not our
 intention but highlights why defining functions in an ftplugin script may not be
@@ -214,7 +214,7 @@ list is opened. This is _not_ the case for the autoload script we have just
 created. It will only ever be sourced once by Vim, unless we tell it otherwise.
 So to see changes to this script in the current session, source it manually with
 `:source ~/.vim/autoload/quickfixed.vim`, or the shorter form `:so %` from the
-quickfixed.vim buffer.
+`quickfixed.vim` buffer.
 
 The `:try` wrapper got rid of the errors nicely, and we see an informative
 description of each list echoed to the command line:
@@ -291,7 +291,7 @@ endfunction
 
 With these in place, we can now update the main function to check the size of
 the list, and jump past it if it's empty. We are now checking the quickfix
-position in a loop, which means that won't hit that `E380` error from earlier
+position in a loop, which means that we won't hit that `E380` error from earlier
 and can drop the `:try`. We're also going to use `:silent` to suppress the
 message-history output:
 
@@ -311,7 +311,7 @@ endfunction
 ```
 
 Setting the the height quickfix/location window can now be done using the
-s:length() helper function and some min/max magic:
+`s:length()` helper function and some min/max magic:
 
 ```vim
   execute 'resize' min([ 10, max([ 1, s:length() ]) ])
@@ -327,7 +327,7 @@ let's give it some colour!
 
 We'll make use of [`:echohl`][qa] and [`:echon`][qb] for this next section.
 `:echohl` sets a highlight group to use for the subsequent output. We'll pick
-some standard ones - see a full list by running `:highlight`. `:echon` echoes
+some standard ones—see a full list by running `:highlight`. `:echon` echoes
 its arguments without a trailing newline, which makes it handy for building up
 our rainbow:
 
@@ -478,7 +478,7 @@ Please note the the scripts here require reasonably recent versions of Vim;
 
 Building up your vim configuration in this way, step by step, is a great way to
 expand your knowledge of vimscript and the editor. You don't need to set out to
-write a fully-fledged plugin - start with the mappings you need, and then begin
+write a fully-fledged plugin—start with the mappings you need, and then begin
 polishing away the rough edges.
 
 > There is one more thing... It's been emotional.
