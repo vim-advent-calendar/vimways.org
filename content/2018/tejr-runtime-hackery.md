@@ -566,6 +566,8 @@ small, relatively simple files in just the right places in your home directory.
 There’s some kind of aesthetic appeal in that—maybe even a weird kind of beauty
 that only a Vim enthusiast could love.
 
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+
 [ac]: https://vimhelp.appspot.com/autocmd.txt.html#%3Aautocmd
 [ai]: https://vimhelp.appspot.com/options.txt.html#%27autoindent%27
 [al]: https://vimhelp.appspot.com/eval.txt.html#autoload
