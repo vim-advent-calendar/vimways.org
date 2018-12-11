@@ -1,8 +1,7 @@
 ---
 title: "Colder quickfix lists"
-publishDate: 2018-12-26
-date: 2018-12-26
-draft: true
+publishDate: 2018-12-11
+draft: false
 description: "A little bit of vimscript never hurt anybody. If you know what I mean."
 slug: "colder-quickfix-lists"
 author:
@@ -35,8 +34,8 @@ tool, [`:vimgrep`][aa].
 :vimgrep /^set/j $MYVIMRC
 ```
 
-This command searches for the string `set` occurring at the start of lines in
-the file `~./vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently
+This command searches for string `set` occurring at the start of lines in
+file `~./vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently
 points at.  The `j` flag at the end of the search string indicates that Vim
 should not jump to the first match.
 
