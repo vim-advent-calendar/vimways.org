@@ -1,9 +1,9 @@
 ---
-title: "Debugging Vim Config"
-publishDate: 2018-12-30
+title: "Debugging your Vim Config"
+publishDate: 2018-12-12
 draft: true
-description: Something's broken, why???
-slug: "debugging-vim-config"
+description: "Something's broken, why???"
+slug: "debugging-your-vim-config"
 author:
   name: "Samuel Walladge"
   email: "samuel@swalladge.id.au"
@@ -61,7 +61,7 @@ Put code specific to a certain plugin in separate files with an include guard.
 For example I store the following config for [fzf.vim][fzf-vim] in
 `~/.vim/after/plugin/config/fzf.vim`.
 
-```vimscript
+```vim
 " include guard; quit if fzf isn't loaded
 if ! exists(':FZF')
     finish
@@ -86,7 +86,7 @@ Finally, some plugins might require some global options set _before_ they are
 loaded for them to take effect. For example, for Deoplete, I have a script
 under `~/.vim/plugin/` that contains:
 
-```
+```vim
 let g:deoplete#enable_at_startup = 1
 ```
 
@@ -112,7 +112,7 @@ time to startup, and it can be useful to discover the culprit.
 Start Vim with the `--startuptime <fname>` argument to profile the startup
 process. This will produce a file containing lines such as:
 
-```
+```txt
 069.228  004.840  004.646: sourcing /home/samuel/.vim/pack/bundle/opt/vimwiki/ftplugin/vimwiki.vim
 070.164  000.018  000.018: sourcing /usr/share/nvim/runtime/autoload/provider.vim
 317.745  247.930  247.912: sourcing /home/samuel/.vim/pack/bundle/opt/taskwiki/ftplugin/vimwiki/taskwiki.vim
@@ -143,15 +143,15 @@ common issue is that a particular option may be unexpectedly set by a plugin
 and you want to find out which plugin and why. (Eg. _Who turned off
 `expandtab`?_) Here, you can use `:verbose` and the `?` modifier to `:set`:
 
-```
+```vim
 :verbose set shiftwidth?
 ```
 
 This will display something like:
 
-```
-shiftwidth=2
-      Last set from ~/.vim/pack/bundle/start/vim-sleuth/plugin/sleuth.vim
+```vim
+  shiftwidth=2
+        Last set from ~/.vim/pack/bundle/start/vim-sleuth/plugin/sleuth.vim
 ```
 
 This tells me that `shiftwidth` was set to `2` by the [sleuth][sleuth] plugin.
@@ -165,37 +165,37 @@ Similarly many other things can be listed and traced to their source:
 
 Example command and output:
 
-```
+```vim
 :verbose map <c-a>
-x  <C-A>         <Plug>SpeedDatingUp
-        Last set from ~/.vim/pack/bundle/opt/vim-speeddating/plugin/speeddating.vim
-n  <C-A>         <Plug>SpeedDatingUp
-        Last set from ~/.vim/pack/bundle/opt/vim-speeddating/plugin/speeddating.vim
+  x  <C-A>         <Plug>SpeedDatingUp
+          Last set from ~/.vim/pack/bundle/opt/vim-speeddating/plugin/speeddating.vim
+  n  <C-A>         <Plug>SpeedDatingUp
+          Last set from ~/.vim/pack/bundle/opt/vim-speeddating/plugin/speeddating.vim
 ```
 
 Also note that `:map` lists all mappings that _begin with_ the key sequence
 given. This is helpful for things like listing all insert mode mappings that
 begin with the leader key:
 
-```
+```vim
 :verbose imap <leader>
 ```
 
 
 ### Abbreviations
 
-```
+```vim
 :verbose ab teh
-i  teh           the
-        Last set from ~/.vim/autoload/functions.vim
+  i  teh           the
+          Last set from ~/.vim/autoload/functions.vim
 ```
 
 ### Highlight groups
 
-```
+```vim
 :verbose highlight Visual
-Visual         xxx cterm=reverse ctermfg=10 ctermbg=8 gui=reverse guifg=#586e75 guibg=#002b36
-        Last set from ~/.vim/pack/bundle/opt/flattened/colors/flattened_dark.vim
+  Visual         xxx cterm=reverse ctermfg=10 ctermbg=8 gui=reverse guifg=#586e75 guibg=#002b36
+          Last set from ~/.vim/pack/bundle/opt/flattened/colors/flattened_dark.vim
 ```
 
 #### scriptease.vim
@@ -215,22 +215,22 @@ group if you don't know what highlight group you want!
 
 ### Commands
 
-```
+```vim
 :verbose command Sedit
-    Name        Args       Address   Complete  Definition
-    Sedit       *                                  call local#scratch#edit('edit', <q-args>)
-        Last set from ~/.vim/init.vim
+      Name        Args       Address   Complete  Definition
+      Sedit       *                                  call local#scratch#edit('edit', <q-args>)
+          Last set from ~/.vim/init.vim
 ```
 
 
 ### Functions
 
-```
+```vim
 :verbose function local#scratch#edit
-   function local#scratch#edit(cmd, options)
-        Last set from ~/.vim/autoload/local/scratch.vim
-1    " use a system provided temporary file
-<snip> (the whole function body is listed)
+     function local#scratch#edit(cmd, options)
+          Last set from ~/.vim/autoload/local/scratch.vim
+  1    " use a system provided temporary file
+  <snip> (the whole function body is listed)
 ```
 
 ## It's more complicated than a single option/mapping/something
@@ -256,7 +256,7 @@ use GVim.
 
 An example minimal config for testing a particular plugin might look like:
 
-```vimscript
+```vim
 " my-vimrc
 
 " any required settings
