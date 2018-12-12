@@ -1,7 +1,7 @@
 ---
 title: "Debugging your Vim Config"
 publishDate: 2018-12-12
-draft: true
+draft: false
 description: "Something's broken, why???"
 slug: "debugging-your-vim-config"
 author:
