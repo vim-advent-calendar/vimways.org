@@ -35,7 +35,7 @@ tool, [`:vimgrep`][aa].
 ```
 
 This command searches for string `set` occurring at the start of lines in
-file `~./vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently
+file `~/.vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently
 points at.  The `j` flag at the end of the search string indicates that Vim
 should not jump to the first match.
 
