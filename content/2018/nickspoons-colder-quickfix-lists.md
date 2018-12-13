@@ -35,7 +35,7 @@ tool, [`:vimgrep`][aa].
 ```
 
 This command searches for string `set` occurring at the start of lines in
-file `~./vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently
+file `~/.vimrc` or `~/.vim/vimrc` or whatever [`$MYVIMRC`][ab] currently
 points at.  The `j` flag at the end of the search string indicates that Vim
 should not jump to the first match.
 
@@ -45,7 +45,7 @@ can verify that it _has_ by navigating to the first match with `:cfirst`
 other matches with `:cnext`, `:cprevious` and `:clast`.
 
 But to get a real overview of your quickfix list, you can't beat opening the
-quickfix window with `:copen`. This is a vim buffer where each line represents
+quickfix window with `:copen`. This is a Vim buffer where each line represents
 a quickfix entry, and you can navigate to one by simply moving the cursor over
 the associated line and hitting `<CR>` (Enter/Return). The other command to
 open the quickfix window is `:cwindow`, which only opens the quickfix window if
@@ -57,10 +57,10 @@ quickfix list and window.
 
 ### What is your location?
 
-In addition to the single quickfix list that vim maintains, each window also has
+In addition to the single quickfix list that Vim maintains, each window also has
 a "location list". This is essentially the same as the quickfix list,
 except that there can be many of them—potentially as many as the number of
-windows that you have split and tabbed your vim into. These can be populated in the
+windows that you have split and tabbed your Vim into. These can be populated in the
 same way as the quickfix list, but with `l` prefixed commands. So the `:vimgrep`
 command above becomes `:lvimgrep` when you want the results to go to the
 window's location list:
@@ -88,6 +88,10 @@ list is clearly visible. `:cnewer` and `:lnewer` navigate forward again through
 the quickfix/location list stack.
 
 ## Time to customise
+
+> A little bit of vimscript never hurt anybody. If you know what I mean.
+>
+> – nickspoons
 
 Using commands to move back and forth through the quickfix lists is not a
 particularly nice experience. If we're going to use thesse commands often, we
@@ -160,7 +164,7 @@ times in a session.
 
 So where should we put it? The script could go straight into our vimrc, but why
 not make it an [autoload][ad] function instead? This is an ideal candidate for
-an autoload function; a function that may not ever be called in a vim session,
+an autoload function; a function that may not ever be called in a Vim session,
 so doesn't need to be read at all until we want to use it.
 
 An autoload function needs to have a name that corresponds to its script
@@ -309,7 +313,7 @@ function! quickfixed#history(goNewer)
 endfunction
 ```
 
-Setting the the height quickfix/location window can now be done using the
+Setting the height of the quickfix/location window can now be done using the
 `s:length()` helper function and some min/max magic:
 
 ```vim
@@ -331,13 +335,13 @@ its arguments without a trailing newline, which makes it handy for building up
 our rainbow:
 
 ```vim
-  let nr = s:getProperty('nr')
-  let last = s:getProperty('nr', '$')
+  let l:nr = s:getProperty('nr')
+  let l:last = s:getProperty('nr', '$')
   echohl MoreMsg | echon '('
-  echohl Identifier | echon nr
-  if last > 1
+  echohl Identifier | echon l:nr
+  if l:last > 1
     echohl LineNr | echon ' of '
-    echohl Identifier | echon last
+    echohl Identifier | echon l:last
   endif
   echohl MoreMsg | echon ') '
   echohl MoreMsg | echon '['
@@ -382,7 +386,7 @@ nnoremap <silent> <buffer> <Right> :call quickfixed#newer()<CR>
 
 ### What have we done??
 
-And here's how it all looks when you put it together:
+Here are the final scripts when we put them together:
 
 ```vim
 " ~/.vim/autoload/quickfixed.vim
@@ -412,7 +416,6 @@ endfunction
 function! s:isLast()
   return s:getProperty('nr') == s:getProperty('nr', '$')
 endfunction
-
 
 function! s:history(goNewer)
   " Build the command: one of colder/cnewer/lolder/lnewer
@@ -469,13 +472,13 @@ And after all that, this is how it looks (with Vim's default colorscheme):
 
 <script id="asciicast-uzXeism6I3JH3vvqjuYuqEytt" src="https://asciinema.org/a/uzXeism6I3JH3vvqjuYuqEytt.js" async></script>
 
-Please note the the scripts here require reasonably recent versions of Vim;
+Please note that the scripts here require reasonably recent versions of Vim;
 [lambdas][zx] were added in 7.4.204 and the `loclist` property of
 [`getwininfo()`][zz] was added in 7.4.2215
 
 ### Conclusion
 
-Building up your vim configuration in this way, step by step, is a great way to
+Building up your Vim configuration in this way, step by step, is a great way to
 expand your knowledge of vimscript and the editor. You don't need to set out to
 write a fully-fledged plugin—start with the mappings you need, and then begin
 polishing away the rough edges.

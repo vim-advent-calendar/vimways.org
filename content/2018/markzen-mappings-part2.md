@@ -276,7 +276,7 @@ and the [`buffer`][bf] Ex command inside the try block will be run on the
 argument with leading and trailing wildcards automatically added. If there is a
 single match, the buffer will be displayed and the function ends. If there is no
 match or more than one match, the choices will be shown and the `:B` will be put
-back on the commnd-line (in the 'catch' block).
+back on the command-line (in the 'catch' block).
 
 The first `elseif` allows for `:B *` to show a full `:ls!` listing, with hidden
 buffers. The second `elseif` lets the user select a buffer by number, eg.
