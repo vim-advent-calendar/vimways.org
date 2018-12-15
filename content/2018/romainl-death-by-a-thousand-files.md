@@ -1,6 +1,6 @@
 ---
 title: "Death by a thousand files"
-publishDate: 2018-12-10
+publishDate: 2018-12-13
 draft: true
 description: "Free yourself from the tyranny of file explorers"
 slug: "death-by-a-thousand-files"
@@ -36,19 +36,26 @@ Those tools may seem rudimentary at first, maybe even clunky, but they can offer
 
 Since we know at least *something* about that resource we can finally try some optimizations!
 
-**If it's a file**, combining shortcuts (`../`, `%`, `#`), globs (`*`, `**`), and command-line completion ([`'wildmenu'`][opt-wildmenu] anyone?) with the aforementioned `:edit`--and similar commands--goes a long way:
+**If it's a file**, combining shortcuts (`../`, `%`, `#`), globs (`*`, `**`), and command-line completion ([`'wildmenu'`][opt-wildmenu] anyone?) with the aforementioned `:edit`--and similar commands--goes a long way, especially with mappings like:
 
-ASCIINEMA
+```vim
+set wildcharm=<C-z>
+nnoremap ,e :e **/*<C-z><S-Tab>
+```
+<script id="asciicast-217090" src="https://asciinema.org/a/217090.js" data-size="1.3vw" async></script>
 
-And if that's too limited, there's the amazingly versatile [`:find`][cmd-find] that does what `:edit` does but can also be trained to search for files in specific places, thus leveraging whatever naming conventions are enforced by our language/framework/project.
+And if that's too limited, there's the amazingly versatile [`:find`][cmd-find] that does what `:edit` does but can also be trained to search for files in specific places, thus leveraging whatever naming conventions are enforced by our language/framework/project. This is how it looks, with another simple mapping and a topical `'path'`:
 
-ASCIINEMA
+```vim
+set path-=/usr/include
+nnoremap ,f :find **/*<C-z><S-Tab>
+```
 
-Both `:edit` and `:find` depend on *many* options like [`'suffixesadd'`][opt-suffixesadd], [`'wildmode'`][opt-wildmode] or the super-powerful `'path'` that we will explore in depth later.
+<script id="asciicast-217092" src="https://asciinema.org/a/217092.js" data-size="1.3vw" async></script>
+
+Both `:edit` and `:find` depend on *many* options like [`'suffixesadd'`][opt-suffixesadd], [`'wildmode'`][opt-wildmode] or, for `:find` only, the super-powerful `'path'` that we will explore in depth later.
 
 **If it's a symbol**, [tag search][post-tags] might be our best option as it's generic enough to not require much context *and* specific enough to not shower us with completely irrelevant results.
-
-ASCIINEMA
 
 ### The next step involves a *known* resource that's present in, or accessible from, the current view
 
@@ -56,7 +63,9 @@ Of the three situations, this is the most common: we are looking at an unit of c
 
 From now on, our not-so-crazy assumption will be that everything that is used in this file is either named in this file or in another file directly accessible from this file.
 
-#### Off The Beaten Path
+## Started From The Bottom
+
+### Off The Beaten Path
 
 We mentioned [`'path'`][opt-path] in relation with `:find` but that option is honored by (and instrumental in the good working of) many of the features we will see in this section.
 
@@ -85,8 +94,6 @@ set path=.,dirA,path/to/dirB,path/to/dirB/and/then/dirC
 
 and do `:find *foo<Tab>` to find a file with `foo` in its name in the locations above. Even using the otherwise expansive `**` would not be *that* heavy-ended in this case because we are searching through a much smaller set of directories and files than before.
 
-ASCIICAST
-
 If we do C or C++, the default value could be *extended* (and not replaced) with paths to company-specific headers:
 
 ```vim
@@ -101,7 +108,7 @@ set path=.,front/src/js/
 
 Setting the *right* `'path'` is key to a smooth and useful navigation, symbol-based or not, but there are many other options that alter the behavior of some or all of the `'path'`-aware commands. We will try to cover them as they come into play.
 
-#### Go to File
+### Go to File
 
 `gf` is another `'path'`-aware command that lets us jump to the file whose name is under the cursor. It is very useful, even with the default settings, but it will crap out on things that *we* know are filenames but are not really filenames, like:
 
@@ -124,9 +131,11 @@ setlocal suffixesadd+=.js
 
 Here is how `gf` can be used to inspect included files:
 
-ASCIINEMA
+<script id="asciicast-217093" src="https://asciinema.org/a/217093.js" data-size="1.3vw" async></script>
 
-#### Include file search
+### Include file search
+
+#### In theory
 
 The whole ["include file search"][doc-include-search] feature is a collection of commands designed around two options: [`'include'`][opt-include] and [`'define'`][opt-define].
 
@@ -173,15 +182,232 @@ setlocal define=^\\s*function
 
 Now, include file search support is definitely spotty across the built-in ftplugins so we may or may not have to set it all up, an action that may or may not be trivial. FWIW, my custom `'includeexpr'` function for JavaScript is 107 LOC long. Right now, it covers edge cases that presented themselves at work as well as Webpack/VSCode's aliases but it started small and messy, like everything big and beautiful.
 
-Anyway, we are equipped so let's dive in!
+#### In practice
+
+Our sandbox will be the "vanilla-es6" version of the infamous TodoMVC project. The project is small and vanilla so we won't have to deal with weird stuff.
+
+If you want to follow at home, put this ultra-minimal configuration in a file:
+
+```vim
+" in /tmp/vimrc
+set include=from
+set incsearch
+set suffixesadd=.js
+syntax on  " irrelevant to the topic at hand but nice for the eyes
+```
+
+and clone the project:
+
+```bash
+$ cd /tmp
+$ git clone https://github.com/tastejs/todomvc.git
+$ cd todomvc/examples/vanilla-es6
+$ vim -Nu /tmp/vimrc src/app.js
+```
+
+So, we have opened the entry point of our project and we are treated with this view:
+
+```javascript
+import Controller from './controller';
+import {$on} from './helpers';
+import Template from './template';
+import Store from './store';
+import View from './view';
+
+const store = new Store('todos-vanilla-es6');
+
+const template = new Template();
+const view = new View(template);
+
+/**
+ * @type {Controller}
+ */
+const controller = new Controller(store, view);
+
+const setView = () => controller.setView(document.location.hash);
+$on(window, 'load', setView);
+$on(window, 'hashchange', setView);
+```
+
+Suppose we would like to see how the project's templating works. We could jump to the file containing the `Template` class:
+
+```vim
+/Tem<C-g><CR>    " search for 'Tem', move cursor on second match without leaving search mode
+gf               " jump to file
+```
+
+or we could jump to that class from its first reference:
+
+```vim
+/Tem<CR>         " move the cursor on first 'Tem'
+[<C-i>           " jump to first match of current word in includes
+```
+
+or we could do it even more *directly*:
 
 
-#### Tags
+```vim
+:ijump Template  " jump to first match of 'Template' in includes
+```
 
-## So that's symbol-based navigation?
+or more lazily:
+
+
+```vim
+:ij /Tem         " jump to first match of pattern 'Tem' in includes
+```
+
+```javascript
+import {ItemList} from './item';
+
+import {escapeForHTML} from './helpers';
+
+export default class Template {
+	/**
+	 * Format the contents of a todo list.
+	 *
+	 * @param {ItemList} items Object containing keys you want to find in the template to replace.
+	 * @returns {!string} Contents for a todo list
+	 *
+	 * @example
+	 * view.show({
+	 *	id: 1,
+	 *	title: "Hello World",
+	 *	completed: false,
+	 * })
+	 */
+	itemList(items) {
+		return items.reduce((a, item) => a + `
+<li data-id="${item.id}"${item.completed ? ' class="completed"' : ''}>
+	<div class="view">
+		<input class="toggle" type="checkbox" ${item.completed ? 'checked' : ''}>
+		<label>${escapeForHTML(item.title)}</label>
+		<button class="destroy"></button>
+	</div>
+</li>`, '');
+	}
+
+	/**
+	 * Format the contents of an "items left" indicator.
+	 *
+	 * @param {number} activeTodos Number of active todos
+	 *
+	 * @returns {!string} Contents for an "items left" indicator
+	 */
+	itemCounter(activeTodos) {
+		return `${activeTodos} item${activeTodos !== 1 ? 's' : ''} left`;
+	}
+}
+```
+
+Nice! This is pretty clear and readable but what does that `escapeForHTML()` do, *exactly*? Let's find out:
+
+```vim
+:isearch /esca<CR>
+  export const escapeForHTML = s => s.replace(/[&<]/g, c => c === '&' ? '&amp;' : '&lt;');
+```
+
+or `[i` with the cursor on `escapeForHTML`.
+
+Fast and accurate code navigation without dependencies? Sign me up!
+
+`'define'` commands have the same syntax as their `'include'` counterparts. You just have to replace `i` with `d`:
+
+Include | Define
+---|---
+`:ijump`   | `:djump`
+`:isearch` | `:dsearch`
+`:ilist`   | `:dlist`
+`[<C-i>`   | `[<C-d>`
+`[I`       | `[d`
+`]i`       | `]d`
+
+They are different, though, in that `'include'` commands search for *text*, which is not very precise, whereas `'define'` commands search for text that matches `'define'` *plus* the argument, which is a hell of a lot more precise. `'include'` commands do the job, here, because the project is small and squeaky-clean but real life projects are typically larger and more messy. That's where a carefully set `'define'` comes handy.
+
+But `'define'` is still the default value so we can't make use of it. Let's change that sorry state of affairs with a minimalist value meant to match classes:
+
+```vim
+" in /tmp/vimrc
+set define=class\\s
+set include=from
+set incsearch
+set suffixesadd=.js
+syntax on  " irrelevant to the topic at hand but nice for the eyes
+```
+
+and go back to our starting point:
+
+
+```vim
+:bfirst
+```
+
+where we can use regex search:
+
+
+```vim
+:dj /Tem
+```
+
+to jump directly to our class definition while saving some typing.
+
+What makes include file search amazing is that it only concerns itself with resources that are accessible from the current context so that *we* don't have to concern ourselves with irrelevant stuff.
+
+There is another command worth knowing, `:ilist` (and its mirror [`:dlist'`][cmd-dlist]), that can be used to list every match of the given text or pattern. This can be useful to get a feel for the structure of a large document, find local references, or find the right symbol in case there are too many potential candidates.
+
+
+```vim
+:dlist /
+  /private/tmp/todomvc/examples/vanilla-es6/src/././store.js
+    1:    3 export default class Store {
+  /private/tmp/todomvc/examples/vanilla-es6/src/./././template.js
+    2:    5 export default class Template {
+  /private/tmp/todomvc/examples/vanilla-es6/src/././view.js
+    3:    9 export default class View {
+  /private/tmp/todomvc/examples/vanilla-es6/src/./controller.js
+    4:    5 export default class Controller {
+  [...]
+```
+
+The flip-side of `:ilist`, though, is one it shares with many similar list-like commands: what to do next is not always obvious and sometimes cumbersome. In this case, the list contains several items from several files so how do we get to the fourth item?
+
+The answer is `:djump 4 /` but it's neither practical nor familiar and, even if it becomes familiar, it will never be practical. `:ilist` and `:dlist` are the ideal candidate for the kind of improvement I like: one that smoothes out rough edges without changing anything fundamental. How about a command-line mode mapping that auto-populates the prompt with the right command, the right second argument, and the cursor at the right place for typing the desired number?
+
+```vim
+function! CCR()
+    let cmdline = getcmdline()
+    if cmdline =~ '\v\C^(dli|il)'
+        return "\<CR>:" . cmdline[0] . "j  " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
+    else
+        return "\<CR>"
+    endif
+endfunction
+cnoremap <expr> <CR> CCR()
+```
+
+If you like the idea, I have described it in detail--and generalized--in [this gist][gist-limits].
+
+<script id="asciicast-217094" src="https://asciinema.org/a/217094.js" data-size="1.3vw" async></script>
+
+## So that's it?
+
+Well yes, that's it.
+
+Simply put, "symbol-based navigation" is the art of jumping to a specific symbol with as few intermediary steps as possible.
+
+Truth be told, the whole concept is neither new nor specific to Vim. In fact, every IDE or programming-oriented editor under the sun does symbol-based navigation in one way or another so… nope, definitely not new or particularly ground-breaking. It's just *one* approach of a common problem. But, in a typical Vim way, an approach that allows us to move as we think, and to think as we move, without the burden that are files and directories. An approach, and a tool set that are *built into the core of our favorite editor*.
+
+---
+
+_This work is licensed under a [Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International License][license].
+Permissions beyond the scope of this license may be available by
+contacting the author._
+
 
 
 [cmd-checkpath]: http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#:checkpath
+[cmd-dlist]: http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#:dlist
 [cmd-edit]: http://vimdoc.sourceforge.net/htmldoc/editing.html#:edit_f
 [cmd-find]: http://vimdoc.sourceforge.net/htmldoc/editing.html#:find
 [cmd-global]: http://vimdoc.sourceforge.net/htmldoc/repeat.html#:g
@@ -190,6 +416,7 @@ Anyway, we are equipped so let's dive in!
 [doc-cmdline-completion]: http://vimdoc.sourceforge.net/htmldoc/cmdline.html#cmdline-completion
 [doc-include-search]: http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#include-search
 [doc-netrw]: http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
+[gist-limits]: https://gist.github.com/romainl/047aca21e338df7ccf771f96858edb86
 [opt-define]: http://vimdoc.sourceforge.net/htmldoc/options.html#'define'
 [opt-include]: http://vimdoc.sourceforge.net/htmldoc/options.html#'include'
 [opt-includeexpr]: http://vimdoc.sourceforge.net/htmldoc/options.html#'includeexpr'
