@@ -92,7 +92,7 @@ Suppose our project has many internal directories that are of zero interest to u
 set path=.,dirA,path/to/dirB,path/to/dirB/and/then/dirC
 ```
 
-and do `:find *foo<Tab>` to find a file with `foo` in its name in the locations above. Even using the otherwise expansive `**` would not be *that* heavy-ended in this case because we are searching through a much smaller set of directories and files than before.
+and do `:find *foo<Tab>` to find a file with `foo` in its name in the locations above. Even using the otherwise expensive `**` would not be *that* heavy-ended in this case because we are searching through a much smaller set of directories and files than before.
 
 If we do C or C++, the default value could be *extended* (and not replaced) with paths to company-specific headers:
 
