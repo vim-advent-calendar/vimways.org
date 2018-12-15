@@ -431,6 +431,7 @@ contacting the author._
 [post-tags]: /2018/you-should-be-using-tags-in-vim/
 [site-todomvc]: https://github.com/tastejs/todomvc
 [site-vanilla]: https://github.com/tastejs/todomvc/tree/master/examples/vanilla-es6/src
+[license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
 [//]: # ( Vim: set spell spelllang=en: )
