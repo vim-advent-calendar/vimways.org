@@ -323,7 +323,7 @@ Include | Define
 `:isearch` | `:dsearch`
 `:ilist`   | `:dlist`
 `[<C-i>`   | `[<C-d>`
-`[I`       | `[d`
+`[I`       | `[D`
 `]i`       | `]d`
 
 They are different, though, in that `'include'` commands search for *text*, which is not very precise, whereas `'define'` commands search for text matching `'define'` *plus* the argument, which is a hell of a lot more precise. `'include'` commands do the job, here, because the project is small and squeaky-clean but real life projects are typically larger and more messy. That's where a carefully set `'define'` comes handy.
@@ -391,7 +391,7 @@ cnoremap <expr> <CR> CCR()
 
 If you like the idea, I have described it in detail--and generalized--in [this gist][gist-limits].
 
-<script id="asciicast-217094" src="https://asciinema.org/a/217094.js" data-size="1.3vw" async></script>
+<script id="asciicast-217094" src="https://asciinema.org/a/217094.js" loop="loop" data-size="1.3vw" async></script>
 
 ## So that's it?
 
