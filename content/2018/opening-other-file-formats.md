@@ -64,16 +64,33 @@ and edit it appropriately:
 
     sil exe "!mplayer " . shellescape(expand("%:p")) . " &>/dev/null &" | b# | bd# | redraw! | syn on
 
-In this example we're using the PDF reader `mplayer` to open the PDF file, but you could just as easily use any PDF viewer. This silently executes an `!external-program` on the current buffer and places it in the background (`&`), discarding any output or errors to `/dev/null`. The `|`s could easily be separated onto multiple lines and act as a list of sequential commands to switch back to the previous buffer (`b#`), delete the PDF buffer (`bd#`), and then ensure that the screen was not garbled in the process by redrawing and ensuring syntax highlighting is on.
+In this example we're using `mplayer` to open the video file, but you could just as easily use any video player. This silently executes an `!external-program` on the current buffer and places it in the background (`&`), discarding any output or errors to `/dev/null`. The `|`s could easily be separated onto multiple lines and act as a list of sequential commands to switch back to the previous buffer (`b#`), delete the buffer containing the binary file (`bd#`), and then ensure that the screen was not garbled in the process by redrawing and ensuring syntax highlighting is on.
 
-You can simply repeat this process for any other filetypes you'd like to open with vim. For example:
+You could also consider using a `system()` call with `xdg-open` or `open` depending on your system. The previous example is not fully cross-platform, but with a few tweaks you can make this work on any system. For instance, consider this function:
+
+    " What command to use
+    function! s:Cmd() abort
+        " Linux/BSD
+        if executable("xdg-open")
+            return "xdg-open"
+        endif
+        " MacOS
+        if executable("open")
+            return "open"
+        endif
+        " Windows
+        return "explorer"
+    endfunction
+
+You could then use this function in conjunction with a `system()` call to make cross-platform a reality.
 
     :!mkdir -p ~/.vim/ftdetect/audio.vim
     au BufRead,BufNewFile *.mp3,*.flac,*.wav,*.ogg set filetype=audio
     :!mkdir -p ~/.vim/after/ftplugin/audio.vim
-    sil exe "!mplayer " . shellescape(expand("%:p")) . " &>/dev/null &" | b# | bd# | redraw! | syn on
+    " insert or source Cmd() function here
+    call system(<SID>Cmd() . " " . expand("%:p")) | b# | bd# | redraw! | syn on
 
-Here's an example of opening a video with vim:
+You can see how the `ftdetect` and `ftplugin` directories can be your friend. Here's an example of opening a video with vim:
 
 ![MPlayer](opening-other-file-formats/example.gif)\ 
 
