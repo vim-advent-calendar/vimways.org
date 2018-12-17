@@ -14,4 +14,6 @@ draft: true
 
 ## Daniel Moch
 
+## Conner McDaniel
+
 ## Etc.
