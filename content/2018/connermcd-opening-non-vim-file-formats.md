@@ -1,7 +1,7 @@
 ---
 title: "Opening Non-Vim File Formats"
 publishDate: 2018-12-14
-draft: true
+draft: false
 description: "How to open images, spreadsheets, and whatever else using Vim"
 slug: "opening-non-vim-file-formats"
 author:
