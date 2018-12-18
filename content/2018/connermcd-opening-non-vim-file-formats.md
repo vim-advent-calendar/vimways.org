@@ -60,24 +60,14 @@ to prevent the `ftplugin` from running multiple times on the same buffer. You ca
 Coming back to our opening statements, how do we make this work for external formats? For starters, make your `ftdetect` file:
 
 ```vim
-:!mkdir -p ~/.vim/ftdetect/video.vim
-```
-
-and edit it with extension detection parameters:
-
-```vim
+" Place this in ~/.vim/ftdetect/video.vim
 au BufRead,BufNewFile *.avi,*.mp4,*.mkv,*.mov,*.mpg set filetype=video
 ```
 
 then create your `ftplugin` file:
 
 ```vim
-:!mkdir -p ~/.vim/after/ftplugin/video.vim
-```
-
-and edit it appropriately:
-
-```vim
+" Place this in ~/.vim/after/ftplugin/video.vim
 silent execute "!mplayer " . shellescape(expand("%:p")) . " &>/dev/null &" | buffer# | bdelete# | redraw! | syntax on
 ```
 
@@ -104,10 +94,12 @@ endfunction
 You could then use this function in conjunction with a `system()` call to make cross-platform a reality.
 
 ```vim
-:!mkdir -p ~/.vim/ftdetect/audio.vim
+" Place this in ~/.vim/ftdetect/audio.vim
 au BufRead,BufNewFile *.mp3,*.flac,*.wav,*.ogg set filetype=audio
+```
 
-:!mkdir -p ~/.vim/after/ftplugin/audio.vim
+```vim
+" Place this in ~/.vim/after/ftplugin/audio.vim
 " insert or source Cmd() function here
 call system(<SID>Cmd() . " " . expand("%:p")) | buffer# | bdelete# | redraw! | syntax on
 ```
