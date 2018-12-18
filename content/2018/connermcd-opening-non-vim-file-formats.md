@@ -24,14 +24,17 @@ Once your Vim gills grow in, trying to operate outside of your new command line 
 
 If you're still attached to a command-line based file explorer like [`ranger`][program-ranger] or [`vifm`][program-vifm] then this post is not here to shame you. You can easily type or map `:vert term ranger` and be on your merry way. This option of course depends on features that may not be available in your version of Vim or tools that may not be present on every system you utilize. You also might find yourself wanting to open a file with your standard Vim key bindings. Luckily, Vim has a built-in structure for filetype detection and execution. You can bolster Vim's filetype detection with your own customized extensions using the `~/.vim/ftdetect` directory. As specified in [`:help 'ftdetect'`][help-ftdetect], you simply have to create a file `~/.vim/ftdetect` that corresponds to a nominal filetype. This name of this file can be whatever you want (e.g. text). For instance:
 
+Edit the `ftdetect` file:
+
 ```vim
-:!mkdir -p ~/.vim/ftdetect/text.vim
+:!mkdir -p ~/.vim/ftdetect
+:e ~/.vim/ftdetect/text.vim
 ```
 
-Then edit that file and place the following:
+then insert the autocommand to run:
 
 ```vim
-autocommand BufRead,BufNewFile *.txt,*.md,*.mkd,*.markdown,*.mdwn set filetype=text
+autocmd BufRead,BufNewFile *.txt,*.md,*.mkd,*.markdown,*.mdwn set filetype=text
 ```
 
 Now whenever Vim reads a buffer or new file with the extensions `*.txt`, et al. it will automatically assign the filetype of `text` to the buffer. Note that the `ftdetect` files are only meant for filetype detection and not for multiple lines of complex commands.
@@ -57,25 +60,29 @@ to prevent the `ftplugin` from running multiple times on the same buffer. You ca
 
 ## Putting it all together
 
-Coming back to our opening statements, how do we make this work for external formats? For starters, make your `ftdetect` file:
+Coming back to our opening statements, how do we make this work for external formats? For starters, edit your `ftdetect` file:
+
+Edit the `ftdetect` file:
 
 ```vim
-:!mkdir -p ~/.vim/ftdetect/video.vim
+:!mkdir -p ~/.vim/ftdetect
+:e ~/.vim/ftdetect/video.vim
 ```
 
-and edit it with extension detection parameters:
+and insert the autocommand to run:
 
 ```vim
-au BufRead,BufNewFile *.avi,*.mp4,*.mkv,*.mov,*.mpg set filetype=video
+autocmd BufRead,BufNewFile *.avi,*.mp4,*.mkv,*.mov,*.mpg set filetype=video
 ```
 
-then create your `ftplugin` file:
+Edit your `ftplugin` file:
 
 ```vim
-:!mkdir -p ~/.vim/after/ftplugin/video.vim
+:!mkdir -p ~/.vim/after/ftplugin
+:e ~/.vim/after/ftplugin/video.vim
 ```
 
-and edit it appropriately:
+and insert the command to run:
 
 ```vim
 silent execute "!mplayer " . shellescape(expand("%:p")) . " &>/dev/null &" | buffer# | bdelete# | redraw! | syntax on
@@ -103,11 +110,29 @@ endfunction
 
 You could then use this function in conjunction with a `system()` call to make cross-platform a reality.
 
-```vim
-:!mkdir -p ~/.vim/ftdetect/audio.vim
-au BufRead,BufNewFile *.mp3,*.flac,*.wav,*.ogg set filetype=audio
+Edit your `ftdetect` file:
 
-:!mkdir -p ~/.vim/after/ftplugin/audio.vim
+```vim
+:!mkdir -p ~/.vim/ftdetect
+:edit ~/.vim/ftdetect/audio.vim
+```
+
+and insert the autocommand to run:
+
+```vim
+autocmd BufRead,BufNewFile *.mp3,*.flac,*.wav,*.ogg set filetype=audio
+```
+
+Edit your `ftplugin` file:
+
+```vim
+:!mkdir -p ~/.vim/after/ftplugin
+:e ~/.vim/after/ftplugin/audio.vim
+```
+
+and insert the system call to run:
+
+```vim
 " insert or source Cmd() function here
 call system(<SID>Cmd() . " " . expand("%:p")) | buffer# | bdelete# | redraw! | syntax on
 ```
