@@ -269,7 +269,7 @@ fi
 The mechanisms and ergonomics for delivering data to Vim at invocation-time are
 essentially unchanged from vi—owing, yes, to deference to
 [POSIX vi](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/vi.html)
-and our old friend backwards compatibility—but perhaps primarly to intertia.
+and our old friend backwards compatibility—but perhaps primarly to inertia.
 
 It turns out that very few people actually care about the traditional behavior:
 the precise behavior of `-es`, for example, was broken in Nvim for years but no
