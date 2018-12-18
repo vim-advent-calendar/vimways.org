@@ -1,6 +1,6 @@
 ---
 title: "Transactions Pending"
-publishDate: 2018-12-14
+publishDate: 2018-12-17
 draft: true
 description: "Take control of your text objects"
 slug: "operator-pending"
