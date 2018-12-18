@@ -1,7 +1,7 @@
 ---
 title: "Opening Non-Vim File Formats"
-publishDate: 2018-12-16
-draft: false
+publishDate: 2018-12-14
+draft: true
 description: "How to open images, spreadsheets, and whatever else using Vim"
 slug: "opening-non-vim-file-formats"
 author:
@@ -115,10 +115,10 @@ call system(<SID>Cmd() . " " . expand("%:p")) | buffer# | bdelete# | redraw! | s
 You can see how the `ftdetect` and `ftplugin` directories can be your friend. Here's an example of opening a video with Vim:
 
 <video controls width="100%" poster="../connermcd-opening-non-vim-file-formats/cut.png">
-<source src="../connermcd-non-vim-other-file-formats/cut.mp4" type="video/mp4">
-<source src="../connermcd-non-vim-other-file-formats/cut.webm" type="video/webm">
-<source src="../connermcd-non-vim-other-file-formats/cut.ogv" type="video/ogg">
-Sorry, your browser doesn't support embedded videos, but <a href="../connermcd-non-vim-other-file-formats/cut.mp4">you can download it</a>.
+<source src="../connermcd-opening-non-vim-file-formats/cut.mp4" type="video/mp4">
+<source src="../connermcd-opening-non-vim-file-formats/cut.webm" type="video/webm">
+<source src="../connermcd-opening-non-vim-file-formats/cut.ogv" type="video/ogg">
+Sorry, your browser doesn't support embedded videos, but <a href="../connermcd-opening-non-vim-file-formats/cut.mp4">you can download it</a>.
 </video>
 
 
