@@ -34,7 +34,7 @@ Then edit that file and place the following:
 autocommand BufRead,BufNewFile *.txt,*.md,*.mkd,*.markdown,*.mdwn set filetype=text
 ```
 
-Now whenever Vim reads a buffer or new file with the extensions `*.txt, et al.` it will automatically assign the filetype of `text` to the buffer. Note that the `ftdetect` files are only meant for filetype detection and not for multiple lines of complex commands.
+Now whenever Vim reads a buffer or new file with the extensions `*.txt`, et al. it will automatically assign the filetype of `text` to the buffer. Note that the `ftdetect` files are only meant for filetype detection and not for multiple lines of complex commands.
 
 ## Carrying out actions on a given filetype
 
