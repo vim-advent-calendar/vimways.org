@@ -1,7 +1,7 @@
 ---
 title: "Vim's social life"
 publishDate: 2018-12-15
-draft: true
+draft: false
 description: "A story of flags and POSIX compatibility"
 slug: "vims-social-life"
 author:
