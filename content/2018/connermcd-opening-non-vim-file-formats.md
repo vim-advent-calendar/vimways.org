@@ -22,7 +22,7 @@ Once your Vim gills grow in, trying to operate outside of your new command line 
 
 ## Making use of ftdetect
 
-If you're still attached to a command-line based file explorer like [`ranger`][program-ranger] or [`vifm`][program-vifm] then this post is not here to shame you. You can easily type or map `:vert term ranger` and be on your merry way. This option of course depends on features that may not be available in your Vim or tools that may not be present on every system you utilize. You also might find yourself wanting to open a file with your standard Vim key bindings. Luckily, Vim has a built-in structure for filetype detection and execution. You can bolster Vim's filetype detection with your own customized extensions using the `~/.vim/ftdetect` directory. As specified in [`:help 'ftdetect'`][help-ftdetect], you simply have to create a file `~/.vim/ftdetect` that corresponds to a nominal filetype. This file can be called however you want it. For instance:
+If you're still attached to a command-line based file explorer like [`ranger`][program-ranger] or [`vifm`][program-vifm] then this post is not here to shame you. You can easily type or map `:vert term ranger` and be on your merry way. This option of course depends on features that may not be available in your version of Vim or tools that may not be present on every system you utilize. You also might find yourself wanting to open a file with your standard Vim key bindings. Luckily, Vim has a built-in structure for filetype detection and execution. You can bolster Vim's filetype detection with your own customized extensions using the `~/.vim/ftdetect` directory. As specified in [`:help 'ftdetect'`][help-ftdetect], you simply have to create a file `~/.vim/ftdetect` that corresponds to a nominal filetype. This name of this file can be whatever you want (e.g. text). For instance:
 
 ```vim
 :!mkdir -p ~/.vim/ftdetect/text.vim
@@ -38,7 +38,7 @@ Now whenever Vim reads a buffer or new file with the extensions `*.txt, et al.` 
 
 ## Carrying out actions on a given filetype
 
-When Vim recognizes that a buffer belongs to a particular `filetype` it executes a corresponding `ftplugin` (if one exists). You can [:view][cmd-view] several of these `ftplugin` files within Vim's runtime directory:
+When Vim recognizes that a buffer belongs to a particular `filetype` it executes a corresponding `ftplugin` (if one exists). You can [`:view`][cmd-view] several of these `ftplugin` files within Vim's runtime directory:
 
 ```vim
 :view $VIMRUNTIME/ftplugin/
@@ -81,7 +81,7 @@ and edit it appropriately:
 silent execute "!mplayer " . shellescape(expand("%:p")) . " &>/dev/null &" | buffer# | bdelete# | redraw! | syntax on
 ```
 
-In this example we're using `mplayer` to open the video file, but you could just as easily use any video player. This silently executes an `!external-program` on the current buffer and places it in the background (`&`), discarding any output or errors to `/dev/null`. The `|`s could easily be separated onto multiple lines and act as a list of sequential commands to switch back to the previous buffer (`buffer#`), delete the buffer containing the binary file (`bdelete#`), and then ensure that the screen was not garbled in the process by redrawing and ensuring syntax highlighting is on.
+In this example we're using `mplayer` to open the video file, but you could just as easily use any other video player. This silently executes an `!external-program` on the current buffer and places it in the background (`&`), discarding any output or errors to `/dev/null`. The `|`s could easily be separated onto multiple lines and act as a list of sequential commands to switch back to the previous buffer (`buffer#`), delete the buffer containing the binary file (`bdelete#`), and then ensure that the screen was not garbled in the process by redrawing and ensuring syntax highlighting is on.
 
 You could also consider using a [`system()`][func-system] call with [`xdg-open`][program-xdg-open], [`open`][program-open], or [`explorer`][program-explorer], depending on what is available on your system. The previous example is not fully cross-platform, but with a few tweaks you can make this work on any system. For instance, consider this function:
 
@@ -114,11 +114,11 @@ call system(<SID>Cmd() . " " . expand("%:p")) | buffer# | bdelete# | redraw! | s
 
 You can see how the `ftdetect` and `ftplugin` directories can be your friend. Here's an example of opening a video with Vim:
 
-<video controls width="100%" poster="../connermcd-opening-other-file-formats/cut.png">
-<source src="../connermcd-opening-other-file-formats/cut.mp4" type="video/mp4">
-<source src="../connermcd-opening-other-file-formats/cut.webm" type="video/webm">
-<source src="../connermcd-opening-other-file-formats/cut.ogv" type="video/ogg">
-Sorry, your browser doesn't support embedded videos but <a href="../connermcd-opening-other-file-formats/cut.mp4">you can still download this one</a>.
+<video controls width="100%" poster="../connermcd-opening-non-vim-file-formats/cut.png">
+<source src="../connermcd-non-vim-other-file-formats/cut.mp4" type="video/mp4">
+<source src="../connermcd-non-vim-other-file-formats/cut.webm" type="video/webm">
+<source src="../connermcd-non-vim-other-file-formats/cut.ogv" type="video/ogg">
+Sorry, your browser doesn't support embedded videos, but <a href="../connermcd-non-vim-other-file-formats/cut.mp4">you can download it</a>.
 </video>
 
 
