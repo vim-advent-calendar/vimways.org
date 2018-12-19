@@ -19,9 +19,8 @@ cheap and thus frequent.
 Yet Vim's startup story is relatively unpolished. Shell tools are expected to
 consume standard input ("stdin") and emit to standard output ("stdout")—but
 Vim supports this awkwardly, at best. The endeavor is never mentioned in Vim
-tutorials (including the "Unix as IDE"
-[hymnals](https://news.ycombinator.com/item?id=12653028)), and puzzled out of
-Vim's documentation only by careful inspection.
+tutorials, including the "Unix as IDE" [hymnals](https://news.ycombinator.com/item?id=12653028).
+And it is puzzled out of Vim's documentation only by careful inspection.
 
 Vim is positioned as a script host (VimL, `if_python`, …) , but not as
 a participant. Yet Vim is a terminal tool, and terminal users expect their
@@ -97,7 +96,7 @@ If you run into trouble, use `-V1` to reveal why `-e` isn't working:
 ```bash
 $ printf 'foo\n' | vim -es
 # No output. Non-zero error code.
-echo $?
+$ echo $?
 1
 ```
 
@@ -184,19 +183,16 @@ we find these directives regarding non-interactive ("not a terminal") cases:
 > a SIGHUP
 
 - Input is always interpreted as user input, even if non-interactive.
-
 - When stdout is not a terminal, Vim may behave as it likes ("undefined").
-
 - EOF (that is, closed input stream) means quit.
 
-POSIX conspicuously omits the `-e` and `-s` startup options (and `-es`,
-which is not merely the composition of the two!).
+POSIX conspicuously omits the `-e` and `-s` startup options.
 [Traditional vi](http://ex-vi.sourceforge.net/vi.html) lacks `-e`, but
 [nvi](https://www.freebsd.org/cgi/man.cgi?query=nvi) implements both and calls
 out POSIX's incongruence with "historical ex/vi practice".
 
 We've uncovered the origin of Vim's eagerness to consume stdin as something
-live (commands) instead of something inert (text): 'twas always done that way.
+alive instead of something inert: 'twas always done that way.
 
 ```bash
 $ echo foo | vim
@@ -208,8 +204,8 @@ Vim: Finished.
 Vim must warn about stdin-as-commands because (1) it's potentially destructive
 and (2) it's almost always accidental (does anyone actually use this feature?).
 
-Vim exits after stdin EOF, as prescribed by POSIX. (Party trick: convince it to
-keep running by sending the input to `-s`: `vim -s <(echo ifoo)`.)
+Vim exits after stdin closes (EOF), as prescribed by POSIX. (Party trick: use
+`vim -s <(echo ifoo)` to convince it to keep running.)
 
 POSIX does not mention `-E`, a variant of `-e` ignored by Vim's own testsuite.
 `-e` invokes
@@ -233,8 +229,8 @@ file is not needed):
 $ echo foo | nvim
 ```
 
-That means Nvim never pauses for two seconds to display a warning (because
-stdin is not executed). Nvim also allows multiple "editing ways":
+That means Nvim never pauses to display a warning. Nvim also allows multiple
+"editing ways":
 
 ```bash
 $ echo foo | nvim file1.txt file2.txt
@@ -253,9 +249,9 @@ If you ever _want_ to execute stdin-as-commands, use `-s -`:
 $ echo ifoo | nvim -s -
 ```
 
-With these improvements it's now possible to use `nvim -es` as one might use
-`python -c` or `perl -e`. For example, I use it in my `.bashrc` to configure
-the shell depending on the Nvim version:
+With these improvements one can use `nvim -es` as one might use `python -c` or
+`perl -e`. For example, I use it in my `.bashrc` to configure the shell
+depending on the Nvim version:
 
 ```bash
 if nvim -es +'if has("nvim-0.3.2")|0cq|else|1cq|endif' ; then
@@ -267,9 +263,8 @@ fi
 ## Eggnog
 
 The mechanisms and ergonomics for delivering data to Vim at invocation-time are
-essentially unchanged from vi—owing, yes, to deference to
-[POSIX vi](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/vi.html)
-and our old friend backwards compatibility—but perhaps primarly to inertia.
+essentially unchanged from vi—owing, yes, to deference to POSIX and our old
+friend backwards compatibility—but perhaps primarly to inertia.
 
 It turns out that very few people actually care about the traditional behavior:
 the precise behavior of `-es`, for example, was broken in Nvim for years but no
