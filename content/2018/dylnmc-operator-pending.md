@@ -1,9 +1,9 @@
 ---
 title: "Transactions Pending"
-publishDate: 2018-12-17
-draft: false
+publishDate: 2018-12-16
+draft: true
 description: "Take control of your text objects"
-slug: "operator-pending"
+slug: "transactions-pending"
 author:
   name: "Dylan McClure"
 ---
