@@ -123,7 +123,7 @@ Luckily, we can set `'suffixesadd'` so that Vim mentally adds the right extensio
 setlocal suffixesadd+=.js
 ```
 
-`gf` as a lesser known sibling, `gF` that does everything `gf` does while also jumping to the given line number, if any:
+`gf` has a lesser known sibling, `gF` that does everything `gf` does while also jumping to the given line number, if any:
 
 ```javascript
 // TODO: investigate why path/to/file:12 was added
