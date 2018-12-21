@@ -1,8 +1,9 @@
 ---
 title: "if_pyth (= the python interface) cookbook"
-publishDate: 2018-12-10
-draft: true
-description: Describe how to achieve some commonly desired idioms using the vim python interface
+publishDate: 2018-12-17
+draft: false
+description: "Describe how to achieve some commonly desired idioms using the vim python interface"
+slug: "a-python-interface-cookbook"
 author:
   name: "Shlomi Fish"
   email: "shlomif@cpan.org"
@@ -12,8 +13,6 @@ author:
   irc: "rindolf"
   homepage: "https://www.shlomifish.org/"
 ---
-
-# if_pyth (= the python interface) cookbook
 
 ## Why if_pyth
 
@@ -82,7 +81,9 @@ command! -range IndexBuf :<line1>,<line2>py my_replace_with_numbers(vim.current.
 Some notes:
 
 1. Note the use of `join` and `split` to convert from a list/array of lines to a single, multi-line, string and back.
+
 2. Wrapping the index inside a list is needed so it can be changed by the inner subroutine.
+
 3. `vim.current.range` contains the current range.
 
 ## Accessing Vimscript variables and registers
