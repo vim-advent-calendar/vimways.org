@@ -53,7 +53,7 @@ command! -range ReplaceToken :<line1>,<line2>pydo return my_replace_string(line,
 Save this as `if_pyth-linewise.vim` and then `:source` it and you can do
 `:%ReplaceToken` or similar, like this:
 
-![Linewise Filtering Demo](shlomif-if_pyth--termtosvg--linewise.svg)
+![Linewise Filtering Demo](../shlomif-if-pyth-cookbook/demo.svg)
 
 ## Processing an entire subrange / selection of lines at once
 
