@@ -1,8 +1,8 @@
 ---
 title: "Don't use Vim"
-publishDate: 2018-12-17
+publishDate: 2018-12-18
 draft: true
-description: "Don't use Vim for the wrong reasons
+description: "Don't use Vim for the wrong reasons"
 slug: "dont-use-vim"
 author:
   name: "Romain Lafourcade"
