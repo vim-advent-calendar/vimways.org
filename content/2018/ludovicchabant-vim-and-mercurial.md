@@ -252,6 +252,9 @@ what you modified in the current buffer. Unlike [Gitgutter][], which the
 original article also recommends, Signify works with a multitude of VCSes,
 including Mercurial.
 
+---
+
+This article was originally posted [on the author's blog][original].
 
 
 [vimways]: https://vimways.org
@@ -265,3 +268,4 @@ including Mercurial.
 [fugitive]: https://github.com/tpope/vim-fugitive
 [signify]: https://github.com/mhinz/vim-signify
 [gitgutter]: https://github.com/airblade/vim-gitgutter
+[original]: https://ludovic.chabant.com/devblog/2018/12/23/vim-and-mercurial/
