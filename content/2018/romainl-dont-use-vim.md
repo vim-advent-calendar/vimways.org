@@ -10,12 +10,14 @@ author:
 ---
 
 
-> What is a tree without roots? The deeper into the earth the roots reach, the stronger the tree.
+> Don't do the crime, if you can't do the time.
 >
-> -- Master Kan
+> -- Anthony Vincenzo "Tony" Baretta
 
 
 Vim is an amazing text editor. I love it. Really, I wouldn't [organize][organize] a Vim advent calendar if I didn't. But, as amazing as it is, **Vim is not for everyone**. It can't solve all your problems, or be a TUI version of your favorite IDE, or make you a better programmer, or land you that dream job in the Bay Area, but Vim *can* help you be more mindful, focused, and efficient, as long as you approach it with the right mindset.
+
+Don't get me wrong, I certainly welcome you to try Vim, but I'm not a proselyte. I don't strive on newbies. I just want *you* to use the right tool for the job and not waste *your*--and anyone's--time on a fruitless quest.
 
 ## Don't use Vim…
 
@@ -41,7 +43,7 @@ You can develop large C++ applications, work on React apps, build Go microservic
 
 Vim *can* be compiled for almost every platform/OS/hardware combination but it *is not* everywhere; hell, it's not on Windows, for starter, and Windows is the most widely used OS.
 
-Vim is a vi clone and the whole justification for shipping your UNIX-like OS with a vi clone is that you want to ensure *partial* [POSIX][posix] compatibility. Most Linux distributions use Vim for that while a few have been using vi since it's legal status has been cleared. On BSD you generally get Nvi. On minimalist distributions used for embedded devices or containers you get [BusyBox vi][busybox-vi]…
+Vim is a vi clone and the whole justification for shipping your UNIX-like OS with a vi clone is that you want to ensure *partial* [POSIX][posix] compatibility. Most Linux distributions use Vim for that while a few have been using vi since its legal status has been cleared. On BSD you generally get Nvi. On minimalist distributions used for embedded devices or containers you get [BusyBox vi][busybox-vi]…
 
 Also, your new favorite editor can be compiled with different features, sometimes--but not exclusively--grouped in meta features called "Tiny", "Small", "Normal", "Big", and "Huge", and the Vim you get by default, if any, is rarely the full-fledged version you would expect. Clipboard support, for example, is a pretty basic feature that is never built-in in default Vim and doesn't exist anyway in vi or Nvi.
 
@@ -78,6 +80,12 @@ The features you are used to may or may not be built-in or they may or may not r
 An example of thing you might want to adjust to rather than fight against would be "tabs": Vim's tabs, called [tab pages][tab-pages], don't work like other editor's tabs *at all*, so your usual tab-centric workflow *must*, at the very least, be changed to a buffer-centric one.
 
 Besides, if you don't want to change your habits, why change editors in the first place?
+
+### if the job can be done better with another tool
+
+`sed`, `awk`, `cut`, a quick bash one-liner, a simpler editor, an infinitely more powerful IDE, an actual IRC or mail client, an actual presentation program, some online CSV-to-JSON converter... specialized tools are very often better alternatives to Vim. Even pen and paper (or marker on whiteboard) can be better for many uses.
+
+Yes, you have reached the *"Vim everywhere for everything"* but that's just a phase and you will get out of it, eventually.
 
 ## How to approach Vim
 
@@ -125,9 +133,7 @@ In any case, be sure to prepare a minimum test case and explain what you are try
 
 Vim is a complex program that lives in a bubble of its own. Its, shall we say, many peculiarities make it impossible to pick it up like one would pick Atom or Sublime Text up. Unlike those editors, Vim requires serious learning and unlearning before even being able to perform the slightest edit. Yes, it will take months before you use it more or less correctly and it will take decades to master it. Will it be worth it? I can't tell. It certainly has been worth it for me and many others while many more gave up or switched to other editors.
 
-Learning Vim, or any other powerful program like Photoshop or Blender, requires a patience and a discipline that not everyone can afford and that's OK because not everyone has to learn those things. If you don't have the required discipline…
-
-*then don't use Vim*.
+Learning Vim, or any other powerful program like Photoshop or Blender, requires a patience and a discipline that not everyone can afford and that's OK because not everyone has to learn those things. *If you don't have the required discipline you won't reap the expected benefits.*
 
 ---
 
