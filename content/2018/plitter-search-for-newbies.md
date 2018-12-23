@@ -11,7 +11,7 @@ author:
 
 ## Search in Vim for newbies
 
-Now that we've seen [moving across files][moving-across-files] I think it is time to get back to the current buffer and see what is possible here as well.
+Now that we've seen [moving across files][post-death] I think it is time to get back to the current buffer and see what is possible here as well.
 
 One thing that seems to happen consistently on the way from beginning newbie to not-so-much newbie is that moment when you realize that mashing `hjkl` or holding `w`/`b` is not the most efficient way to move around. Personally, I don't think counting words is any efficient either. To take an example (where I use `^` as indicator for the cursor position):
 
@@ -24,7 +24,7 @@ What count do you need for `w` to get to `hello`? The answer might surprise you.
 
 OK, so we all came to the conclusion of `9w` to get to `hello`? Vim has the interestingly decided that `=`, `(`, `)`, `+`, and `"` started words so we had to add 4 to our initial count, which makes it hard count correctly and, if we were wrong, there isn't a "repeat" command for `[count]w`.
 
-There is another line-wise search in vim that is slightly more efficient, even if slightly less precise. Consider our former example, but this time we want to get to the `e` of `hello`: we can type `fe` and repeat the search with `;`. Since this is a line-wise search and `e` happens to be the last `e` you could just hold down `;` and you will hit the correct spot. That's not nearly as precise, but I don't have to count the `e`'s to get to where I want to go. This, in my counting deficient brain, is a plus as holding `w` will certainly overshoot the target. But what happens when you have something like the following and you want to move to `apply`?
+There is another [line-wise motion][:help-left-right-motions] in vim that is slightly more efficient, even if slightly less precise. Consider our former example, but this time we want to get to the `e` of `hello`: we can type `fe` and repeat the search with `;`. Since this is a line-wise search and `e` happens to be the last `e` you could just hold down `;` and you will hit the correct spot. That's not nearly as precise, but I don't have to count the `e`'s to get to where I want to go. This, in my counting deficient brain, is a plus as holding `w` will certainly overshoot the target. But what happens when you have something like the following and you want to move to `apply`?
 
 ```vim
 var oldUnload = window.onbeforeunload;
@@ -37,11 +37,11 @@ window.onbeforeunload = function() {
 };
 ```
 
-Should you count to get down 4 lines, then `4w` to get to `apply`? Or use relative numbers to move down and then `fa;`?
+Should you count to get down four lines, then `4w` to get to `apply`? Or use relative numbers to move down and then `fa;`?
 
-There is a better way and it is simply to search. You look at where you want to go, press `/` and start typing the word. To make this more user-friendly, we want to see where we would end up if we pressed enter now.  So we enable incremental search with `:set incsearch` and  we try again, with our previous example:
+There is a better way and it is simply to search: you look at where you want to go, press `/` and start typing the word. To make this more user-friendly, we want to see where we would end up if we pressed enter now.  So we enable [incremental search][:help-incsearch] with `:set incsearch` and  we try again, with our previous example:
 
-<script id="asciicast-218011" src="https://asciinema.org/a/218011.js" async></script>
+<script id="asciicast-218011" src="https://asciinema.org/a/218011.js" data-size="1.3vw" async></script>
 
 Four keystrokes and we knew at the third keystrokes that we had hit the correct spot. This is the closest I've come to point and click, and it is super fast.
 
@@ -55,7 +55,7 @@ So `f` searches forward on the line, but how should you move back? Well, there i
 
 Another complementary search for `f` is `t` which searches *until* the character, and its opposite `F` which moves backward.
 
-`w` is another story, though. `w` moves you to the start of the next word and we might expect `W` to move to the previous word. Instead, it does... the exact same thing as `w`, at first glance. I'll leave the specifics up to [the manual][the-manual] (which you should read), but an easy example of the difference is this:
+`w` is another story, though. `w` moves you to the start of the next word and we might expect `W` to move to the previous word. Instead, it does... the exact same thing as `w`, at first glance. I'll leave the specifics up to [the manual][:help-WORD] (which you should read), but an easy example of the difference is this:
 
 ```vim
 public void importantFunction(Type1 t1);
@@ -76,7 +76,7 @@ Command | Mnemonic
 `t` | 'til, as in until (see [:help t][:help-t])
 `w` | word (see [:help w][:help-w])
 `/` | forward search, if you draw the slash from bottom then the slash goes from left to right (see [:help /][:help-/])
-`?` | backward search, if you draw the question mark from the bottom it points backward (see [:help /][:help-/])
+`?` | backward search, if you draw the question mark from the bottom it points backward (see [:help ?][:help-?])
 
 I hope you weren't expecting anything fancy...
 
@@ -117,10 +117,15 @@ d/8/;/;/e<cr>
 and you have done exactly what you wanted. Let's break that one down
 
 - `d` accepts a motion and luckily `/` is a motion
+
 - `/8` is a normal search for `8`
+
 - `/` marks the end of the pattern
+
 - `;` shows that the next part is a new search
+
 - `/;` searches for the next `;`
+
 - `/e` leaves the cursor at the end of the match
 
 For fun, and to illustrate our point rather than be a good vimmer, you can do something like:
@@ -129,35 +134,96 @@ For fun, and to illustrate our point rather than be a good vimmer, you can do so
 d/result/;//;//;//;//;//;//;/;/e
 ```
 
-to obtain the exact same result.
+to obtain the exact same result. For more information checkout [:help /][:help-/], especially [the section on offset][:help-search-offset].
 
-For more information checkout [:help /][:help-/], especially the section on offset.
-
-Still for fun, but this time to be a good vimmer, one could use visual-line mode to cast whatever motion follows to a linewise motion:
+Still for fun, but this time to be a good vimmer, one could use visual-line mode to [cast][cast] whatever motion follows to a line-wise motion:
 
 ```vim
 dV/8<CR>
 ```
-<<<< STOPPED HERE >>>>
-Another thing that makes / very easy to use is that you have history which you can access with the up and down button when you have the / on the commandline. So d/ and you can go through your previous searches. Which is nice if you have a search with a lot of regex.
+
+Another thing that makes search very easy to use is that you have history which you can access with `<Up>` and `<Down>` when you have the `/` or `?` on the command-line. So we could do `d/` and go through our previous searches. Which is nice if we have a search that involves complex regular expressions.
 
 ## Repeat last search
 
-Something else that is fun with / is that you can repeat the last search with //. Now this is probably completely useless right? I can just press n or N do the exact search again. True, but you can do it in other commands! So imagine that we have the text as above. Result might not be the best name for it so we want to change it to something else. We do /result<cr>, to see that we're hitting the correct things. (if you haven't done it, do :set hlsearch and you'll see exactly the words we hit). That looks fine, so we substitute out the meaningless name. :%s//shouldBeArray/<cr> and suddenly we've renamed it to something that that conveys more meaning.
+Something else that is fun with search is that it can be repeated with `//` or `??`. Now this is probably completely useless, right? You can just press `n` or `N` to do the exact same search again. True, but you can do it in other commands! So imagine that we are working with the same sample as above. `result` might not be the best name so we want to change it to something else. We do `/result<cr>`, to see that we're describing our target correctly, and we substitute out the meaningless name:
+
+```vim
+:%s//shouldBeArray<cr>
+```
+
+to rename it to something more meaningful.
+
+<script id="asciicast-218019" src="https://asciinema.org/a/218019.js" data-size="1.3vw" async></script>
 
 ## Ranges
 
-Now you might be thinking "That last command is nice and all, but what happens if that is in the middle of a 5000 lines of code? I can't be held accountable for what happens with the other 4992 lines of code!". Well luckily you wont have to, you can use search to choose the range of lines that you want to hit!  :/result1/,/result8/s/<ctrl+r>//shouldBeArray/<cr> and your done. The ctrl+r / adds the last search into your command. But what happens if your code has multiple result1 or result8? Basically the same as when you do a normal search.  So from where your cursor currently is until you hit the first result1 and then until you hit the first result8 after result1. An interesting behaviour I found here is that if your doing the same command again a second time and you have 1 result1 above your current cursor it will still find your result1 and do the substitute and if for some reason result8 is before result1 it will ask you if you want to switch the backward range.
+Now you might be thinking *"That last command is nice and all, but what happens if that is in the middle of a 5000 lines of code? I can't be held accountable for what happens with the other 4992 lines of code!"*. Well luckily you wont have to, you can use search to choose the range of lines that you want to hit:
+
+```vim
+:/result1/,/result8/s/<C-r>//shouldBeArray/<cr>
+```
+
+and your done, thanks to `<C-r> /` inserting the last search into your command. See [`:help c_ctrl-r`][:help-c_ctrl-r].
+
+But what happens if your code has multiple `result1` or `result8`? Basically the same as when you do a normal search: from where your cursor currently is until you hit the first `result1` and then until you hit the first `result8` after `result1`. An interesting behaviour I found here is that if you are doing the same command again and you have one `result1` above your current cursor it will still find your `result1` and perform the substitution while, if for some reason `result8` is before `result1` it will ask you if you want to switch the backward range.
+
+See [`:help cmdline-ranges`][:help-cmdline-ranges].
 
 ## Obvious(?) other uses of search and some tips
 
-I mentioned briefly (very briefly) that / allows regexes. Regexes should be allowed its own article. But quick example would be to search for result1-8 in 1 go instead of just result. /result\d, /re.ult\d, /res\wlt\d f.ex. Read the manual and also checkout bash regexes, their super useful and remember that you can call shellcommands inside vim.
+I mentioned briefly (very briefly) that `/` takes regular expression patterns. This is matter for a dozen articles, but I should demonstrate it with a quick example: search for any `result1-8` in one go instead of just `result`. You would do:
 
-You can use :g/<search here>/d to delete all lines that contain pattern or you can use :v/<search here>/d to delete all lines that don't contain pattern. You can also use ranges on those 2 command and the ranges can use search. And don't get me started on what can come after v/.../ or g/.../ because I don't know that much about and would like someone to do an article or send me a message on irc to plitter in #vim explaining it in detail for me :)
+```vim
+" search for 'result' followed by a number
+/result\d
+```
 
-After doing d/<search>, you can repeat it with dot.
+or:
 
-After doing c/<search>, you can repeat it with dot.
+```vim
+" search for 're',
+" followed by any character,
+" followed by 'ult',
+" followed by a number
+/re.ult\d
+```
+
+or:
+
+```vim
+" search for 'res',
+" followed by a 'keyword' character
+" followed by 'lt',
+" followed by a number
+/res\wlt\d
+```
+
+As usual, [the manual][:help-pattern] is here to quench your thirst for knowledge.
+
+---
+
+You can use
+
+```vim
+:g/<search here>/d
+```
+
+to delete all lines that contain pattern or you can use:
+
+```vim
+:v/<search here>/d
+```
+
+to delete all lines that don't contain pattern. You can also use ranges on those 2 command and the ranges can use search. And don't get me started on what can come after `v/.../` or `g/.../` because I don't know that much about it to begin with and **I would like someone to do an article on this** (wink, wink).
+
+In the mean time, much can be learned from [`:help :global`][:help-:global].
+
+---
+
+You can repeat `d/<search>` or `c/<search>` with `.`.
+
+---
 
 I think you can begin to see a pattern where if the command changes text and accepts a motion you can repeat it with `.`. For example, a cheap substitute for:
 
@@ -171,39 +237,44 @@ could actually be to do:
 /foo<cr>cgnbar<Esc>
 ```
 
-then `n` to get to the next match and `.` to repeat the change. See [`:help gn`][`:help-gn`].
+then `n` to get to the next match and `.` to repeat the change. See [`:help gn`][:help-gn].
 
-\* and # searches the current word forwards and backwards respectively and you can use that as a substitute in :s//<something>/, :g//<something fancy>, c//, and d//.
+---
 
 I like to use `/` to move around or visually selecting. But when I've gotten to where I want to work I'll go to insert mode to insert text, change text with `ct;` (I usually come to where I want to assign a variable and remove the text from: `<text to remove>;`), or when I change a function signature I'll let my [quickfix list][quickfix-list] get populated with the problematic method calls, go to those locations, do `/something` to get to the offending parameter and follow up with any of the following:
 
 * `df,x`,
+
 * `d2w`,
+
 * `dw.`,
+
 * `d/<the next parameter>` to remove the parameter,
+
 * `ct`,
+
 * `c/<the next parameter>` to change the parameter,
+
 * etc.
 
-### Checkout the following manuals
-
-- :help /
-- :help c_CTRL-R
-- :help :g
-- :help :s
-- :help search-offset
-- :help cmdline-ranges
 
 
-[:help-f]: #
-[:help-t]: #
-[:help-w]: #
-[:help-/]: #
-[:help-/]: #
-[:help-/]: #
+[:help-/]: http://vimhelp.appspot.com/pattern.txt.html#/
+[:help-?]: http://vimhelp.appspot.com/pattern.txt.html#?
+[:help-WORD]: http://vimhelp.appspot.com/motion.txt.html#WORD
+[:help-cmdline-ranges]: http://vimhelp.appspot.com/cmdline.txt.html#cmdline-ranges
+[:help-c_ctrl-r]: http://vimhelp.appspot.com/cmdline.txt.html#c_ctrl-r
+[:help-f]: http://vimhelp.appspot.com/motion.txt.html#f
+[:help-gn]: http://vimhelp.appspot.com/visual.txt.html#gn
+[:help-incsearch]: http://vimhelp.appspot.com/options.txt.html#%27incsearch%27
+[:help-:global]: http://vimhelp.appspot.com/repeat.txt.html#:global
+[:help-left-right-motions]: http://vimhelp.appspot.com/motion.txt.html#left-right-motions
+[:help-pattern]: http://vimhelp.appspot.com/pattern.txt.html#pattern
+[:help-search-offset]: http://vimhelp.appspot.com/pattern.txt.html#search-offset
+[:help-t]: http://vimhelp.appspot.com/motion.txt.html#t
+[:help-w]: http://vimhelp.appspot.com/motion.txt.html#w
+[cast]: http://vimhelp.appspot.com/motion.txt.html#o_V
+[quickfix-list]: http://vimhelp.appspot.com/quickfix.txt.html#quickfix
+[post-death]: https://vimways.org/2018/death-by-a-thousand-files/
 
 [//]: # ( Vim: set spell spelllang=en: )
-[`:help-gn`]: #
-[quickfix-list]: #
-[moving-across-files]: #
-[the-manual]: #
