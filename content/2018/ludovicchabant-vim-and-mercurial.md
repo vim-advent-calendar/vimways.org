@@ -1,7 +1,7 @@
 ---
 title: "Vim and Mercurial"
 publishDate: 2018-12-23
-draft: false
+draft: true
 description: Tips for integrating Vim and Mercurial.
 slug: "vim-and-mercurial"
 author:
@@ -26,6 +26,7 @@ structure! Let's dive in.
 Just like Git, Mercurial needs to open a text editor for some operations:
 
 - editing commit messages.
+
 - editing history (the "interactive" half of what Git calls "interactive
   rebasing").
 
@@ -33,6 +34,7 @@ Mercurial also needs to open some kind of tool (not necessarily a text editor...
 but you can guess which tool we'll use!) for some other operations:
 
 - showing a diff.
+
 - resolving a merge.
 
 ### Editing commit messages
@@ -112,7 +114,7 @@ extension][extdiff]'s wiki page:
 ```config
 [extdiff]
 # add new command called vimdiff, runs gvimdiff with DirDiff plugin
-#(see http://www.vim.org/scripts/script.php?script_id=102)
+# (see http://www.vim.org/scripts/script.php?script_id=102)
 # Non english user, be sure to put "let g:DirDiffDynamicDiffText = 1" in
 # your .vimrc
 cmd.vimdiff = vim
@@ -128,6 +130,7 @@ This messed up `extdiff` because the way it runs the external tool is:
 
 - Set the current working directory to a temporary folder that contains the
   2 sub-folders with all the files' snapshots.
+
 - Pass the name of those 2 sub-folders as arguments to the external tool.
 
 As such, if Vim's current working directory is changed by the time it executes
@@ -262,4 +265,3 @@ including Mercurial.
 [fugitive]: https://github.com/tpope/vim-fugitive
 [signify]: https://github.com/mhinz/vim-signify
 [gitgutter]: https://github.com/airblade/vim-gitgutter
-
