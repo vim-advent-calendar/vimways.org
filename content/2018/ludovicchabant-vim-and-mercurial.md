@@ -1,7 +1,7 @@
 ---
 title: "Vim and Mercurial"
 publishDate: 2018-12-23
-draft: true
+draft: false
 description: Tips for integrating Vim and Mercurial.
 slug: "vim-and-mercurial"
 author:

@@ -28,71 +28,663 @@
 {{ end }}
 <div class="container">
 	<div class="articles">
-		{{ range sort .Pages.ByPublishDate "value" "desc"}}
-		{{ $scratch.Set "year" (.PublishDate.Format "2006") }}
-		<a href="{{ .Permalink }}">
+		<a href="https://vimways.org/2018/the-power-of-diff/">
 			<article>
 				<div class="tile">
 					<div class="date">
 						<div class="day">
-							{{ .PublishDate.Format "2" }}
+							1
 						</div>
 						<div class="month-year">
-							{{ .PublishDate.Format "January" }} {{ .PublishDate.Format "2006" }}
+							December 2018
 						</div>
 					</div>
 					<div class="content">
-						<h2>{{ .Title }}</h2>
+						<h2>The power of diff</h2>
 						<p class="description">
-							{{ .Description }}
+							Making Vim's diff mode more powerful and more flexible.
 						</p>
 						<p class="author">
-							By <i>{{ .Params.author.name }}</i>
+							By <i>Christian Brabandt</i>
 						</p>
 					</div>
 				</div>
 			</article>
 		</a>
-		{{ end }}
-		{{ $number_of_pages := len .Pages }}
-		{{ if lt $number_of_pages 24}}
-		{{ range $index, $val := (seq (sub 24 $number_of_pages)) }}
+		<a href="https://vimways.org/2018/you-should-be-using-tags-in-vim/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							2
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>You Should Be Using Tags In Vim</h2>
+						<p class="description">
+							You may not know it, but Vim already does what you installed a Jedi plugin to do
+						</p>
+						<p class="author">
+							By <i>Daniel Moch</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/from-vimrc-to-vim/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							3
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>From .vimrc to .vim</h2>
+						<p class="description">
+							Breaking your long vimrc into a personal runtime directory.
+						</p>
+						<p class="author">
+							By <i>Tom Ryder</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/one-vim/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							4
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>One Vim: managing multiple files with ease</h2>
+						<p class="description">
+							Editing multiple files without breaking a sweat.
+						</p>
+						<p class="author">
+							By <i>Nate Jones</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/vim-and-git/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							5
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Vim and Git</h2>
+						<p class="description">
+							Tips for integrating Vim and Git.
+						</p>
+						<p class="author">
+							By <i>Samuel Walladge</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/formatting-lists-with-vim/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							6
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Formatting lists with Vim</h2>
+						<p class="description">
+							Understanding how Vim understands lists
+						</p>
+						<p class="author">
+							By <i>George Brown</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/make-your-setup-truly-cross-platform/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							7
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Make your setup truly cross-platform</h2>
+						<p class="description">
+							How to deal with platform/host-specific issues
+						</p>
+						<p class="author">
+							By <i>Gerry Agbobada</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/for-mappings-and-a-tutorial/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							8
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>For Mappings And A Tutorial</h2>
+						<p class="description">
+							First meeting with custom mappings
+						</p>
+						<p class="author">
+							By <i>Markzen</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/the-mapping-business/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							9
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>The Mapping Business</h2>
+						<p class="description">
+							Tools of the mapping trade
+						</p>
+						<p class="author">
+							By <i>Markzen</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/runtime-hackery/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							10
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Runtime hackery</h2>
+						<p class="description">
+							Disabling runtime files, setting compilers, and autoloading.
+						</p>
+						<p class="author">
+							By <i>Tom Ryder</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/colder-quickfix-lists/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							11
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Colder quickfix lists</h2>
+						<p class="description">
+							A little bit of vimscript never hurt anybody. If you know what I mean.
+						</p>
+						<p class="author">
+							By <i>Nick Jensen</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/debugging-your-vim-config/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							12
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Debugging your Vim Config</h2>
+						<p class="description">
+							Something's broken, why???
+						</p>
+						<p class="author">
+							By <i>Samuel Walladge</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/death-by-a-thousand-files/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							13
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Death by a thousand files</h2>
+						<p class="description">
+							Free yourself from the tyranny of file explorers
+						</p>
+						<p class="author">
+							By <i>Romain Lafourcade</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/opening-non-vim-file-formats/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							14
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Opening Non-Vim File Formats</h2>
+						<p class="description">
+							How to open images, spreadsheets, and whatever else using Vim
+						</p>
+						<p class="author">
+							By <i>Conner McDaniel</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/vims-social-life/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							15
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Vim's social life</h2>
+						<p class="description">
+							A story of flags and POSIX compatibility
+						</p>
+						<p class="author">
+							By <i>Justin M. Keyes</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/transactions-pending/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							16
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Transactions Pending</h2>
+						<p class="description">
+							Take control of your text objects
+						</p>
+						<p class="author">
+							By <i>Dylan McClure</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/a-python-interface-cookbook/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							17
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>if_pyth (= the python interface) cookbook</h2>
+						<p class="description">
+							Describe how to achieve some commonly desired idioms using the vim python interface
+						</p>
+						<p class="author">
+							By <i>Shlomi Fish</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<a href="https://vimways.org/2018/searches-for-us-newbies/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							18
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Search for us, newbies</h2>
+						<p class="description">
+							Supercharge your movement through the buffer
+						</p>
+						<p class="author">
+							By <i>plitter</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
 		<div class="future">
 			<article>
 				<div class="bar"></div>
 				<div class="tile">
 					<div class="date">
-						<div class="day">{{ add 1 (add $number_of_pages $index) }}</div>
-						<div class="month-year">December&nbsp;{{ $scratch.Get "year" }}</div>
+						<div class="day">19</div>
+						<div class="month-year">December&nbsp;2018</div>
 					</div>
 					<div class="content">
 						<div>
 							<h2 class="spoiler">
-								{{ range (seq 4) }}
-								{{ strings.Repeat (index (seq 5 | shuffle | first 1) 0) "—" }}
-								{{ end }}
+								—
+								————
+								—————
+								———
 							</h2>
 						</div>
 						<div>
 							<p class="description spoiler">
-								{{ range (seq 12) }}
-								{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
-								{{ end }}
+								———
+								———————
+								————————
+								—
+								————————
+								——
+								———————
+								—————
+								——————
+								—————
+								——————
+								——
 							</p>
 						</div>
 						<div>
 							<p class="author spoiler">
-								{{ range (seq 3) }}
-								{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
-								{{ end }}
+								————————
+								———
+								————————
 							</p>
 						</div>
 					</div>
 				</div>
 			</article>
 		</div>
-		{{ end }}
-		{{ end }}
+		<div class="future">
+			<article>
+				<div class="bar"></div>
+				<div class="tile">
+					<div class="date">
+						<div class="day">20</div>
+						<div class="month-year">December&nbsp;2018</div>
+					</div>
+					<div class="content">
+						<div>
+							<h2 class="spoiler">
+								—
+								————
+								—————
+								———
+							</h2>
+						</div>
+						<div>
+							<p class="description spoiler">
+								———
+								———————
+								————————
+								—
+								————————
+								——
+								———————
+								—————
+								——————
+								—————
+								——————
+								——
+							</p>
+						</div>
+						<div>
+							<p class="author spoiler">
+								————————
+								———
+								————————
+							</p>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+		<div class="future">
+			<article>
+				<div class="bar"></div>
+				<div class="tile">
+					<div class="date">
+						<div class="day">21</div>
+						<div class="month-year">December&nbsp;2018</div>
+					</div>
+					<div class="content">
+						<div>
+							<h2 class="spoiler">
+								—
+								————
+								—————
+								———
+							</h2>
+						</div>
+						<div>
+							<p class="description spoiler">
+								———
+								———————
+								————————
+								—
+								————————
+								——
+								———————
+								—————
+								——————
+								—————
+								——————
+								——
+							</p>
+						</div>
+						<div>
+							<p class="author spoiler">
+								————————
+								———
+								————————
+							</p>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+		<div class="future">
+			<article>
+				<div class="bar"></div>
+				<div class="tile">
+					<div class="date">
+						<div class="day">22</div>
+						<div class="month-year">December&nbsp;2018</div>
+					</div>
+					<div class="content">
+						<div>
+							<h2 class="spoiler">
+								—
+								————
+								—————
+								———
+							</h2>
+						</div>
+						<div>
+							<p class="description spoiler">
+								———
+								———————
+								————————
+								—
+								————————
+								——
+								———————
+								—————
+								——————
+								—————
+								——————
+								——
+							</p>
+						</div>
+						<div>
+							<p class="author spoiler">
+								————————
+								———
+								————————
+							</p>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
+		<a href="https://vimways.org/2018/vim-and-mercurial/">
+			<article>
+				<div class="tile">
+					<div class="date">
+						<div class="day">
+							23
+						</div>
+						<div class="month-year">
+							December 2018
+						</div>
+					</div>
+					<div class="content">
+						<h2>Vim and Mercurial</h2>
+						<p class="description">
+							Tips for integrating Vim and Mercurial.
+						</p>
+						<p class="author">
+							By <i>Ludovic Chabant</i>
+						</p>
+					</div>
+				</div>
+			</article>
+		</a>
+		<div class="future">
+			<article>
+				<div class="bar"></div>
+				<div class="tile">
+					<div class="date">
+						<div class="day">24</div>
+						<div class="month-year">December&nbsp;2018</div>
+					</div>
+					<div class="content">
+						<div>
+							<h2 class="spoiler">
+								—
+								————
+								—————
+								———
+							</h2>
+						</div>
+						<div>
+							<p class="description spoiler">
+								———
+								———————
+								————————
+								—
+								————————
+								——
+								———————
+								—————
+								——————
+								—————
+								——————
+								——
+							</p>
+						</div>
+						<div>
+							<p class="author spoiler">
+								————————
+								———
+								————————
+							</p>
+						</div>
+					</div>
+				</div>
+			</article>
+		</div>
 	</div>
 </div>
 {{ end }}
