@@ -1,6 +1,6 @@
 ---
 title: "Don't use Vim"
-publishDate: 2018-12-18
+publishDate: 2018-12-19
 draft: true
 description: "Don't use Vim for the wrong reasons"
 slug: "dont-use-vim"

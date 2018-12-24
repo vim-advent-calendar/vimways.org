@@ -1,6 +1,6 @@
 ---
 title: "The Road to Integration"
-publishDate: 2018-12-04
+publishDate: 2018-12-25
 draft: true
 description: An article on this or that.
 ---

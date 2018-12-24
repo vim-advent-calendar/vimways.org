@@ -1,6 +1,6 @@
 ---
 title: "The power of diff"
-publishDate: 2018-12-01
+publishDate: "2018-12-01"
 draft: false
 description: "Making Vim's diff mode more powerful and more flexible."
 slug: "the-power-of-diff"
