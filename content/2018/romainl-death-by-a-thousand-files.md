@@ -331,12 +331,7 @@ They are different, though, in that `'include'` commands search for *text*, whic
 But `'define'` is still the default value so we can't make use of it. Let's change that sorry state of affairs with a minimalist value meant to match classes:
 
 ```vim
-" in /tmp/vimrc
-set define=class\\s
-set include=from
-set incsearch
-set suffixesadd=.js
-syntax on  " irrelevant to the topic at hand but nice for the eyes
+:set define=class\\s
 ```
 
 and go back to our starting point:
