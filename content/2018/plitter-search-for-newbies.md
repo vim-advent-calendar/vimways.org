@@ -53,7 +53,7 @@ So, I covered `f`, `w` and `/`, and I think it is worth mentioning some opposite
 
 So `f` searches forward on the line, but how should you move back? Well, there is `F<char>` which allows you to search backwards but that might be more work than we're willing to do if we simply overshot our target. So if we are at the `e` in `hello` and we really wanted the `e` in `anotherString`, we can simply press `,` to repeat the last move in the opposite direction.
 
-Another complementary search for `f` is `t` which searches *until* the character, and its opposite `F` which moves backward.
+Another complementary search for `f` is `t` which searches *until* the character, and its opposite `T` which moves backward.
 
 `w` is another story, though. `w` moves you to the start of the next word and we might expect `W` to move to the previous word. Instead, it does... the exact same thing as `w`, at first glance. I'll leave the specifics up to [the manual][:help-WORD] (which you should read), but an easy example of the difference is this:
 
@@ -164,7 +164,7 @@ Now you might be thinking *"That last command is nice and all, but what happens 
 :/result1/,/result8/s/<C-r>//shouldBeArray/<cr>
 ```
 
-and your done, thanks to `<C-r> /` inserting the last search into your command. See [`:help c_ctrl-r`][:help-c_ctrl-r].
+and you're done, thanks to `<C-r> /` inserting the last search into your command. See [`:help c_ctrl-r`][:help-c_ctrl-r].
 
 But what happens if your code has multiple `result1` or `result8`? Basically the same as when you do a normal search: from where your cursor currently is until you hit the first `result1` and then until you hit the first `result8` after `result1`. An interesting behaviour I found here is that if you are doing the same command again and you have one `result1` above your current cursor it will still find your `result1` and perform the substitution while, if for some reason `result8` is before `result1` it will ask you if you want to switch the backward range.
 
