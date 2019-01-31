@@ -105,7 +105,7 @@ enough, the `r` flag has gone, and the unwanted behavior has stopped.
 
 ```vim
 :set formatoptions?
-  formatoptions=jcrqol
+  formatoptions=jcqol
 ```
 
 Note that you didn’t need to add a [`b:undo_ftplugin`][uf] command in this
