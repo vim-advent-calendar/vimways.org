@@ -269,7 +269,7 @@ loaded:
 ```vim
 if &compatible
       \ || v:version < 700
-      \ || has('folding')
+      \ || !has('folding')
       \ || exists('g:loaded_myplugin')
   finish
 endif
