@@ -207,7 +207,7 @@ set *before* the function it calls was defined.
 Why should we put the script in `~/.vim/plugin`? You might object that our
 example isn’t a *real* plugin; it’s just a single function. However, that’s not
 a meaningful distinction to Vim. At startup, it sources any and all `.vim`
-files in the `plugins` subdirectory of each of the directories in
+files in the `plugin` subdirectory of each of the directories in
 `'runtimepath'`. It makes no difference what those files actually contain. A
 set of related abbreviations? Custom commands? Code dependent on one particular
 machine or operating system? Sure, why not?
