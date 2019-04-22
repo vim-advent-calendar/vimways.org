@@ -27,6 +27,15 @@ The articles are in `content/YYYY/`: `content/2018/`, `content/2019/`, etc.
 
 They are written in Markdown, with the addition of a front matter specific to Hugo.
 
+## Contributing
+
+1. Fork the original repository.
+2. Clone your fork on your machine.
+3. Move into the repo.
+4. Do `$ hugo new --kind vimways 2019/title-of-your-article` to bootstrap a new article under `content/2019/`.
+5. Push your work to your fork.
+6. Make a pull request on the original repository.
+
 ## Meta pages
 
 The *About* and *Authors* pages are in `content/`.
