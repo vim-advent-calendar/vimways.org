@@ -40,4 +40,6 @@
 
 	{{ $main := resources.Get "sass/main.scss" | resources.ToCSS}}
 	<link rel="stylesheet" href="{{ $main.RelPermalink }}">
+
+	<script src="/js/main.js" type="text/javascript"></script>
 </head>
