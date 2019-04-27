@@ -13,47 +13,108 @@ author:
   twitter: "@username"
 ---
 
-> A guy told me one time, "Don't let yourself get attached to anything
-> you are not willing to walk out on in 30 seconds flat if you feel
-> the heat around the corner."
+> You don't have to open your post with a citation and if you want to, that
+> citation can be from anyone, real or imaginary, and be as relevant or
+> irrelevant to the subject of your post as you want.
 >
-> – Neil McCauley (1995)
+> – romainl
 
-## Header level 2
+## Heading level 2
+### Heading level 3
+#### Heading level 4
+##### Heading level 5
+###### Heading level 6
 
-Both rest of know draw fond post as. It [agreement defective][one-reference] to excellent. Feebly do engage of narrow. Extensive repulsive belonging depending if promotion be zealously as. Preference inquietude ask now are dispatched led appearance. Small meant in so doubt hopes. Me smallness is existence attending he enjoyment favourite affection. Delivered is to ye belonging enjoyment preferred. Astonished and acceptance men two discretion. Law education recommend did objection how old. 
+## Front matter
 
-![Placeholder 666x333][remote-placeholder]
+You don't have to provide any personal information under `author` beyond a name.
 
-### Header level 3
+## Body
+
+We prefer [reference links][vim-site] to [inline links](https://www.vim.org/) but you are free to use any style as long as it works.
+
+To mark *emphasis*, wrap your text with single `*`. Use two `**` to make text **strong**. Alternatively, you can use _single_ `_` and __double__ `__`. Use `` ` `` to wrap inline code like `:set autoindent` and filenames like `after/ftplugin/go.vim`.
+
+Here is an unordered list:
+
+* item
+* item
+* item
+
+Here is an ordered list:
+
+1. item
+2. item
+3. item
+
+Here is a table:
+
+Column 1 | Column 2 | Column 3
+---|---|---
+Foo | `foo` | 1234
+Bar | `bar` | 1234
+
+Refer to [this document][md-ref] and [this one][md-ext] if your Markdown-fu is rusty.
+
+## Code blocks
+
+Vim-highlighted code block:
 
 ```vim
-" vim-highlighted text
-set autoindent
+if !exists('g:env')
+    if has('win64') || has('win32') || has('win16')
+        let g:env = 'WINDOWS'
+    else
+        let g:env = toupper(substitute(system('uname'), '\n', '', ''))
+    endif
+endif
 ```
 
+Plain code block:
+
 ```text
-# non-highlighted text
 Hello, World!
 ```
 
-#### Header level 4
+## Embeds
 
-<script id="asciicast-117813" src="https://asciinema.org/a/117813.js" loop="loop" data-size="1.3vw" async></script>
+[Asciinema][asciinema] is our preferred way to show moving examples. To embed an asciicast, use this shortcode:
 
-At ourselves direction believing do he departure. Celebrated her had [sentiments][another-reference] understood are projection set. Possession ye no mr unaffected remarkably at. Wrote house in never fruit up. Pasture imagine my garrets an he. However distant she request behaved see nothing. Talking settled at pleased an of me brother weather.
+{{< asciicast 217094 >}}
 
-![Placeholder 666x333][local-placeholder]
+If you have recorded your own videos, consider uploading them to either [Youtube][youtube] or [Vimeo][vimeo] instead of embedding them directly as they will handle them way better than we could. To embed videos uploaded to those sites, use the shortcodes below:
+
+* Youtube
+
+  {{< youtube 0Lmg4Z2A_fY >}}
+
+* Vimeo
+
+  {{< vimeo 146022717 >}}
+
+## Images
+
+This is a remote image:
+
+![Placeholder 666x349][remote-placeholder]
+
+This is a local image:
+
+![Placeholder 666x349][local-placeholder]
 
 ---
 
 _License notice_
 
 
-[one-reference]: https://example.com/agreement-defective.html
-[another-reference]: https://example.com/agreement-defective.html
-[remote-placeholder]: https://via.placeholder.com/666x333
-[local-placeholder]: assets/foo.jpg
+[vim-site]: https://www.vim.org/
+[remote-placeholder]: https://via.placeholder.com/666x349
+[local-placeholder]: assets/666x349.jpg
+[youtube]: https://youtube.com/
+[vimeo]: https://vimeo.com/
+[asciinema]: https://asciinema.org/
+[md-ref]: https://commonmark.org/
+[md-ext]: https://github.com/russross/blackfriday/wiki/Extensions
 
 
 [//]: # ( Vim: set spell spelllang=en: )
