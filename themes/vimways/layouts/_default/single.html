@@ -22,18 +22,22 @@
 					<h1 id="title">{{ .Title }}</h1>
 					<p class="author">By <i>{{ .Params.author.name }}</i></p>
 					<ul class="contact">
+
 						{{ with .Params.author }}
-						{{ if .homepage }}
-						<li><a href="{{ .homepage }}">Homepage</a></li>
-						{{ end }}
-						{{ if .github }}
-						<li><a href="https://github.com/{{ .github }}">GitHub</a></li>
-						{{ end }}
-						{{ if .email }}
-						{{ if in .email "@" }}
-						<li><a href="mailto:{{ .email }}">Email</a></li>
-						{{ end }}
-						{{ end }}
+							{{ if .homepage }}
+								<li><a href="{{ .homepage }}">Homepage</a></li>
+							{{ end }}
+							{{ if .github }}
+								<li><a href="https://github.com/{{ .github }}">GitHub</a></li>
+							{{ end }}
+							{{ if .twitter }}
+								<li><a href="https://twitter.com/{{ trim .twitter "@" }}">Twitter</a></li>
+							{{ end }}
+							{{ if .email }}
+								{{ if in .email "@" }}
+									<li><a href="mailto:{{ .email }}">Email</a></li>
+								{{ end }}
+							{{ end }}
 						{{ end }}
 					</ul>
 				</div>

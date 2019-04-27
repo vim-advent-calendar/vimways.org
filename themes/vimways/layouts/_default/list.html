@@ -63,21 +63,21 @@
 									<div>
 										<h2 class="spoiler">
 											{{ range (seq 4) }}
-											{{ strings.Repeat (index (seq 5 | shuffle | first 1) 0) "—" }}
+												{{ strings.Repeat (index (seq 5 | shuffle | first 1) 0) "—" }}
 											{{ end }}
 										</h2>
 									</div>
 									<div>
 										<p class="description spoiler">
 											{{ range (seq 12) }}
-											{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
+												{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
 											{{ end }}
 										</p>
 									</div>
 									<div>
 										<p class="author spoiler">
 											{{ range (seq 3) }}
-											{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
+												{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
 											{{ end }}
 										</p>
 									</div>
