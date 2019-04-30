@@ -86,13 +86,19 @@ If you have recorded your own videos, consider uploading them to either [Youtube
 
 * Youtube
 
-  {{< youtube 0Lmg4Z2A_fY >}}
+  {{< youtube icr8rdUM-RM >}}
 
 * Vimeo
 
-  {{< vimeo 146022717 >}}
+  {{< vimeo 17007435 >}}
 
 ## Images
+
+* Images are displayed within a 666px-wide column so you should make sure your screenshots and diagrams are readable at that size.
+
+* Avoid unnecessary visual pollution. If you are showing the effect of a custom refactoring macro, for example, your colorscheme, your terminal multiplexer, your fancy statusline, and all your plugins are irrelevant so make sure they don't distract from the subject.
+
+* Be considerate of your readers' bandwidth, optimize your images for use on the web.
 
 This is a remote image:
 
