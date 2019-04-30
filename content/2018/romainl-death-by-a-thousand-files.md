@@ -192,6 +192,7 @@ If you want to follow at home, put this ultra-minimal configuration in a file:
 " in /tmp/vimrc
 set include=from
 set incsearch
+set ignorecase
 set suffixesadd=.js
 syntax on  " irrelevant to the topic at hand but nice for the eyes
 ```
