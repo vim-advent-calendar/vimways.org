@@ -6,7 +6,7 @@ This is the main repository for [vimways.org](https://vimways.org), a project by
 
 ## Requirements
 
-Vimways is a static website built with [Hugo](). Currently, we are using the *extended* variant of [version 0.55](https://github.com/gohugoio/hugo/releases/tag/v0.55) because it includes SASS compilation.
+Vimways is a static website built with [Hugo](https://gohugo.io). Currently, we are using the *extended* variant of [version 0.55](https://github.com/gohugoio/hugo/releases/tag/v0.55) because it includes SASS compilation.
 
 ## Local usage
 
