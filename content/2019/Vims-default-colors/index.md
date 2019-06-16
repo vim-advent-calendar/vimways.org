@@ -16,7 +16,7 @@ author:
 
 ## Colorschemes
 
-One day I thought I'd set about creating a minimal colorscheme for Vim. The idea of having minimal highlighting to force a fuller reading and comprehension of code intrigued me and I wanted to try it for myself. Plus working with a minimal set of highlights ought to make this a simple endevour, or so I thought. And lo I found myself in another one of Vim's idiosyncratic rabbit holes, something I seem to have an unfortunate knack for.
+One day I thought I'd set about creating a minimal colorscheme for Vim. The idea of having minimal highlighting to force a fuller reading and comprehension of code intrigued me and I wanted to try it for myself. Plus working with a minimal set of highlights ought to make this a simple endeavour, or so I thought. And lo I found myself in another one of Vim's idiosyncratic rabbit holes, something I seem to have an unfortunate knack for.
 
 To be very clear this is not an article about recommending minimal colorschemes or how to write colorschemes. This is simply a journey I went on and sharing what I learnt about Vim along the way.
 
@@ -24,7 +24,7 @@ To be very clear this is not an article about recommending minimal colorschemes 
 
 The first thing to know is that when creating a colorscheme you never actually start from a clean slate. Even if I weren't creating a minimal colorscheme I'd still find this annoying. One would think if we're telling Vim what colors to use we wouldn't have to override things.
 
-Anyway let's take a look at that default colorscheme, it'll be in `colors/default.vim` in our `runtimepath` right? Lets open it up with `vim -c 'edit $VIMRUNTIME/colors/default.vim'`.
+Anyway let's take a look at that default colorscheme, it'll be in `colors/default.vim` in our `runtimepath` right? Let's open it up with `vim -c 'edit $VIMRUNTIME/colors/default.vim'`.
 
 ``` vim
 " Vim color file
@@ -72,7 +72,7 @@ So let's just say we want to clear everything to get that blank slate to start f
 			is _not_ set back to the default colors.
 ```
 
-So `:highlight clear` "clears" things in Vim's sense reverting to its default colors. It seems we would want `:highlight NONE`, but that `{group-name}` isn't optionial. There's no way to unset all highlight groups with a sinlge command.
+So `:highlight clear` "clears" things in Vim's sense reverting to its default colors. It seems we would want `:highlight NONE`, but that `{group-name}` isn't optional. There's no way to unset all highlight groups with a single command.
 
 Crap.
 
@@ -141,14 +141,14 @@ Anyway that's my rant within a rant, back to the topic at hand.
 
 ## Redefining the situation
 
-So whilst Vim has various colors set by default clearing those doesn't actually ensure you have a clean slate. Why? because syntax files can set colors. One may think they would only set links but that is not the case.
+So whilst Vim has various colors set by default clearing those doesn't actually ensure you have a clean slate. Why? Because syntax files can set colors. One may think they would only set links but that is not the case.
 
 ```sh
 grep -RE 'hi |highlgiht ' /usr/local/share/vim/vim81/syntax/ | grep -cv link
 315
 ```
 
-So let's redfine how we are going to acheive a clean slate. Rather than just clearing things at start up we want to clear any colors Vim sets *implicitly*. This is where having parsed the output of `:highlight` fully is going to pay off. If we define what we want our colorscheme to be in terms of a dictionary like the one we've generated from parsing the output of `:hightlight`, we can essentially diff the two to find out if there's anything set that wasn't *explicitly* in our colorscheme and clear it
+So let's redefine how we are going to achieve a clean slate. Rather than just clearing things at start up we want to clear any colors Vim sets *implicitly*. This is where having parsed the output of `:highlight` fully is going to pay off. If we define what we want our colorscheme to be in terms of a dictionary like the one we've generated from parsing the output of `:hightlight`, we can essentially diff the two to find out if there's anything set that wasn't *explicitly* in our colorscheme and clear it
 
 Again I'm not going to go into the implementation but you can find it [here][ClearUndefinedColors].
 
