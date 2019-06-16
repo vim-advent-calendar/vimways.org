@@ -52,7 +52,15 @@ let colors_name = "default"
 " vim: sw=2
 ```
 
-Erm... Where are the highlight groups? Well it turns out the default colors are [hardcoded into Vim itself][hardcoded].
+Erm... Where are the highlight groups? Let's try to dig a little depper `:verbose hightlight` reveals `/usr/local/share/vim/vim81/syntax/syncolor.vim` is the source of *some* of the default colors. Said file contains a rather succinct comment.
+
+```vim
+" This file sets up the default methods for highlighting.
+" It is loaded from "synload.vim" and from Vim for ":syntax reset".
+" Also used from init_highlight().
+```
+
+So what about the others? The fact that even with `:verbose` we don't get a file from the runtime is somewhat telling. Well it turns out these are [hardcoded into Vim itself][hardcoded].
 
 So it is perhaps more acurate to say Vim sets default colors rather than has a default colorscheme. At the very least the default colorscheme is not equal to other colorschemes.
 
@@ -162,7 +170,7 @@ Again I'm not going to go into the implementation but you can find it [here][Cle
 
 _License notice_
 
-[hardcoded]: https://github.com/vim/vim/blob/master/src/syntax.c
+[hardcoded]: https://github.com/vim/vim/blob/c799fe206e61f2e2c1231bc46cbe4bb354f3da69/src/syntax.c#L6815-L7150
 [GetColors]: https://github.com/george-b/zenchrome/blob/master/autoload/zenchrome.vim#L1-L23
 [issue]: https://github.com/george-b/zenchrome/issues/1
 [fixed]: https://github.com/george-b/zenchrome/commit/a0ab9b9a64dfec4cae46a0f1b2cd5669994fd3df
