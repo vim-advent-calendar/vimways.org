@@ -9,8 +9,6 @@ author:
   github: "romainl"
 ---
 
-# Death by a thousand files
-
 
 > A guy told me one time, "Don't let yourself get attached to anything you are
 > not willing to walk out on in 30 seconds flat if you feel the heat around the
@@ -400,8 +398,6 @@ Simply put, "symbol-based navigation" is the art of jumping to a specific symbol
 Truth be told, the whole concept is neither new nor specific to Vim. In fact, every IDE or programming-oriented editor under the sun does symbol-based navigation in one way or another so… nope, definitely not new or particularly ground-breaking. It's just *one* approach of a common problem. But, in a typical Vim way, an approach that allows us to move as we think, and to think as we move, without the burden that are files and directories. An approach and tools that are *built into the core of our favorite editor*.
 
 ---
-
-# Death by a thousand files
 
 _This work is licensed under a [Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International License][license].

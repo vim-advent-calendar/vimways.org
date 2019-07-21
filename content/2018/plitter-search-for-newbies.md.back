@@ -9,8 +9,6 @@ author:
   github: "plitter"
 ---
 
-# Search for us, newbies
-
 ## Search in Vim for newbies
 
 Now that we've seen [moving across files][post-death] I think it is time to get back to the current buffer and see what is possible here as well.
@@ -205,8 +203,6 @@ As usual, [the manual][:help-pattern] is here to quench your thirst for knowledg
 
 ---
 
-# Search for us, newbies
-
 You can use
 
 ```vim
@@ -225,13 +221,9 @@ In the mean time, much can be learned from [`:help :global`][:help-:global].
 
 ---
 
-# Search for us, newbies
-
 You can repeat `d/<search>` or `c/<search>` with `.`.
 
 ---
-
-# Search for us, newbies
 
 I think you can begin to see a pattern where if the command changes text and accepts a motion you can repeat it with `.`. For example, a cheap substitute for:
 
@@ -248,8 +240,6 @@ could actually be to do:
 then `n` to get to the next match and `.` to repeat the change. See [`:help gn`][:help-gn].
 
 ---
-
-# Search for us, newbies
 
 I like to use `/` to move around or visually selecting. But when I've gotten to where I want to work I'll go to insert mode to insert text, change text with `ct;` (I usually come to where I want to assign a variable and remove the text from: `<text to remove>;`), or when I change a function signature I'll let my [quickfix list][quickfix-list] get populated with the problematic method calls, go to those locations, do `/something` to get to the offending parameter and follow up with any of the following:
 

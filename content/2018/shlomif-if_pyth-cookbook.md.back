@@ -14,8 +14,6 @@ author:
   homepage: "https://www.shlomifish.org/"
 ---
 
-# if_pyth (= the python interface) cookbook
-
 ## Why if_pyth
 
 We might as well admit that Vimscript has its share of limitations and quirky

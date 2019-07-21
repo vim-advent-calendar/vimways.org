@@ -10,8 +10,6 @@ author:
   github: "george-b"
 ---
 
-# Formatting lists with Vim
-
 ## Use of formatoptions and the fo-table
 
 We tell Vim how formatting should be carried out by setting `'formatoptions'`. This is set to a string of characters whose meaning is described in `:help fo-table`. Rather than repeating what's in the help it's sufficient to say the default is `formatoptions=tcq`, which may lead users to think that invoking Vim's formatting with `gw` from Normal mode simply wraps text at whatever `'textwidth'` is set to. But we can actually do a lot more.
