@@ -14,8 +14,6 @@ author:
   homepage: "https://swalladge.id.au"
 ---
 
-# Debugging your Vim Config
-
 
 Vim configuration is powerful and complex. I mean, this isn't setting a few
 options in an INI file; we're talking about a Turing complete programming
@@ -322,8 +320,6 @@ squash those config bugs!
 
 
 ---
-
-# Debugging your Vim Config
 
 _This work is licensed under a [Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International License][license].

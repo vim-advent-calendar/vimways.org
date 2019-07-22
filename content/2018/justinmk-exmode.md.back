@@ -12,8 +12,6 @@ author:
     site: http://justinmk.github.io/
 ---
 
-# Vim's social life
-
 Vim is a shell command, and its fast startup supports that use-case: shell
 tasks, whether ad-hoc (interactive) or orchestrated (pipeline, script), are
 cheap and thus frequent.

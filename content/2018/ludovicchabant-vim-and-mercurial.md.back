@@ -14,8 +14,6 @@ author:
   homepage: "https://ludovic.chabant.com"
 ---
 
-# Vim and Mercurial
-
 In a [previous entry][2] in this year's Vimways advent blogging, Samuel Walladge
 detailed how to make Vim and Git work together... since it was quite good,
 I figured I would write a similar entry about making Vim and Mercurial work
@@ -255,8 +253,6 @@ original article also recommends, Signify works with a multitude of VCSes,
 including Mercurial.
 
 ---
-
-# Vim and Mercurial
 
 This article was originally posted [on the author's blog][original].
 

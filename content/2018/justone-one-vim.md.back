@@ -13,8 +13,6 @@ author:
   homepage: "http://endot.org/"
 ---
 
-# One Vim
-
 
 Vim is a powerful editor.  But like many powerful things, sometimes it can be used in less-than-powerful ways.  One of those weaker ways is to only edit one file at a time, bouncing back and forth between editor and the shell or file explorer.  Vim can easily handle multiple files at the same time, and this post will show you some of the built-in commands that are available to help out.
 

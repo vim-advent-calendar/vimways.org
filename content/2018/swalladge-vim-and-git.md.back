@@ -14,8 +14,6 @@ author:
   homepage: "https://swalladge.id.au"
 ---
 
-# Vim and Git
-
 Vim and Git are both highly complex, configurable developer tools. Developers
 who use Vim are likely to also need to use Git frequently. This article attempts
 to explore how these two tools can interact in many ways.
