@@ -39,9 +39,9 @@ Whilst having been a Vim user for some time my first real exposure to the idea o
 
 In any case the effect is the same. Vim's behaviour is altered not because of a setting but because we've scripted a flow. It's something we can use a great deal but we've only ever had to think about it once, when we wrote the script. To contrast we don't have to think "Oh I have a mapping that will show me X and prompt for Y", instead we ask Vim for X as usual it now prompts for Y.
 
-Continuing with a another "call and response" type example having the quickfix window open when it contains results.
+Continuing with a another "call and response" type example we can have the quickfix window open when it contains results.
 
-Another one of Romain's [gists][instant-grep] showcases this. This is also behaviour is also available in [vim-qf][vim-qf].
+Here's a [gist][instant-grep] that showcases this. This is also behaviour is also available in [vim-qf][vim-qf].
 
 This method is very useful as there are many ways the quickfix list may be populated and yet we are able to create a behaviour that is consistent with a self contained implementation.
 
