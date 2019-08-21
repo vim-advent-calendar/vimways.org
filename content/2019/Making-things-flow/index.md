@@ -33,7 +33,7 @@ autocmd BufReadPost *
 
 The comment explains the what's being done in the `autocmd` so I won't talk about that. But it's interesting to think about the fact that this is something Vim now ships with. It's been possible and indeed used by others in their configuration before appearing in mainline Vim. I consider this interesting for two reasons, firstly Vim scripting allows us to do this quite easily and secondly the scripting was added to Vim rather than code for an option that would allow users to `set` such behaviour.
 
-## A good primer
+## Getting into the groove
 
 Whilst having been a Vim user for some time my first real exposure to the idea of curving Vim's behaviour in a transparent way was this excellent [gist][CCR]. I thoroughly recommend reading through it then coming back here. I actually even made my own [variant][Autoreply].
 
@@ -47,17 +47,37 @@ This method is very useful as there are many ways the quickfix list may be popul
 
 ## Don't disrupt my flow
 
-Similarly there are situations where we wish to prevent rather than extend Vim's behaviour for the sake of maintaining our flow.
+Disabling `hlsearch` is a common operation for users that have `set hlsearch` as after performing the search and finding the desired result the highlighting becomes superfluous. To ease this many Vim users have a mapping to deal with this. But that's an extra step that the user has to think about. Instead we can alter the behaviour of Vim to intelligently disable and re-enable `hlsearch` as done with [vim-cool][vim-cool].
 
-One such example is disabling `hlsearch`. It is a common operation for users that have `set hlsearch` as after performing the search and finding the desired result the highlighting becomes superfluous. To ease this many Vim users have a mapping to deal with this. Instead we can alter the behaviour of Vim to intelligently disable and re-enable `hlsearch` as done with [vim-cool][vim-cool]. As noted in the README this plugin really became "cool" with [this][vim-cool_purpleP].
+As noted in the README this plugin really became "cool" with [this][vim-cool_purpleP]. It doesn't change the intention of the plugin but it achieves it in a far robust and elegant way.
 
-It doesn't change the intention of the plugin but it achieves it in a far robust and elegant way.
+## Don't break my flow
 
-Another example is the movement of the cursor when dealing with operators. One could avoid this with the use of mappings and marks but it becomes rather cumbersome when mapping operators.
+Another example is the movement of the cursor when dealing with operators. Vim has a nasty habit of moving the cursor after invoking operators and I'd prefer it didn't do so. Here we wish to prevent a behaviour default to Vim rather than craft a complementary one.
 
-I outline the problem and my solution in the following [gist][opfuncsteady].
+Avoiding this in the case of operator mappings can be particularly ugly. A common method is to drop a mark or save a view in the mapping. However the mapping must end with `g@` so Vim will wait for the operator, meaning the mapping itself can't invoke the cursor movement back to its original location. As such the movement would have to be placed inside the function that `operatorfunc` has been set to. Note that dropping a mark or saving a view inside the `operatorfunc` function is not an option as the cursor has already been moved by the time this is invoked.
 
-Again it's the transparency that makes this neat, with this snippet neither the user or even the rest of their configuration have to think about this. The behaviour of the editor has simply been altered.
+Functions should not require such a priori knowledge about the mappings that are calling them.
+
+A solution to this is to save a view whenever `operatorfunc` is set. Then whenever the cursor is moved check if `operatorfunc` is set, if so restore the view, dispose of the temporary variable containing said view, and unset `operatorfunc` with autocmd's disabled as to avoid a loop.
+
+```vim
+function! OpfuncSteady()
+  if !empty(&operatorfunc)
+    call winrestview(w:opfuncview)
+    unlet w:opfuncview
+    noautocmd set operatorfunc=
+  endif
+endfunction
+
+augroup OpfuncSteady
+  autocmd!
+  autocmd OptionSet operatorfunc let w:opfuncview = winsaveview()
+  autocmd CursorMoved * call OpfuncSteady()
+augroup END
+```
+
+Again it's the transparency that makes this neat. With this snippet neither the user or even the rest of their configuration have to think about this. The behaviour of the editor has simply been altered.
 
 ## Conclusion
 
@@ -74,6 +94,5 @@ _License notice_
 [vim-qf]: https://github.com/romainl/vim-qf
 [vim-cool]: https://github.com/romainl/vim-cool
 [vim-cool_purpleP]: https://github.com/romainl/vim-cool/issues/9
-[opfuncsteady]: https://gist.github.com/george-b/4a03da0be21e4f39e72d66ad8340d131
 
 [//]: # ( Vim: set spell spelllang=en: )
