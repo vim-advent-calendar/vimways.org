@@ -55,16 +55,16 @@ that TexStudio or TexWorks exist at. Creating a makefile for every small
 Latex project is over the top. There are a few rough ends integrating
 Vim commands into the Latex ecosystem.
 
-I have used two plugins extensively. The first is vim-suite (TODO --
-LINK), which provides extensive functionality but doesn't quite mesh
+I have used two plugins extensively. The first is [Vim-LaTeX](http://vim-latex.sourceforge.net),
+which provides extensive functionality but doesn't quite mesh
 into the Vim ecosystem as well as it could. I moved away from it because
 of its clunky integration with modern package managers and frustrating auto-expansions.
-But, do not get me wrong: vim-suite is a very good Latex plugin.
+But, do not get me wrong: Vim-LaTeX is a very good Latex plugin.
 
-I started using vimtex (TODO -- LINK). vimtex provides the
-functionality within vim-suite which the authors see as vim-like. vimtex
+I started using [vimtex](https://github.com/lervag/vimtex). vimtex provides the
+functionality within Vim-LaTeX which the authors see as vim-like. vimtex
 provides Latex-specific text-objects, such as within Latex environments
-and delegates much of the vim-suite functionality to different plugins.
+and delegates much of the Vim-LaTeX functionality to different plugins.
 
 Now, this article is not a comparison of vim-latex plugins. But I will
 talk about the features they provide; mostly from the perspective of a
@@ -105,7 +105,7 @@ an `itemize` to an `enumerate`. In insert mode, `]]` automatically
 closes an unclosed environment (i.e. produces the corresponding
 `\end{X}` command.
 
-vim-suite has some good (and some really bad!) auto expansions: typing
+Vim-LaTeX has some good (and some really bad!) auto expansions: typing
 `__` produces `_{<cursor is left here>}<++>`, which means you can type the
 subscript you want and then press `<C-J>` to jump outside of the
 brackets. I liked some of this functionality so much I kept it when I
@@ -167,7 +167,7 @@ Conclusion
 If you are looking for a Latex editor, look no further, Vim is what you
 are after. There are a million more ways to edit Latex in Vim than what
 I've talked about here. I don't have space (nor desire!) to reproduce
-the documentation for vimtex or vim-suite, not to mention the other
+the documentation for vimtex or Vim-LaTeX, not to mention the other
 Latex packages I haven't tried. This article is certainly not a
 substitute for the excellent documentation these packages have.
 
