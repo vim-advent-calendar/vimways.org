@@ -5,7 +5,7 @@ fields. But it's use is by no means restricted to that. I use Latex for
 keeping notes, creating presentations and any other kind of formatting
 where plain-text is not quite enough.
 
-Search for latex editors and you will find a plethora of latex specific
+Search for Latex editors and you will find a plethora of Latex specific
 editors: TexStudio, TexWorks, Lyx and many more. You need look no
 further than Vim (which is often omitted for some reason). Latex is a
 plain-text format, which automatically makes it well suited for Vim.
@@ -16,7 +16,7 @@ perfectly possible to write Latex in vanilla vim.
 Latex in Vanilla Vim
 ====================
 
-You don't really *need* any plugins to write latex in Vim. Tex
+You don't really *need* any plugins to write Latex in Vim. Tex
 highlighting is included. Spell check is important and should be setup,
 but is excellent without any plugins (I have mine enable with an autocmd when I open a Tex file). Vim is perfectly usable for Latex
 just like this. There are a couple other built-in features that I think
@@ -52,15 +52,16 @@ So, why use plugins?
 There are a few obviously missing components. Vim only supports Tex
 highlighting out-of-the-box. Auto-complete is good, but not on the level
 that TexStudio or TexWorks exist at. Creating a makefile for every small
-latex project is over the top. There are a few rough ends integrating
-Vim commands into the latex ecosystem.
+Latex project is over the top. There are a few rough ends integrating
+Vim commands into the Latex ecosystem.
 
 I have used two plugins extensively. The first is vim-suite (TODO --
 LINK), which provides extensive functionality but doesn't quite mesh
 into the Vim ecosystem as well as it could. I moved away from it because
-of its clunky integration with modern package managers.
+of its clunky integration with modern package managers and frustrating auto-expansions.
+But, do not get me wrong: vim-suite is a very good Latex plugin.
 
-Instead I started using vimtex (TODO -- LINK). vimtex provides the
+I started using vimtex (TODO -- LINK). vimtex provides the
 functionality within vim-suite which the authors see as vim-like. vimtex
 provides Latex-specific text-objects, such as within Latex environments
 and delegates much of the vim-suite functionality to different plugins.
@@ -74,8 +75,8 @@ The first command I learned in both is how to compile. I map this to
 navigated to jump to the faulty source line (well, if you trust the
 Latex compiler to give you an error on the right line, but that is
 another topic). I have this window setup to open and close with
-`<localleader>e`. Opening a PDF-viewer to see the results should be
-similarly easy. I have this mapped to `<localleader>lv`.
+`<localleader>le` (Latex errors). Opening a PDF-viewer to see the results should be
+similarly easy. I have this mapped to `<localleader>lv` (Latex view).
 
 Completion (Round II)
 ---------------------
@@ -93,8 +94,8 @@ Fitting Latex within Vim
 ------------------------
 
 Auto-completion is often a headline feature --- and rightly so. But
-Latex plugins provide many other features. `K` links to the latex
-documentation when in a latex document. The syntax highlighting is
+Latex plugins provide many other features. `K` links to the Latex
+documentation when in a Latex document. The syntax highlighting is
 better than the built-in documentation. Navigation commands, such as
 `[[` and `]]` to jump between sections or `]m` `[m` to jump between environments.
 
@@ -105,10 +106,11 @@ closes an unclosed environment (i.e. produces the corresponding
 `\end{X}` command.
 
 vim-suite has some good (and some really bad!) auto expansions: typing
-`__` produces `_<cursor is left here><++>`, which means you can type the
+`__` produces `_{<cursor is left here>}<++>`, which means you can type the
 subscript you want and then press `<C-J>` to jump outside of the
 brackets. I liked some of this functionality so much I kept it when I
-moved to vimtex. I map `mma` (using `iabbrev` to prevent words like "comma" expanding) in insert mode to produce:
+moved to vimtex. Similarly inspired by latex-suite, I map `mma` (using `iabbrev` to prevent words like "comma" expanding)
+in insert mode to produce:
 
     \begin{align}
         <leave cursor here>
@@ -146,12 +148,12 @@ personal preferences, focusing on vimtex.  I like to set
 
 	let g:vimtex_fold_enabled = 1
 
-To turn on code folding for tex files.
+To turn on code folding for Tex files.
 Using:
 
 	let g:tex_flavor = 'latex'
 
-Avoids opening an empty .tex file only to have vimtex recognize it as plain tex rather than Latex.
+Avoids opening an empty .tex file only to have vimtex recognize it as plain Tex rather than Latex.
 
 If you use ALE (or other linting environment supporting Latex),
 I suggest you disable it for Latex.  Many of these linting
@@ -169,6 +171,6 @@ the documentation for vimtex or vim-suite, not to mention the other
 Latex packages I haven't tried. This article is certainly not a
 substitute for the excellent documentation these packages have.
 
-I have written 100,000 lines of latex over the last four years using
+I have written 100,000 lines of Latex over the last four years using
 this setup. I hope this sets you on your way to writing Latex in vim.
 
