@@ -1,0 +1,18 @@
+# Based on https://github.com/johnsondnz/hugo-blog under the MIT / Expat
+# license - thanks!
+#
+language: go
+
+go:
+    - master # This uses automatically the latest version of go
+
+install:
+    - git clone https://github.com/gohugoio/hugo
+    - cd hugo
+    # - git checkout v0.55.0
+    # - go get github.com/gohugoio/hugo/releases/tag/v0.55.0 # This provides the latest version of Hugo to Travis CI
+    - go install --tags extended
+    - cd ..
+
+script:
+    - hugo # This commands builds your website on travis
