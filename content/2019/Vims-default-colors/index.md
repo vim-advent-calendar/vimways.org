@@ -156,7 +156,7 @@ grep -RE 'hi |highlgiht ' /usr/local/share/vim/vim81/syntax/ | grep -cv link
 315
 ```
 
-So let's redefine how we are going to achieve a clean slate. Rather than just clearing things at start up we want to clear any colors Vim sets *implicitly*. This is where having parsed the output of `:highlight` fully is going to pay off. If we define what we want our colorscheme to be in terms of a dictionary like the one we've generated from parsing the output of `:hightlight`, we can essentially diff the two to find out if there's anything set that wasn't *explicitly* in our colorscheme and clear it
+So let's redefine how we are going to achieve a clean slate. Rather than just clearing things at start up we want to clear any colors Vim sets *implicitly*. This is where having parsed the output of `:highlight` fully is going to pay off. If we define what we want our colorscheme to be in terms of a dictionary like the one we've generated from parsing the output of `:hightlight`, we can compare the two to find out if they are different. If they are different simply clear whatever has been set and then set the colors that we defined.
 
 Again I'm not going to go into the implementation but you can find it [here][ClearUndefinedColors].
 
@@ -171,9 +171,9 @@ Again I'm not going to go into the implementation but you can find it [here][Cle
 _License notice_
 
 [hardcoded]: https://github.com/vim/vim/blob/c799fe206e61f2e2c1231bc46cbe4bb354f3da69/src/syntax.c#L6815-L7150
-[GetColors]: https://github.com/george-b/zenchrome/blob/master/autoload/zenchrome.vim#L1-L23
+[GetColors]: https://github.com/george-b/zenchrome/blob/master/autoload/zenchrome.vim#L1-L24
 [issue]: https://github.com/george-b/zenchrome/issues/1
 [fixed]: https://github.com/george-b/zenchrome/commit/a0ab9b9a64dfec4cae46a0f1b2cd5669994fd3df
-[ClearUndefinedColors]: https://github.com/george-b/zenchrome/blob/master/autoload/zenchrome.vim#L39-L43
+[ClearUndefinedColors]: https://github.com/george-b/zenchrome/blob/master/autoload/zenchrome.vim#L26-L46
 
 [//]: # ( Vim: set spell spelllang=en: )
