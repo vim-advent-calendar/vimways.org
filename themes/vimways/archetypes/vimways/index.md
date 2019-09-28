@@ -47,6 +47,32 @@ Here is an ordered list:
 2. item
 3. item
 
+And here is a silly list of lists:
+
+1. Unordered list:
+
+   * item
+   * item
+   * item
+
+2. Ordered list:
+
+   1. item
+   2. item
+
+3. More lists:
+
+   * ordered:
+   
+     1. item
+     2. item
+   
+   * unorderd:
+   
+     * item
+     * item
+     * item
+
 Here is a table:
 
 Column 1 | Column 2 | Column 3
@@ -80,17 +106,17 @@ Hello, World!
 
 [Asciinema][asciinema] is our preferred way to show moving examples. To embed an asciicast, use this shortcode:
 
-{{< asciicast 217094 >}}
+    {{< asciicast 217094 >}}
 
 If you have recorded your own videos, consider uploading them to either [Youtube][youtube] or [Vimeo][vimeo] instead of embedding them directly as they will handle them way better than we could. To embed videos uploaded to those sites, use the shortcodes below:
 
 * Youtube
 
-  {{< youtube icr8rdUM-RM >}}
+      {{< youtube icr8rdUM-RM >}}
 
 * Vimeo
 
-  {{< vimeo 17007435 >}}
+      {{< vimeo 17007435 >}}
 
 ## Images
 
