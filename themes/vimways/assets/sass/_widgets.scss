@@ -20,7 +20,7 @@
 		background-image: none;
 		font-family: $firaSans;
 		display: block;
-		// width: 5rem;
+		width: 10.25rem;
 		outline: none;
 		color: black;
 		cursor: pointer;
@@ -34,6 +34,7 @@
 		font-size: 1rem;
 		height: 1.5rem;
 		-webkit-appearance: none;
+		-moz-appearance:none;
 		border-bottom: 1px solid $darkest;
 	}
 }

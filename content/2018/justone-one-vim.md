@@ -162,7 +162,7 @@ I've come across many plugins over the years that have helped me in managing my 
 
 * [bufexplorer](https://github.com/jlanzarotta/bufexplorer) - This will help with listing, opening, and removing buffers.
 * [bufkill](https://github.com/qpkorr/vim-bufkill) - This provides a `:BD` command that will do the same thing `:bd` does, but retain your window layout.
-* [ctrlp](https://github.com/kien/ctrlp.vim) - This helps find files using fuzzy matching.  It's most-recently-used functionality is particularly useful.
+* [ctrlp](https://github.com/kien/ctrlp.vim) - This helps find files using fuzzy matching.  Its most-recently-used functionality is particularly useful.
 * [obsession](https://github.com/tpope/vim-obsession) - This extends the built-in session handling to continually update the session file as you edit.
 
 ## Conclusion

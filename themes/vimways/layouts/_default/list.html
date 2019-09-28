@@ -1,38 +1,29 @@
 {{ define "main" }}
-{{ $scratch := newScratch }}
-{{ range sort .Pages.ByPublishDate "value" "desc" | last 1 }}
-<article class="promoted">
-	<div class="container">
-		<article>
-			<div class="date">
-				<div class="day">
-					{{ .PublishDate.Format "2" }}
-				</div>
-				<div class="month-year">
-					{{ .PublishDate.Format "January" }} {{ .PublishDate.Format "2006" }}
-				</div>
-			</div>
-			<div class="content">
-				<h2>{{ .Title }}</h2>
-				<p class="description">
-					{{ .Description }}
-				</p>
-				<p class="author">
-					By <i>{{ .Params.author.name }}</i>
-				</p>
-				<a href="{{ .Permalink }}">Read this article</a>
-			</div>
-		</article>
-	</div>
-</article>
-{{ end }}
-<div class="container">
-	<div class="articles">
-		{{ range sort .Pages.ByPublishDate "value" "desc"}}
-		{{ $scratch.Set "year" (.PublishDate.Format "2006") }}
-		<a href="{{ .Permalink }}">
-			<article>
-				<div class="tile">
+
+	{{ $pages_on_disk := .Pages }}
+	{{ $pages_on_screen := slice }}
+
+	{{ range seq 24 }}
+		{{ $index := . }}
+		{{ $isok := "null" }}
+
+		{{ range $elem_index, $elem_val := sort $pages_on_disk.ByPublishDate "value" "desc"}}
+			{{ if eq (.PublishDate.Format "2") (string $index) }}
+				{{ $pages_on_screen = $pages_on_screen | append $elem_index }}
+
+				{{ $isok = $index }}
+			{{ end }}
+		{{ end }}
+
+		{{ if eq $isok "null" }}
+			{{ $pages_on_screen = $pages_on_screen | append (printf "%s%s" "ko" (string $index)) }}
+		{{ end }}
+	{{ end }}
+
+	{{ range sort .Pages.ByPublishDate "value" "desc" | last 1 }}
+		<article class="promoted">
+			<div class="container">
+				<article>
 					<div class="date">
 						<div class="day">
 							{{ .PublishDate.Format "2" }}
@@ -49,50 +40,79 @@
 						<p class="author">
 							By <i>{{ .Params.author.name }}</i>
 						</p>
+						<a href="{{ .Permalink }}">Read this article</a>
 					</div>
-				</div>
-			</article>
-		</a>
-		{{ end }}
-		{{ $number_of_pages := len .Pages }}
-		{{ if lt $number_of_pages 24}}
-		{{ range $index, $val := (seq (sub 24 $number_of_pages)) }}
-		<div class="future">
-			<article>
-				<div class="bar"></div>
-				<div class="tile">
-					<div class="date">
-						<div class="day">{{ add 1 (add $number_of_pages $index) }}</div>
-						<div class="month-year">December&nbsp;{{ $scratch.Get "year" }}</div>
+				</article>
+			</div>
+		</article>
+	{{ end }}
+
+	<div class="container">
+		<div class="articles">
+			{{ range $pages_on_screen }}
+				{{ if hasPrefix . "ko" }}
+					<div class="future">
+						<article>
+							<div class="bar"></div>
+							<div class="tile">
+								<div class="date">
+									<div class="day">{{ strings.TrimPrefix "ko" . }}</div>
+									<div class="month-year">December&nbsp;</div>
+								</div>
+								<div class="content">
+									<div>
+										<h2 class="spoiler">
+											{{ range (seq 4) }}
+												{{ strings.Repeat (index (seq 5 | shuffle | first 1) 0) "—" }}
+											{{ end }}
+										</h2>
+									</div>
+									<div>
+										<p class="description spoiler">
+											{{ range (seq 12) }}
+												{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
+											{{ end }}
+										</p>
+									</div>
+									<div>
+										<p class="author spoiler">
+											{{ range (seq 3) }}
+												{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
+											{{ end }}
+										</p>
+									</div>
+								</div>
+							</div>
+						</article>
 					</div>
-					<div class="content">
-						<div>
-							<h2 class="spoiler">
-								{{ range (seq 4) }}
-								{{ strings.Repeat (index (seq 5 | shuffle | first 1) 0) "—" }}
-								{{ end }}
-							</h2>
-						</div>
-						<div>
-							<p class="description spoiler">
-								{{ range (seq 12) }}
-								{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
-								{{ end }}
-							</p>
-						</div>
-						<div>
-							<p class="author spoiler">
-								{{ range (seq 3) }}
-								{{ strings.Repeat (index (seq 8 | shuffle | first 1) 0) "—" }}
-								{{ end }}
-							</p>
-						</div>
-					</div>
-				</div>
-			</article>
+				{{ else }}
+					{{ with (index (sort $.Pages.ByPublishDate "value" "desc") (int .)) }}
+						<a href="{{ .Permalink }}">
+							<article>
+								<div class="tile">
+									<div class="date">
+										<div class="day">
+											{{ .PublishDate.Format "2" }}
+										</div>
+										<div class="month-year">
+											{{ .PublishDate.Format "January" }} {{ .PublishDate.Format "2006" }}
+										</div>
+									</div>
+									<div class="content">
+										<h2>{{ .Title }}</h2>
+										<p class="description">
+											{{ .Description }}
+										</p>
+										<p class="author">
+											By <i>{{ .Params.author.name }}</i>
+										</p>
+									</div>
+								</div>
+							</article>
+						</a>
+					{{ end }}
+				{{ end }}
+			{{ end }}
 		</div>
-		{{ end }}
-		{{ end }}
 	</div>
-</div>
 {{ end }}
