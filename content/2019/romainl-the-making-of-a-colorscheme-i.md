@@ -2,7 +2,7 @@
 title: "The Making of a Colorscheme — Part 1: Design"
 publishDate: 2019-12-24
 draft: true
-description: "foo bar baz"
+description: "Making a colorscheme"
 slug: "the-making-of-a-colorscheme-part-1-design"
 author:
   name: "Romain Lafourcade"
@@ -12,22 +12,13 @@ author:
   bitbucket: "romainl"
 ---
 
-* Theory
-	* colorschemes in general
-		* color theory
-		* harmonies
-	* colorschemes for text
-	* light background or dark background?
-	* color blindness
-* Practice
-
 The purpose of this two-parts article is to demystify the process of creating what Vim calls a "colorscheme", a script used to assign specific visual properties to specific parts of your favorite text editor.
 
 This part will focus on the theory, physical constraints, techniques, and thought processes typically involved in putting together an organized list of colors. This is the first step of designing a "colorscheme".
 
 The second part will focus on how to implement and distribute colorschemes, turning the palette we built in part 1 into a proper Vim colorscheme.
 
-## The purpose of syntax highlighting
+## Why syntax highlighting?
 
 In text editors, the whole point of syntax highlighting is to make it easier for the user to *see* important things in the text they are working with. The basic idea is to highlight every token belonging to a class with the same color, and do so for every class potentially present in our text, so that our eyes can scan the document efficiently and our brain can understand structure and spot interesting things.
 
@@ -48,14 +39,6 @@ With such a fuzzy nature, color is not really an easy topic to discuss so we inv
 
 Making a colorscheme generally requires juggling with abstract and concrete terms and concepts: on one hand we want it to be eye-pleasing or evoke certain feelings (subjective, abstract) but we also want it to work correctly under different conditions or our colors to have some sort of logical distribution (objective, concrete). So let's get acquainted with the most useful terms.
 
-Aspect | Description | Example
----|---|---
-Hue | The name of the color | Blue, orange
-Value | How lighter or darker a color is when white or black is added | dsdsd
-Tint | Value obtained by adding white to a hue | sdsds
-Shade | Value obtained by adding black to a hue | sdsdfsg
-Tone | Value obtained by adding grey to a hue | sdsdsd
-
 #### Hue
 
 Experts aren't exactly unanimous about *why*, but they agree that it is possible to tell how much a given color diverges from four "pure hues": "red", "green", "blue", and "yellow".
@@ -70,6 +53,14 @@ Saturation
 
 Luminance
 
+Value
+
+Tint
+
+Shade
+
+Tone
+
 ## Contrast
 
 ## Harmony
@@ -78,11 +69,11 @@ Luminance
 
 ## Environmental influence
 
-### proportions des surfaces
-#### fond
-##### foncé
-##### clair
-#### texte
+### areas
+#### background
+##### dark
+##### light
+#### text vs shapes
 
 
 
@@ -91,21 +82,23 @@ Luminance
 ### High or low contrast
 ### Seasons
 ### Hot or cold
-### Monochrom
+### Monochrome
 ### Documentary source
 
 ## Sight deficiencies
 ### color blindness
 ## Vim constraints
 
-At a high level, the way it works is the same everywhere: there is a mechanism that divides your text in tokens according to some syntactic rules and another system that assigns styling to those tokens.
-
 ## Best practices
 ## Hands-on
-		construire une palette
-			choisir des couleurs de base
-			couleurs secondaires
-			rhythme
+
+Build a palette
+
+Choose base colors
+
+Secondary colors
+
+Rhythm
 
 
 
