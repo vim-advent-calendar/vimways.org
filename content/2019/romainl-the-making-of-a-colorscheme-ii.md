@@ -2,15 +2,15 @@
 title: "The Making of a Colorscheme — Part 2: Implementation"
 publishDate: 2019-12-24
 draft: true
-description: "foo bar baz"
-slug: "designing-a-colorscheme"
+description: "Making a colorscheme"
+slug: "the-making-of-a-colorscheme-part-2-implementation"
 author:
   name: "Romain Lafourcade"
   github: "romainl"
+  sourcehut: "~romainl"
+  gitlab: "romainl"
+  bitbucket: "romainl"
 ---
-
-* color theory
-*
 
 
 [//]: # ( Vim: set spell spelllang=en: )
