@@ -7,6 +7,14 @@ slug: "death-by-a-thousand-files"
 author:
   name: "Romain Lafourcade"
   github: "romainl"
+  email: "username@example.com"
+  gitlab: "username"
+  bitbucket: "username"
+  sourcehut: "~username"
+  homepage: "https://example.com/"
+  irc: "username on freenode"
+  picture: "https://example.com/username.jpg"
+  twitter: "@username"
 ---
 
 

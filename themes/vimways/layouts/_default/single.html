@@ -7,43 +7,6 @@
 			</article>
 		</div>
 	</section>
-	<aside id="meta">
-		<div>
-			<section>
-				<div class="date">
-					<div class="day">
-						{{ .PublishDate.Format "2" }}
-					</div>
-					<div class="month-year">
-						{{ .PublishDate.Format "January" }} {{ .PublishDate.Format "2006" }}
-					</div>
-				</div>
-				<div class="content">
-					<h1 id="title">{{ .Title }}</h1>
-					<p class="author">By <i>{{ .Params.author.name }}</i></p>
-					<ul class="contact">
-
-						{{ with .Params.author }}
-							{{ if .homepage }}
-								<li><a href="{{ .homepage }}">Homepage</a></li>
-							{{ end }}
-							{{ if .github }}
-								<li><a href="https://github.com/{{ .github }}">GitHub</a></li>
-							{{ end }}
-							{{ if .twitter }}
-								<li><a href="https://twitter.com/{{ trim .twitter "@" }}">Twitter</a></li>
-							{{ end }}
-							{{ if .email }}
-								{{ if in .email "@" }}
-									<li><a href="mailto:{{ .email }}">Email</a></li>
-								{{ end }}
-							{{ end }}
-						{{ end }}
-					</ul>
-				</div>
-			</section>
-		</div>
-	</aside>
+	{{ partial "meta.html" . }}
 </div>
 {{ end }}
-
