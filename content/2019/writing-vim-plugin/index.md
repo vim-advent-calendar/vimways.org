@@ -33,7 +33,7 @@ When we have defined problem, then we need to check the first possible solution,
 in our case it is opening new buffer in new window, edit it, and then close it
 when no longer needed. It is simple in Vim
 
-```viml
+```vim
 :new
 " Edits
 :bd!
@@ -52,7 +52,7 @@ Fortunately Vim has solution for all of our problems `:h scratch-buffer`, which
 solves first two problems, and `:h unlisted-buffer` which solves third problem.
 So now our solution looks like:
 
-```viml
+```vim
 :new
 :setlocal nobuflisted buftype=nofile bufhidden=delete noswapfile
 " Edits
@@ -62,7 +62,7 @@ So now our solution looks like:
 However that is long chain of commands to write, of course we could shorten
 first two to one:
 
-```viml
+```vim
 :new ++nobuflisted ++buftype=nofile ++bufhidden=delete ++noswapfile
 ```
 
@@ -73,13 +73,13 @@ But in reality that do not shorten nothing.
 Fortunately we can create our own commands in Vim, so we can shorten that to
 single, easy to remember command:
 
-```viml
+```vim
 command! Scratch new ++nobuflisted ++buftype=nofile ++bufhidden=delete ++noswap
 ```
 
 However I, for better flexibility prefer it to be:
 
-```viml
+```vim
 command! Scratchify setlocal nobuflisted buftype=nofile bufhidden=delete noswap
 command! Scratch new +Scratchify
 ```
@@ -87,7 +87,7 @@ command! Scratch new +Scratchify
 We can also add few new commands to allow us to better control where our new
 window will appear:
 
-```viml
+```vim
 command! VScratch vnew +Scratchify
 command! TScratch tabnew +Scratchify
 ```
@@ -101,7 +101,7 @@ flexible enough. In Vim we can use modifiers like `:aboveleft` to define exactly
 where we want window to appear and our current commands do not respect that. To
 fix it we can simply squash all commands into one:
 
-```viml
+```vim
 command! Scratch <mods>new +Scratchify
 ```
 
@@ -118,7 +118,7 @@ command or shell command. My first thought was - hey, I know that, but I know I
 can make it better! So we can crate simple VimL function (which is mostly copied
 from romainl snippet, but few updates):
 
-```viml
+```vim
 function! s:scratch(mods, cmd) abort
     if a:cmd is# ''
         let l:output = []
@@ -150,7 +150,7 @@ respectively `./config/nvim/plugin/scratch.vim` for NeoVim), but to do so
 properly we need one additional thing, command to prevent file from being loaded
 twice. So in the end we have file like:
 
-```viml
+```vim
 if exists('g:loaded_scratch')
     finish
 endif
@@ -183,7 +183,7 @@ access to that as well in our command. So just add new branch to our if, that
 checks if `a:cmd` begins with `@` sign and is only 2 letter long, if so, then
 set `l:output` to spliced content of the register:
 
-```viml
+```vim
 function! s:scratch(mods, cmd) abort
     if a:cmd is# ''
         let l:output = ''
