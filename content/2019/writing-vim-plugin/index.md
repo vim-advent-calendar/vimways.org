@@ -30,7 +30,7 @@ from there with Tim Pope's [dadbod][dadbod]).
 ## "Simple obvious solution"
 
 Now that we have defined the problem, we need to try the first possible solution.
-In our case, it is opening new buffer in new window, edit it, and then close it
+In our case, it is opening a new buffer in a new window, edit it, and then close it
 when no longer needed. It is simple in Vim:
 
 ```vim
