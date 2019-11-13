@@ -53,7 +53,7 @@ As noted in the README this plugin really became "cool" with [this][vim-cool_pur
 
 ## Don't break my flow
 
-Another example is the movement of the cursor when dealing with operators. Vim has a nasty habit of moving the cursor after invoking operators and I'd prefer it didn't do so. Here we wish to prevent a behaviour default to Vim rather than craft a complementary one.
+Another example is the movement of the cursor when dealing with operators. Vim has moves the cursor after invoking operators and I'd prefer it didn't always do so. Here we wish to prevent a behaviour default to Vim rather than craft a complementary one.
 
 Avoiding this in the case of operator mappings can be particularly ugly. A common method is to drop a mark or save a view in the mapping. However the mapping must end with `g@` so Vim will wait for the operator, meaning the mapping itself can't invoke the cursor movement back to its original location. As such the movement would have to be placed inside the function that `operatorfunc` has been set to. Note that dropping a mark or saving a view inside the `operatorfunc` function is not an option as the cursor has already been moved by the time this is invoked.
 
