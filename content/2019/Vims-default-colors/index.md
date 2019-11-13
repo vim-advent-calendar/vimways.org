@@ -171,9 +171,9 @@ Again I'm not going to go into the implementation but you can find it [here][Cle
 _License notice_
 
 [hardcoded]: https://github.com/vim/vim/blob/c799fe206e61f2e2c1231bc46cbe4bb354f3da69/src/syntax.c#L6815-L7150
-[GetColors]: https://github.com/george-b/zenchrome/blob/master/autoload/zenchrome.vim#L1-L24
+[GetColors]: https://github.com/george-b/zenchrome/blob/1.0/autoload/zenchrome.vim#L1-L24
 [issue]: https://github.com/george-b/zenchrome/issues/1
 [fixed]: https://github.com/george-b/zenchrome/commit/a0ab9b9a64dfec4cae46a0f1b2cd5669994fd3df
-[ClearUndefinedColors]: https://github.com/george-b/zenchrome/blob/master/autoload/zenchrome.vim#L26-L46
+[ClearUndefinedColors]: https://github.com/george-b/zenchrome/blob/1.0/autoload/zenchrome.vim#L37-L43
 
 [//]: # ( Vim: set spell spelllang=en: )
