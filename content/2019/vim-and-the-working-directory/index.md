@@ -278,10 +278,10 @@ Here's how you use it
 # opens /some/long/path/to/foo.h
 ```
 
-### Step 6: Using tabs
+### Step 6: A feature request
 
 There are a lots of ways to use tabs within Vim. Personally, I like the "one tab per project rule", and
-I use the following vim script to enforce one working directory per project:
+I used the following vim script to enforce one working directory per project:
 
 ```vim
 function! OnTabEnter(path)
@@ -295,6 +295,12 @@ endfunction()
 
 autocmd TabNewEntered * call OnTabEnter(expand("<amatch>"))
 ```
+
+Note: this only works in Neovim. In Vim, they are events named `TabNew` and `TabEnter`
+but the callback is *not* called with the tab name.
+
+If you like, you can try and make it work by adapting the code and using the `WinEnter`
+event. I guess it's related to [this bug](https://github.com/vim/vim/issues/1660), but I'm not sure.
 
 ## Conclusion
 
