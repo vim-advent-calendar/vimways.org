@@ -52,7 +52,7 @@ let colors_name = "default"
 " vim: sw=2
 ```
 
-Erm... Where are the highlight groups? Let's try to dig a little depper `:verbose hightlight` reveals `/usr/local/share/vim/vim81/syntax/syncolor.vim` is the source of *some* of the default colors. Said file contains a rather succinct comment.
+Erm... Where are the highlight groups? Let's try to dig a little deeper `:verbose hightlight` reveals `/usr/local/share/vim/vim81/syntax/syncolor.vim` is the source of *some* of the default colors. Said file contains a rather succinct comment.
 
 ```vim
 " This file sets up the default methods for highlighting.
@@ -62,11 +62,11 @@ Erm... Where are the highlight groups? Let's try to dig a little depper `:verbos
 
 So what about the others? The fact that even with `:verbose` we don't get a file from the runtime is somewhat telling. Well it turns out these are [hardcoded into Vim itself][hardcoded].
 
-So it is perhaps more acurate to say Vim sets default colors rather than has a default colorscheme. At the very least the default colorscheme is not equal to other colorschemes.
+So it is perhaps more accurate to say Vim sets default colors rather than has a default colorscheme. At the very least the default colorscheme is not equal to other colorschemes.
 
 ## Clearing highlights
 
-So let's just say we want to clear everything to get that blank slate to start from. We consult the `:help` to find out how we may acheive this.
+So let's just say we want to clear everything to get that blank slate to start from. We consult the `:help` to find out how we may achieve this.
 
 ```vim
 :hi[ghlight] clear	Reset all highlighting to the defaults.  Removes all
@@ -80,7 +80,7 @@ So let's just say we want to clear everything to get that blank slate to start f
 			is _not_ set back to the default colors.
 ```
 
-So `:highlight clear` "clears" things in Vim's sense reverting to its default colors. It seems we would want `:highlight NONE`, but that `{group-name}` isn't optional. There's no way to unset all highlight groups with a single command.
+So `:highlight clear` "clears" things in the sense of reverting to its default colors. It seems we would want `:highlight NONE`, but that `{group-name}` isn't optional. There's no way to unset all highlight groups with a single command.
 
 Crap.
 
@@ -97,7 +97,8 @@ But that's still very arbitrary and doesn't work well if things change (more on 
 
 A list of highlight groups would be sufficient for my desire to clear things. But I wanted to have a full representation of all the highlights in a single data structure. This allows for working with highlights in a far more functional manner.
 
-As a quick recap the output of `:highlight` returns output like the following.
+As a quick recap the output of `:highlight` returns output like the
+following.
 
 ```vim
 SpecialKey     xxx term=bold ctermfg=4 guifg=Blue
@@ -133,7 +134,8 @@ hightlights {
 
 The final level of having attributes and their values may seem suitable for a list but the having this as a dictionary means we can do things like look up the `ctermfg` value of the `SpecialKey` group directly for example. Also attributes are not necessarily limited to a single value, `term` for instance may specify `bold` *and* `underlined`.
 
-I won't go into the code or parsing this here but you can find it [here][GetColors].
+I won't go into the code or parsing this here but you can find it
+[here][GetColors].
 
 ## The dumbest thing I've ever seen Vim do
 
