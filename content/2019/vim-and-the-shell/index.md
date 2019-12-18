@@ -1,11 +1,11 @@
 ---
-title: "Vim Filters, External Commands, And Integration"
+title: "Vim Filters, External Commands, And The Shell"
 publishDate: 2019-12-01
 draft: true
 description: "Vim is not an isolated tool. It is designed to work with external programs."
 author:
   email: "pabloariasal@gmail.com"
-  github: "pabloariasal "
+  github: "pabloariasal"
   homepage: "https://pabloariasal.github.io"
   irc: "username"
   name: "Pablo Arias"
@@ -70,7 +70,7 @@ The point is, command line text processing is *powerful*. It's hard to describe 
 Talking about Vim, wouldn't it be awesome if you could use advanced text processing tools, like `awk`, `tr`, `jq`, `bc`, as you edit your Vim buffer?
 It probably doesn't come as a surprise to you when I tell you that that in fact, you can.
 
-## Everything Started With a Big Bang
+## The Big Bang
 
 Vim integrates smoothly with external programs, the underlying shell, and the system. Specifically, you can execute commands from Vim, read the standard output of a command into your buffer, and use your buffer (or parts of it) as standard input to a shell program.
 
@@ -215,7 +215,7 @@ Even when Vim is the superstar striker of your team, you shouldn't play him as a
 
 Your compiler, debugger, linker, editor, formatter, version control system, they all play together as a unit, as a family, as a team. Your team. Learn your players and most importantly find effective ways of combining their strengths. Use your editor for what it is best for: edit text.
 
-Some ask me how people like me can program without an IDE, missing on all those cool features. Little do they know we have the most powerful IDE there is, the system.
+Some ask themselves how people like me can code without an IDE, missing on all those awesome features. Little do they know we use the most powerful IDE there is: the system.
 
 [^1]: for sorting structured text, take a look at Vim's built-in sorting ([`:h sorting`][sorting])
 
