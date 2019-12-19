@@ -43,8 +43,93 @@ outline / points to cover:
 - cool things
   - cool things that seem cool at the time but are never used afterwards
   - cool things that are slightly offtopic for this article
+  - syncing? nextcloud + git. mobile? nextcloud and symlinks
 - future
   - wishlist for features, bindings, etc.
+
+
+
+
+## Context
+
+Out of a computer based personal knowledge management system, I needed:
+
+- a diary or journal to record events
+- notes system for anything I wanted to track or remember in the future
+- task management so I don't forget things to do
+
+This is going to cover "notetaking" as a broad topic. Perhaps a better title
+would be "personal knowledge management".
+
+
+## Brief history
+
+A long time ago, I rarely took notes. I forgot many things. I realized maybe I
+should start taking notes. I was terrible at first, but over the years I've
+been gradually researching note taking and optimizing my processes. I haven't
+yet settled on a certain system, but have taken inspiration from several
+defined systems over the years.
+
+### Timeline
+
+So a brief progression would look something like this:
+
+- bad notetaking: adhoc and rare
+- some notetaking experimenting with various software (long time ago; can't
+  remember details)
+- [Simplenote][simplenote]: official client on mobile plus [sncli][sncli] for desktop
+  (editing files in Vim)
+- [Standardnote][standardnote]
+- others?
+- Vimwiki with Vimwiki syntax
+- Vimwiki with markdown + [Gollum][gollum] for viewing wiki on mobile
+- Vimwiki with Vimwiki syntax
+- experimenting with other Vim wiki plugins
+- rolled own Vim configuration to manage what I have now
+- continue tweaking configuration and writing scripts around it
+
+So basically, there were the dark ages before I discovered Vim was perfect for
+notetaking, then the playing with large Vim plugins, and finally rolling my
+own.
+
+### Create + Consume in Vim
+
+It should be noted that I was using Vim as my main editor long before I
+switched to using Vim to take notes. The reason why is that for a time I knew I
+wanted to create and edit notes using Vim, but I wanted to be able to read
+those notes in other ways, such as rich text from rendered markdown
+(Simplenote), or a wiki that was navigable in a browser. The times I used Vim
+to edit was frustrating, because I needed to fit with a workflow that required
+rebuilding a wiki after editing, or opening one file at a time for something
+like Simplenote.
+
+Finally, I realized that I didn't actually need to read rich text or navigate
+hyperlinks with a mouse in a browser. I could create *and consume* in Vim!
+Granted, it's not as pretty for viewing sometimes, but now creating, editing,
+searching, and reading notes are all the same thing. Efficiency.
+
+
+
+## Current system
+
+My current system is a directory tree full of markdown files, with a supporting
+framework of scripts and Vim config. They roughly function as an interconnected
+whole, and have various roles including:
+
+- small time-stamped file, Zettelkasten style, for a scoped note like a tip or
+  code snippet
+- some files serving as a central place for linking these small note files
+- file containing a list of some sort, updated regularly, like shopping lists,
+  various logs, etc.
+- "inbox" files to dump things to be sorted later
+- diary
+
+I also use [Taskwarrior][taskwarrior] for task management. Though I use this as
+a standalone tool most of the time, I will discuss it here because it links
+closely with my notetaking and at one time I used Vim plugins to link it more
+closely.
+
+## TODO
 
 
 ---
@@ -256,3 +341,9 @@ hi def link markdownTimestamp Todo
 
 _This article is licensed under the [Creative Common Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt this
 article provided you give appropriate credits. Enjoy!_
+
+
+[taskwarrior]: TODO
+[gtd]: TODO
+[vimwiki]: TODO
+[zettelkasten]: TODO
