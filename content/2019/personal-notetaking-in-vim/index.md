@@ -129,66 +129,98 @@ a standalone tool most of the time, I will discuss it here because it links
 closely with my notetaking and at one time I used Vim plugins to link it more
 closely.
 
-## TODO
+## Warning about code
+
+I'm going to share a bunch of code snippets copied almost verbatim from my
+config. These can all be seen in context in my [dotfiles repo][my_dotfiles].
+They are not fully fit for public consumption; they work for me with my
+particular setup and workflow, but will likely need modifying before it will
+work with someone else's. Copy code snippets with care!
 
 
----
+## Zettelkasten
 
-snippets to cover
+Zettelkasten (German for "card index") is a method for personal knowledge
+management in which one uses many small atomic notes, linked to other such
+notes. The idea is that it forms a huge interconnected network of notes one can
+traverse and interact with. I came across this a little while back and love the
+idea. I haven't yet spent the time to learn how to use it effectively, but I've
+started to use some of the ideas, including linking between notes and
+facilitating easy creation of notes.
 
-zshrc (or bashrc):
+### The system
+
+If you're interested to know more about Zettelkasten as a system, see [zettelkasten.de][zettelkasten] and/or web search for it. There are many good resources.
+
+
+### The tools
+
+The features required include:
+
+- search and tagging
+- easy creation of new notes
+- linking between notes
+
+#### Creating new notes
+
+Obviously I'll be editing a new note in Vim. There are two main places from
+where I want to be able to create a note: the shell and Vim itself. It must be
+as frictionless as possible to create new notes; any friction will dissuade me
+from bothering to take a note.
+
+So, from inside Vim, I have a command to create a timestamped file in my notes
+directory:
+
+```vim
+" .vim/plugin/local.vim
+command! -nargs=* Zet call local#zettel#edit(<f-args>)
+```
+
+```vim
+" .vim/autoload/local/zettel.vim
+func! local#zettel#edit(...)
+  let l:sep = ''
+  if len(a:000) > 0
+    let l:sep = '-'
+  endif
+
+  let l:fname = expand('~/wiki/') . strftime("%F-%H%M") . l:sep . join(a:000, '-') . '.md'
+
+  exec "e " . l:fname
+  if len(a:000) > 0
+    exec "normal Go\<c-u>datetime\<c-space> " . join(a:000) . "\<cr>\<cr>\<esc>"
+  else
+    exec "normal Go\<c-u>datetime\<c-space>\<cr>\<cr>\<esc>"
+  endif
+endfunc
+```
+
+This enables calling `:Zet a new note` to edit for example: `~/wiki/2019-12-21-0945-a-new-note.md`.
+
+For the shell I have the following alias to call the above Vim command directly:
 
 ```bash
-alias wi='nvim ~/wiki/index.md'
-alias d='nvim + ~/wiki/diary.md'
-
-# edit today's journal entry
-today() {
-  nvim + "$HOME/wiki/diary.md"
-}
-
-# open quick note with title
 zet() {
   nvim "+Zet $*"
 }
 ```
 
-i3/sway config
+So, `$ zet a new note` will produce the same result as the example above from
+in Vim.
 
-```i3
-bindsym Mod4+Shift+Return exec termite --directory "$HOME/wiki/" -e "nvim $HOME/wiki/index.md"
-bindsym Mod4+Ctrl+Return exec termite --directory "$HOME/wiki/" -e "nvim + $HOME/wiki/diary.md"
-bindsym Mod4+w exec --no-startup-id open-wiki-page
 
+### Linking notes
+
+
+```snippet
+" .vim/UltiSnips/markdown.snippets
+snippet h "hyperlink"
+[[$1]]$0
+endsnippet
 ```
-
-
-script `open-wiki-page`
-
-```bash
-cd "$HOME/wiki"
-
-if [ -n "$WAYLAND_DISPLAY" ]; then
-  file=$(rg --files --follow | bemenu --fn 'Hack 11' -p "wiki:" -i -l 20)
-else
-  file=$(rg --files --follow | rofi -dmenu -no-custom  -i -p "wiki")
-fi
-
-[[ -n "$file" ]] || exit
-
-exec termite -e "nvim \"$file\""
-```
-
-vimrc
-
-```vim
-" cool thing slightly off topic
-nnoremap <silent> <leader>K :silent ! $BROWSER https://en.wiktionary.org/wiki/<cword><cr>
-```
-
-`.vim/rplugin/python3/deoplete/sources/wiki_files.py`
 
 ```python
+# .vim/rplugin/python3/deoplete/sources/wiki_files.py
 import os
 import re
 from os.path import relpath, dirname
@@ -230,6 +262,53 @@ class Source(Base):
             contents.append(fname)
 
         return contents
+```
+
+---
+
+
+```bash
+alias wi='nvim ~/wiki/index.md'
+alias d='nvim + ~/wiki/diary.md'
+
+# edit today's journal entry
+today() {
+  nvim + "$HOME/wiki/diary.md"
+}
+```
+
+
+i3/sway config
+
+```i3
+bindsym Mod4+Shift+Return exec termite --directory "$HOME/wiki/" -e "nvim $HOME/wiki/index.md"
+bindsym Mod4+Ctrl+Return exec termite --directory "$HOME/wiki/" -e "nvim + $HOME/wiki/diary.md"
+bindsym Mod4+w exec --no-startup-id open-wiki-page
+
+```
+
+
+script `open-wiki-page`
+
+```bash
+cd "$HOME/wiki"
+
+if [ -n "$WAYLAND_DISPLAY" ]; then
+  file=$(rg --files --follow | bemenu --fn 'Hack 11' -p "wiki:" -i -l 20)
+else
+  file=$(rg --files --follow | rofi -dmenu -no-custom  -i -p "wiki")
+fi
+
+[[ -n "$file" ]] || exit
+
+exec termite -e "nvim \"$file\""
+```
+
+vimrc
+
+```vim
+" cool thing slightly off topic
+nnoremap <silent> <leader>K :silent ! $BROWSER https://en.wiktionary.org/wiki/<cword><cr>
 ```
 
 `.vim/filetype.vim`
@@ -274,7 +353,6 @@ require_literal_leading_dot = true
 `.vim/plugin/local.vim`
 
 ```vim
-command! -nargs=* Zet call local#zettel#edit(<f-args>)
 command! -nargs=* Searchr call local#searchr#search(<f-args>)
 ```
 
@@ -300,33 +378,6 @@ function! local#searchr#search(index, ...)
 endfunction
 ```
 
-`.vim/autoload/local/zettel.vim`
-
-```vim
-func! local#zettel#edit(...)
-  let l:sep = ''
-  if len(a:000) > 0
-    let l:sep = '-'
-  endif
-
-  let l:fname = expand('~/wiki/') . strftime("%F-%H%M") . l:sep . join(a:000, '-') . '.md'
-
-  exec "e " . l:fname
-  if len(a:000) > 0
-    exec "normal Go\<c-u>datetime\<c-space> " . join(a:000) . "\<cr>\<cr>\<esc>"
-  else
-    exec "normal Go\<c-u>datetime\<c-space>\<cr>\<cr>\<esc>"
-  endif
-endfunc
-```
-
-`.vim/UltiSnips/markdown.snippets`
-
-```snippet
-snippet h "hyperlink"
-[[$1]]$0
-endsnippet
-```
 
 `.vim/after/syntax/markdown.vim`
 
@@ -346,4 +397,5 @@ article provided you give appropriate credits. Enjoy!_
 [taskwarrior]: TODO
 [gtd]: TODO
 [vimwiki]: TODO
-[zettelkasten]: TODO
+[zettelkasten]: https://zettelkasten.de/
+[my_dotfiles]: TODO
