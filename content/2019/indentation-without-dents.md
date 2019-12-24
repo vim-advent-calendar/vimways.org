@@ -27,7 +27,7 @@ if true, if true
 ```
 
 While Vim indentation plugins are just files with Ex commands like any other Vim runtime files, there exist some hoops that facilitate interplay between plugins and the user's configuration. Filetype specific indenting is enabled by the `filetype indent on` command (see [`help :filetype-indent-on`][cmd-filetype-indent-on]). What this does is load the [`indent.vim`][vim-indent] file, which adds an autocommand that runs `runtime indent/{filetype}.vim` once per buffer for the current filetypes.
-Recall that [`:runtime`][cmd-runtime] sources the file in each directory in the order they are found in [`'runtimepath'`][opt-runtimepath], which on Unix-like systems defaults to something like: `"$HOME/.vim, …, $VIMRUNTIME, …"`. Now say that we create a new MATLAB indent plugin in `$HOME/.vim/indent/matlab.vim` to replace the default one found at `$VIMRUNTIME/indent/matlab.vim`, how would Vim know which one to choose?
+Recall that [`:runtime`][cmd-runtime] sources the file in each directory in the order they are found in [`'runtimepath'`][opt-runtimepath], which on Unix-like systems defaults to something like: `"$HOME/.vim, …, $VIMRUNTIME, …"`. Now say that we create a new MATLAB indent plugin in `$HOME/.vim/indent/matlab.vim` to replace the default one found at `$VIMRUNTIME/indent/matlab.vim`. How would Vim know which one to choose?
 
 The answer to that question is that indent plugins are assumed to start off with a so-called *load guard:*
 
@@ -41,8 +41,8 @@ This checks whether the current buffer has the `b:did_indent` variable defined (
 
 ## How to indent: `'indentexpr'`
 
-Next up we will have to actually hook into Vim's indentation mechanism. This is done through two options, of which we will start with the first one: [`'indentexpr'`][opt-indentexpr]. When Vim calculates the proper indent for a line it evaluates `'indentexpr'` with the [`v:lnum`][var-lnum] variable and cursor set to the line in question. The result should be the number spaces of indentation (or `-1` for keeping the current indent).
-Writing the whole indent routine in a string expression would get cramped, so let's define a function `GetMatlabIndent` and set `'indentexpr'` to call it:
+Next up we will have to actually hook into Vim's indentation mechanism. Vim already has good support for indenting C-like languages. For other languages, however, this is done through two options, of which we will start with the first one: [`'indentexpr'`][opt-indentexpr]. When Vim calculates the proper indent for a line it evaluates `'indentexpr'` with the [`v:lnum`][var-lnum] variable and cursor set to the line in question. The result should be the number of spaces of indentation (or `-1` for keeping the current indent).
+Writing the whole indent routine in a string expression would get cramped, so let's define a function `GetMatlabIndent()` and set `'indentexpr'` to call it:
 
 ```vim
 setlocal indentexpr=GetMatlabIndent()
@@ -55,7 +55,7 @@ function! GetMatlabIndent()
 endfunction
 ```
 
-We use [`:setlocal`][cmd-setlocal] to only set `'indentexpr'` in the current buffer. While this has to be done once per buffer, it suffices to define `GetMatlabIndent()` only when running the script for the first time. Thus we check and only define the function when necessary (remember to comment out when iteratively developing!). For now we will have the code stick to the left margin by always returning an indentation of zero spaces for every line.
+We use [`:setlocal`][cmd-setlocal] to only set `'indentexpr'` in the current buffer. While this has to be done once per buffer, it suffices to define `GetMatlabIndent()` only when running the script for the first time. Thus we check and only define the function when necessary (remember to comment out when developing iteratively!). For now we will have the code stick to the left margin by always returning an indentation of zero spaces for every line.
 
 Later we are going to want to return other indentations than zero. To honor the user's choice of [`'shiftwidth'`][opt-shiftwidth], the number of spaces to use per indent step, we will shift focus to indentation levels and therefore return `indentlvl * shiftwidth()` instead, which is also easier to reason about. (Sidenote: [`shiftwidth()`][func-shiftwidth] is a simple wrapper around the user option `'shiftwidth'`, that takes care of some intricacies such as using [`'tabstop'`][opt-tabstop] when `'shiftwidth'` is zero.)
 
@@ -65,10 +65,10 @@ So how do we actually obtain the indentation level? Well, this is obviously goin
 let prevlnum = prevnonblank(v:lnum - 1) " Get number of last non-blank line
 let result = 0
 if getline(prevlnum) =~ '\C^\s*\%(for\|if\| ... \|enumeration\)\>'
-		let result += 1 " If last line opened a block: indent one level
+	let result += 1 " If last line opened a block: indent one level
 endif
-if getline(v:lnum) =~ '^\s*\%(end\|else\|elseif\|case\|otherwise\|catch\)\>'
-		let result -= 1 " If current line closes a block: dedent one level
+if getline(v:lnum) =~ '\C^\s*\%(end\|else\|elseif\|case\|otherwise\|catch\)\>'
+	let result -= 1 " If current line closes a block: dedent one level
 endif
 " Get indentation level of last line and add new contribution
 return (prevlnum > 0) * indent(prevlnum) + result * shiftwidth()
@@ -85,11 +85,11 @@ end
 
 ## Counting stuff with `search*()` and friends
 
-Clearly we a way to need to count all block openers/closers and not only the first on each line. So let us define a function `s:SubmatchCount()` that takes a line number, a pattern and optionally a column and counts the occurrences of each [*sub-expression*][doc-sub-expression] in the pattern on the specified line, up to a given column, or, otherwise, the whole line:
+Clearly we a way to need to count all block openers/closers and not only the first on each line. Let us define a function `s:SubmatchCount()` that takes a line number, a pattern and optionally a column and counts the occurrences of each [*sub-expression*][doc-sub-expression] in the pattern on the specified line, up to a given column, or, otherwise, the whole line:
 
 ```vim
 function! s:SubmatchCount(lnum, pattern, ...)
-	let endcol = a:0 >= 1 a:1 : 1 / 0
+	let endcol = a:0 >= 1 ? a:1 : 1 / 0
 	...
 endfunction
 ```
@@ -125,7 +125,7 @@ The list `x` contains four elements because that many ought to be enough. The re
 " Returns whether a comment or string envelops the specified column.
 function! s:IsCommentOrString(lnum, col)
 	return synIDattr(synID(a:lnum, a:col, 1), "name")
-		\ =~# 'matlabComment\|matlabMultilineComment\|matlabString'
+		\ =~# 'matlabComment\|matlabMultilineComment\|matlabMultilineComment\|matlabString'
 endfunction
 ```
 
@@ -138,14 +138,12 @@ function! s:GetOpenCloseCount(lnum, pattern, ...)
 endfunction
 ```
 
-That is, define `s:GetOpenCloseCount()` which returns how many blocks the line opens relative to how many it closes. The `[…] + a:000` syntax is Vim for concatenating two `List`:s, where `a:000` is a `List` of all extra arguments.
+That is, define `s:GetOpenCloseCount()` which returns how many blocks the line opens relative to how many it closes, given a pattern with sub-expressions for opening and closing patterns. The `[…] + a:000` syntax is Vim for concatenating two `List`:s, where `a:000` is a `List` of all extra arguments.
 
-**A word on `search*()`**: The `search*()` family of functions all accept the `z` flag. What it does is start searching at specified start column, instead of starting at column zero and skipping matches that occur before ([relevant line in source code][vim-search]). I guess this could end up making a difference if `\zs` was used in the pattern, but that is pretty niche. Additionally, adding the `z` flag to all `search*()` invocations lead to a 35% reduction in run time in a quick-and-dirty benchmark (10 s vs 15 s on a 5000 lines long file). The `z` flag was added fairly recently in patch `7.4.984` so you can use:
-
+> **A word on `search*()`**: The `search*()` family of functions all accept the `z` flag. What it does is start searching at specified start column, instead of starting at column zero and skipping matches that occur before ([relevant line in source code][vim-search]). I guess this could end up making a difference if `\zs` was used in the pattern, but that is pretty niche. Additionally, adding the `z` flag to all `search*()` invocations lead to a 35% reduction in run time in a quick-and-dirty benchmark (10 s vs 15 s on a 5000 lines long file). The `z` flag was added fairly recently in patch `7.4.984` so you can use:
 ```vim
 let s:zflag = has('patch-7.4.984') ? 'z' : ''
 ```
-
 to check for it.
 
 ## Pay homage to Zalgo
@@ -229,7 +227,7 @@ Back to `O(n)` time complexity again!
 
 ## When to indent: `'indentkeys'`
 
-The value of `'indentexpr'` is not evaluated on every keystroke. Instead the option [`'indentkeys'`][opt-indentkeys] defines a string of comma separated keys that should prompt recalculation of the indentation for the current line when typed in Insert mode. The keys follow a particular format that is pretty neatly documented in [`:help indentkeys-format`][doc-indentkeys-format] so I will not go into too much detail here. A cute little trick however is to append `0=elsei` to `'indentkeys'`, which will emulate IDE behavior by making the line jump back one level when typing the `i` before the `f` in `elseif`, as if indentation was calculated on every keystroke. It is just faking it but I find fun.
+The value of `'indentexpr'` is not evaluated on every keystroke. Instead the option [`'indentkeys'`][opt-indentkeys] defines a string of comma separated keys that should prompt recalculation of the indentation for the current line when typed in Insert mode. The keys follow a particular format that is pretty neatly documented in [`:help indentkeys-format`][doc-indentkeys-format] so I will not go into too much detail here. A cute little trick however is to append `0=elsei` to `'indentkeys'`, which will emulate IDE behavior by making the line jump back one level when typing the `i` before the `f` in `elseif`, as if indentation was calculated on every keystroke. It is just faking it but I find it fun.
 
 ## No sandbox play
 
@@ -251,7 +249,7 @@ Also be aware of certain features not being compiled in. Use the [`has()`][func-
 
 ---
 
-**Thanks for reading!** Hopefully this article will prove useful to you and generalize to whatever other languages you wish to support. Writing indentation scripts can be perilous - but with a healthy test suite set up it can also be rather rewarding. This article should also serve as some kind of argument for why you would want to use something like [*tree-sitter*][tree-sitter] instead of regexes.
+**Thanks for reading!** Hopefully this article will prove useful to you and generalize to whatever other languages you wish to support. One should also keep in mind that [`cindent()`][func-cindent] can be used to great effect even when using `'indentexpr'` to do some fix-ups, but that is out of scope of this article. Writing indentation scripts can be perilous - but with a healthy test suite set up it can also be rather rewarding. This article should also serve as some kind of argument for why you would want to use something like [*tree-sitter*][tree-sitter] instead of regexes.
 The full MATLAB indent file authored by me can be found in [the Vim source tree][matlab-indent].
 
 [CC BY 4.0][license]
@@ -262,11 +260,12 @@ The full MATLAB indent file authored by me can be found in [the Vim source tree]
 [doc-indentkeys-format]: https://vimhelp.org/indent.txt.html#indentkeys-format
 [doc-lookbehind]: https://vimhelp.org/pattern.txt.html#%2F%5C%40%3C%3D
 [doc-sub-expression]: https://vimhelp.org/pattern.txt.html#%2F%5C%28
+[func-cindent]: https://vimhelp.org/eval.txt.html#cindent%28%29
 [func-exists]: https://vimhelp.org/eval.txt.html#exists%28%29
 [func-has]: https://vimhelp.org/eval.txt.html#has%28%29
 [func-shiftwidth]: https://vimhelp.org/eval.txt.html#shiftwidth%28%29
 [license]: https://creativecommons.org/licenses/by/4.0/
-[matlab-indent]: https://github.com/vim/vim/blob/master/runtime/indent/matlab.vim
+[matlab-indent]: https://github.com/vim/vim/blob/53989554a44caca0964376d60297f08ec257c53c/runtime/indent/matlab.vim
 [opt-cpo]: https://vimhelp.org/options.txt.html#%27cpo%27
 [opt-indentexpr]: https://vimhelp.org/options.txt.html#%27indentexpr%27
 [opt-indentkeys]: https://vimhelp.org/options.txt.html#%27indentkeys%27
