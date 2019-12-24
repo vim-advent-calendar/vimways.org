@@ -10,7 +10,7 @@ author:
    github: "connermcd"
    picture: "https://en.gravatar.com/userimage/14315884/59ba71fd2c2286907838b5afd0b77bef?size=400"
    twitter: "@connermcd"
-   irc: "connermcd"
+   freenode: "connermcd"
    homepage: "http://connermcd.github.io/"
 ---
 

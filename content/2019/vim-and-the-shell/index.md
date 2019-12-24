@@ -7,9 +7,7 @@ author:
   email: "pabloariasal@gmail.com"
   github: "pabloariasal"
   homepage: "https://pabloariasal.github.io"
-  irc: "username"
   name: "Pablo Arias"
-  picture: "https://example.com/username.jpg"
   twitter: "@pabloariasal"
 ---
 

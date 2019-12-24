@@ -10,7 +10,7 @@ author:
   github: "djmoch"
   picture: "https://secure.gravatar.com/avatar/9709a880ad3885e14781a3cb757e09f3?s=400"
   twitter: "@\_djmoch"
-  irc: "djmoch"
+  freenode: "djmoch"
   homepage: "https://www.danielmoch.com"
 ---
 

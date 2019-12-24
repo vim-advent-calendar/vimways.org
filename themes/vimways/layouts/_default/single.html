@@ -22,21 +22,35 @@
 					<h1 id="title">{{ .Title }}</h1>
 					<p class="author">By <i>{{ .Params.author.name }}</i></p>
 					<ul class="contact">
-
 						{{ with .Params.author }}
 							{{ if .homepage }}
-								<li><a href="{{ .homepage }}">Homepage</a></li>
+								<li><a href="{{ .homepage }}" target="_blank" rel="noopener">Homepage</a></li>
 							{{ end }}
 							{{ if .github }}
-								<li><a href="https://github.com/{{ .github }}">GitHub</a></li>
+								<li><a href="https://github.com/{{ .github }}" target="_blank" rel="noopener">GitHub</a></li>
+							{{ end }}
+							{{ if .bitbucket }}
+								<li><a href="https://bitbucket.org/{{ .bitbucket }}" target="_blank" rel="noopener">Bitbucket</a></li>
+							{{ end }}
+							{{ if .gitlab }}
+								<li><a href="https://gitlab.com/{{ .gitlab }}" target="_blank" rel="noopener">Gitlab</a></li>
+							{{ end }}
+							{{ if .sourcehut }}
+								<li><a href="https://git.sr.ht/{{ .sourcehut }}" target="_blank" rel="noopener">Sourcehut</a></li>
+							{{ end }}
+							{{ if .dotfiles }}
+								<li><a href="{{ .dotfiles }}" target="_blank" rel="noopener">Dotfiles</a></li>
 							{{ end }}
 							{{ if .twitter }}
-								<li><a href="https://twitter.com/{{ trim .twitter "@" }}">Twitter</a></li>
+								<li><a href="https://twitter.com/{{ trim .twitter "@" }}" target="_blank" rel="noopener">Twitter</a></li>
 							{{ end }}
 							{{ if .email }}
 								{{ if in .email "@" }}
 									<li><a href="mailto:{{ .email }}">Email</a></li>
 								{{ end }}
+							{{ end }}
+							{{ if .freenode }}
+								<li><a href="https://webchat.freenode.net/" target="_blank" rel="noopener">{{ .freenode }} on Freenode</a></li>
 							{{ end }}
 						{{ end }}
 					</ul>

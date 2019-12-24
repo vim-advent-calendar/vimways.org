@@ -7,7 +7,7 @@ author:
   email: "lukasz@niemier.pl"
   github: "hauleth"
   homepage: "https://hauleth.dev/"
-  irc: "hauleth"
+  freenode: "hauleth"
   name: "Łukasz Jan Niemier"
   twitter: "@hauleth"
 ---

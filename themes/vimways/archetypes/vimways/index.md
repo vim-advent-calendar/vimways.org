@@ -4,12 +4,16 @@ publishDate: {{ dateFormat "2006" .Date }}-12-01
 draft: true
 description: "Tweet-sized description of your post"
 author:
+  bitbucket: "username"
+  dotfiles: "https://git.sr.ht/~username/dotfiles"
   email: "username@example.com"
   github: "username"
+  gitlab: "username"
   homepage: "https://example.com/"
-  irc: "username"
+  freenode: "nick"
   name: "Firstname Lastname"
   picture: "https://example.com/username.jpg"
+  sourcehut: "~username"
   twitter: "@username"
 ---
 

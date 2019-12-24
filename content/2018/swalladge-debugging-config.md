@@ -10,7 +10,7 @@ author:
   github: "swalladge"
   picture: "https://www.gravatar.com/avatar/e1dc4dfcc798a49c1de0b2dcca4dee3c.jpg?s=512"
   twitter: "@srwalladge"
-  irc: "swalladge"
+  freenode: "swalladge"
   homepage: "https://swalladge.id.au"
 ---
 

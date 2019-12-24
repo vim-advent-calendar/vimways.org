@@ -7,7 +7,7 @@ author:
   email: "d.merej@gmail.com"
   github: "dmerejkowsky"
   homepage: "https://dmerej.info/"
-  irc: "dmerejkowsky"
+  freenode: "dmerejkowsky"
   name: "Dimitri Merejkowsky"
   picture: "https://dmerej.info/pub/avatar.png"
   twitter: "@d_merej"

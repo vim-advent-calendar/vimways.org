@@ -10,7 +10,7 @@ author:
   github: "shlomif"
   picture: "https://secure.gravatar.com/avatar/ac125fe03b42874a2d82175f16f5b8e3?s=400"
   twitter: "@shlomif"
-  irc: "rindolf"
+  freenode: "rindolf"
   homepage: "https://www.shlomifish.org/"
 ---
 
