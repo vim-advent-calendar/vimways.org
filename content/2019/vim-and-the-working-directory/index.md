@@ -1,6 +1,6 @@
 ---
 title: "Vim and the Working Directory"
-publishDate: 2019-12-01
+publishDate: 2019-12-26
 draft: true
 description: "Working with several working directories in Vim"
 author:

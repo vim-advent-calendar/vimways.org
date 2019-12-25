@@ -1,6 +1,6 @@
 ---
 title: "Vim Filters, External Commands, And The Shell"
-publishDate: 2019-12-01
+publishDate: 2019-12-25
 draft: true
 description: "Vim is not an isolated tool. It is designed to work with external programs."
 author:
