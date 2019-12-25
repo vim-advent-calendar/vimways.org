@@ -8,6 +8,14 @@
 		overflow: unset;
 		overflow-x: visible;
 		text-align: justify;
+		a {
+			text-decoration: none;
+			border-bottom: 1px solid;
+			&.footnote-return {
+				border-bottom: none;
+				text-decoration: underline;
+			}
+		}
 	}
 	.highlight {
 		font-size: 0.8rem;
