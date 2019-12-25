@@ -47,7 +47,7 @@ functions.
 
 The general syntax to create mappings is:
 
-```text
+```vim
 {map-cmd} [modifiers] {lhs} {rhs}
 ```
 

@@ -20,7 +20,7 @@ The focus of this article is how we can alter the formatting behaviour when we h
 
 The default value of `'formatlistpat'` is succinctly described in the documentation:
 
-```text
+```bash
 The default recognizes a number, followed by an optional punctuation
 character and white space.
 ```
@@ -39,7 +39,7 @@ Atom | Description
 
 Here is an example of a list that can be formatted by executing `gwip`:
 
-```text
+```bash
 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 2. Donec feugiat a quam id faucibus.
 3. Sed maximus efficitur commodo.
@@ -49,7 +49,7 @@ Here is an example of a list that can be formatted by executing `gwip`:
 
 However something like the following won't be recognised:
 
-```text
+```bash
 a. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 b. Donec feugiat a quam id faucibus.
 c. Sed maximus efficitur commodo.
@@ -95,7 +95,7 @@ This is just something to bear in mind if you find `'formatlistpat'` set to some
 
 Vim has a notion of comments which can lead to formatting not working as you may expect. For example if we were to open a file named `list.txt` with the following content.
 
-```text
+```bash
 * Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 * Donec feugiat a quam id faucibus.
 * Sed maximus efficitur commodo.
@@ -134,13 +134,13 @@ Part | Description
 
 The usage of the `f` flag may seem slightly confusing given the prior example. But becomes clearer if we try and format a line that exceeds `'textwidth'`, here we are again in a buffer with the `'filetype'` of "text".
 
-```text
+```markdown
 * Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat a quam id faucibus.
 ```
 
 Executing `gwip` will yield the following.
 
-```text
+```markdown
 * Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec feugiat a quam
   id faucibus.
 ```
@@ -205,7 +205,7 @@ set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points
 
 This handles a broader range of lists.
 
-```text
+```bash
 1.  Typical item the default handles
 a.  An item with an alphabetic character and punctuation
 (2) An item with punctuation preceding and following it
