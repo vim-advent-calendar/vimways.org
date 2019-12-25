@@ -1,6 +1,6 @@
 ---
 title: "Indentation Without Dents"
-publishDate: 2019-12-04
+publishDate: 2019-12-27
 draft: true
 description: "Indenting by expression to change your expression into a happy one"
 author:
@@ -85,7 +85,7 @@ end
 
 ## Counting stuff with `search*()` and friends
 
-Clearly we a way to need to count all block openers/closers and not only the first on each line. Let us define a function `s:SubmatchCount()` that takes a line number, a pattern and optionally a column and counts the occurrences of each [*sub-expression*][doc-sub-expression] in the pattern on the specified line, up to a given column, or, otherwise, the whole line:
+Clearly we need a way to to count all block openers/closers and not only the first on each line. Let us define a function `s:SubmatchCount()` that takes a line number, a pattern and optionally a column and counts the occurrences of each [*sub-expression*][doc-sub-expression] in the pattern on the specified line, up to a given column, or, otherwise, the whole line:
 
 ```vim
 function! s:SubmatchCount(lnum, pattern, ...)
@@ -138,12 +138,14 @@ function! s:GetOpenCloseCount(lnum, pattern, ...)
 endfunction
 ```
 
-That is, define `s:GetOpenCloseCount()` which returns how many blocks the line opens relative to how many it closes, given a pattern with sub-expressions for opening and closing patterns. The `[…] + a:000` syntax is Vim for concatenating two `List`:s, where `a:000` is a `List` of all extra arguments.
+That is, define `s:GetOpenCloseCount()` which returns how many blocks the line opens relative to how many it closes, given a pattern with sub-expressions for opening and closing patterns. The `[…] + a:000` syntax is Vim for concatenating two `List`s, where `a:000` is a `List` of all extra arguments.
 
-> **A word on `search*()`**: The `search*()` family of functions all accept the `z` flag. What it does is start searching at specified start column, instead of starting at column zero and skipping matches that occur before ([relevant line in source code][vim-search]). I guess this could end up making a difference if `\zs` was used in the pattern, but that is pretty niche. Additionally, adding the `z` flag to all `search*()` invocations lead to a 35% reduction in run time in a quick-and-dirty benchmark (10 s vs 15 s on a 5000 lines long file). The `z` flag was added fairly recently in patch `7.4.984` so you can use:
+> **A word on `search*()`**: The `search*()` family of functions all accept the `z` flag. What it does is start searching at a specified start column, instead of starting at column zero and skipping matches that occur before ([relevant line in source code][vim-search]). I guess this could end up making a difference if `\zs` was used in the pattern, but that is pretty niche. Additionally, adding the `z` flag to all `search*()` invocations lead to a 35% reduction in run time in a quick-and-dirty benchmark (10 s vs 15 s on a 5000 lines long file). The `z` flag was added fairly recently in patch `7.4.984` so you can use:
+
 ```vim
 let s:zflag = has('patch-7.4.984') ? 'z' : ''
 ```
+
 to check for it.
 
 ## Pay homage to Zalgo
@@ -167,7 +169,7 @@ if getline(prevlnum) =~ '\C^\s*\%(for\|if\|enumeration\)\>'
 endif
 ```
 
-with
+with:
 
 ```vim
 if prevlnum
@@ -175,11 +177,11 @@ if prevlnum
 endif
 ```
 
-Just this alone makes for a rather robust solution for simple languages.
+Just this alone makes for a rather robust solution for a simple languages.
 
 ## Reusing intermediate calculations
 
-All warmed up yet? Great! Next I thought it would be fun to see how one could go about implementing indenting of MATLAB brackets. These are interesting for one reason: They require context beyond the current line and the one above. Take, for example, this cell array literal:
+All warmed up yet? Great! Next I thought it would be fun to see how one could go about implementing indenting of MATLAB brackets. These are interesting for one reason: they require context beyond the current line and the one above. Take, for example, this cell array literal:
 
 ```matlab
 myCell = {'text'
