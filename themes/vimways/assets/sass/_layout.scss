@@ -26,6 +26,7 @@ body {
 pre, code {
 	font-family: $firaMono;
 	border-radius: 3px;
+	font-size: 0.75rem !important;
 }
 
 h1 code,
@@ -53,6 +54,9 @@ pre {
 	border-radius: 3px;
 	padding: 0.5rem;
 	overflow-x: auto;
+	code {
+		font-size: 0.75rem !important;
+	}
 }
 
 table {
