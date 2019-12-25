@@ -16,29 +16,24 @@
 				text-decoration: underline;
 			}
 		}
-	}
-	.highlight {
-		font-size: 0.8rem;
-		position: relative;
-		overflow-x: visible;
-		pre {
+		& > pre {
 			overflow: hidden;
 			box-sizing: border-box;
 			@media only screen and (max-width: 1023px) {
 				overflow: auto;
 			}
 			@media only screen and (min-width: 1024px) {
-				&:after {
-					position: absolute;
-					bottom: 0;
-					right: 0;
-					background-color: white;
-					font-size: 0.4em;
-					line-height: 2;
-					padding: 0 0.5em;
-					border-radius: 1px 1px 3px 1px;
-					border: 1px solid #f0f0f0;
-				}
+				// &:after {
+				// 	position: absolute;
+				// 	bottom: 0;
+				// 	right: 0;
+				// 	background-color: white;
+				// 	font-size: 0.4em;
+				// 	line-height: 2;
+				// 	padding: 0 0.5em;
+				// 	border-radius: 1px 1px 3px 1px;
+				// 	border: 1px solid #f0f0f0;
+				// }
 			}
 			@media only screen and (width: 1024px) {
 				&:active {
@@ -48,18 +43,18 @@
 						display: none;
 					}
 				}
-				&:after {
-					content: "Touch to expand";
-					position: absolute;
-					bottom: 0;
-					right: 0;
-					background-color: white;
-					font-size: 0.4em;
-					line-height: 2;
-					padding: 0 0.5em;
-					border-radius: 1px 1px 3px 1px;
-					border: 1px solid #f0f0f0;
-				}
+				// &:after {
+				// 	content: "Touch to expand";
+				// 	position: absolute;
+				// 	bottom: 0;
+				// 	right: 0;
+				// 	background-color: white;
+				// 	font-size: 0.4em;
+				// 	line-height: 2;
+				// 	padding: 0 0.5em;
+				// 	border-radius: 1px 1px 3px 1px;
+				// 	border: 1px solid #f0f0f0;
+				// }
 			}
 			@media only screen and (min-width: 1025px) {
 				&:hover {
@@ -69,18 +64,18 @@
 						display: none;
 					}
 				}
-				&:after {
-					content: "Hover to expand";
-					position: absolute;
-					bottom: 0;
-					right: 0;
-					background-color: white;
-					font-size: 0.4em;
-					line-height: 2;
-					padding: 0 0.5em;
-					border-radius: 1px 1px 3px 1px;
-					border: 1px solid #f0f0f0;
-				}
+				// &:after {
+				// 	content: "Hover to expand";
+				// 	position: absolute;
+				// 	bottom: 0;
+				// 	right: 0;
+				// 	background-color: white;
+				// 	font-size: 0.4em;
+				// 	line-height: 2;
+				// 	padding: 0 0.5em;
+				// 	border-radius: 1px 1px 3px 1px;
+				// 	border: 1px solid #f0f0f0;
+				// }
 			}
 		}
 	}
