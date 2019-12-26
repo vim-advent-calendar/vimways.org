@@ -1,7 +1,7 @@
 ---
 title: "Writing a Vim Plugin"
-publishDate: 2019-12-28
-draft: true
+publishDate: 2019-12-26
+draft: false
 description: "An article not about writing plugins"
 author:
   email: "lukasz@niemier.pl"
@@ -151,8 +151,7 @@ The main differences are:
 - use of `:h execute()` instead of `:redir`.
 
 As it is quite self-contained and (let's be honest) too specific for `$MYVIMRC`
-we can can extract it to its own location in `.vim/plugin/scratch.vim` (or
-`./config/nvim/plugin/scratch.vim` for Neovim), but to do so properly we need
+we can can extract it to its own location in `plugin/scratch.vim`, but to do so properly we need
 one additional thing, a command to prevent the script from being loaded twice:
 
 ```vim
@@ -183,7 +182,7 @@ command! -nargs=1 -complete=command Scratch call <SID>scratch(<q-mods>, <q-args>
 ## To boldly go…
 
 Now my idea was, hey, I use Vim macros from time to time, and these are just
-simply lists of keystrokes stored in Vim registers. Maybe it would be nice to have
+simple lists of keystrokes stored in Vim registers. Maybe it would be nice to have
 access to that as well in our command. So we will just add a new condition that
 checks if `a:cmd` begins with the `@` sign and has a length of two. If so, then
 set `l:output` to the spliced content of the register:
@@ -217,7 +216,7 @@ back via `"ayy`.
 
 ## Pluginize
 
-Now, it would be shame to keep such a useful tool for ourselves so
+Now, it would be a shame to keep such a useful tool for ourselves so
 let's share it with the big world. In this case we need:
 
 - a proper project structure,
@@ -226,7 +225,7 @@ let's share it with the big world. In this case we need:
 
 You can find help on the two first topics in [`:h
 write-plugin`][h-write-plugin] and [`:h write-local-help`][h-write-local-help]
-or in any of the bazillion tutorials in the internet.
+or in any of the bazillion tutorials on the internet.
 
 Finding a good name is something I can't help you with. I have picked
 `vim-backscratch`, because I like back scratches (everyone likes them) and, as
@@ -239,7 +238,7 @@ a plugin from day one. Start easy and small. If something can be done with
 a simple command/mapping, then it should be done with a simple command/mapping
 at first. If you find your solution really useful, then, and only then, you
 should think about turning it into plugin. The whole process described in this
-article wasn't done in week or two. It took me about a year to reach the step
+article didn't happen in week or two. It took me about a year to reach the step
 *Make it a more "vimmy" citizen*, when I heard about romainl's script on IRC.
 I didn't need anything more, so take your time.
 
@@ -253,6 +252,7 @@ Additional pro-tips:
 [scratch]: https://github.com/hauleth/vim-backscratch
 [nocode]: https://github.com/kelseyhightower/nocode
 [dadbod]: https://github.com/tpope/vim-dadbod
+[redir]: https://gist.github.com/romainl/eae0a260ab9c135390c30cd370c20cd7
 [h-write-plugin]: https://vimhelp.org/usr_41.txt.html#write-plugin
 [h-write-local-help]: https://vimhelp.org/usr_41.txt.html#write-local-help
 [h-special-buffers]: https://vimhelp.org/windows.txt.html#special-buffers
