@@ -2,15 +2,16 @@
 title: "Personal Notetaking in Vim"
 publishDate: 2019-12-01
 draft: true
-description: "Working with several working directories in Vim"
+description: "TODO"
 author:
   email: "samuel@swalladge.net"
   github: "swalladge"
   homepage: "https://swalladge.net/"
-  irc: "swalladge"
+  freenode: "swalladge"
   name: "Samuel Walladge"
   picture: "https://www.swalladge.net/assets/images/logo.jpg"
   twitter: "@srwalladge"
+  dotfiles: https://github.com/swalladge/dotfiles
 ---
 
 outline / points to cover:
@@ -47,6 +48,7 @@ outline / points to cover:
 - future
   - wishlist for features, bindings, etc.
 
+"quote"
 
 
 
@@ -79,7 +81,7 @@ So a brief progression would look something like this:
   remember details)
 - [Simplenote][simplenote]: official client on mobile plus [sncli][sncli] for desktop
   (editing files in Vim)
-- [Standardnote][standardnote]
+- [Standardnotes][standardnote]
 - others?
 - Vimwiki with Vimwiki syntax
 - Vimwiki with markdown + [Gollum][gollum] for viewing wiki on mobile
@@ -132,9 +134,8 @@ closely.
 ## Warning about code
 
 I'm going to share a bunch of code snippets copied almost verbatim from my
-config. These can all be seen in context in my [dotfiles repo][my_dotfiles].
-They are not fully fit for public consumption; they work for me with my
-particular setup and workflow, but will likely need modifying before it will
+config.  They are not fully fit for public consumption; they work for me with
+my particular setup and workflow, but will likely need modifying before it will
 work with someone else's. Copy code snippets with care!
 
 
@@ -211,6 +212,15 @@ in Vim.
 
 ### Linking notes
 
+To link between notes, I make use of [ultisnips][ultisnips] for inserting the
+syntax and [deoplete][deoplete] to complete filenames. This is a lot easier to
+show than to explain, so here's a screencast:
+
+{{< asciicast 290330 >}}
+
+
+And the code - this is the snippet to insert my custom syntax for marking cross
+links:
 
 ```snippet
 " .vim/UltiSnips/markdown.snippets
@@ -218,6 +228,10 @@ snippet h "hyperlink"
 [[$1]]$0
 endsnippet
 ```
+
+And this is the deoplete source plugin to list all files in my notes directory.
+Note that it strips the file extension for cleanliness. I can still use Vim's
+built in `gf` (goto file) mapping to follow the link - see `:h 'suffixesadd'`.
 
 ```python
 # .vim/rplugin/python3/deoplete/sources/wiki_files.py
@@ -264,33 +278,38 @@ class Source(Base):
         return contents
 ```
 
----
+
+### Search
+
+Search is core to being able to effectively *consume* notes (as opposed to
+*creating* notes, as the previous points have been about). For me, there are 3
+entry points to search and 3 types of search.
+
+By "entry points", I mean where I want to start a search from. These are:
+
+1. the desktop (ie. anywhere)
+2. the shell
+2. Vim itself
+
+Types of search:
+
+1. fuzzy find by title
+2. grep file contents
+3. search-engine-style search
 
 
-```bash
-alias wi='nvim ~/wiki/index.md'
-alias d='nvim + ~/wiki/diary.md'
-
-# edit today's journal entry
-today() {
-  nvim + "$HOME/wiki/diary.md"
-}
-```
-
-
-i3/sway config
+Ok, so fuzzy find by title is done from the window manager with
 
 ```i3
-bindsym Mod4+Shift+Return exec termite --directory "$HOME/wiki/" -e "nvim $HOME/wiki/index.md"
-bindsym Mod4+Ctrl+Return exec termite --directory "$HOME/wiki/" -e "nvim + $HOME/wiki/diary.md"
+# ~/.config/i3/config
 bindsym Mod4+w exec --no-startup-id open-wiki-page
-
 ```
 
-
-script `open-wiki-page`
+And the corresponding script that launches a graphical fuzzy finder which is
+used to select a wiki file to open in a new terminal window:
 
 ```bash
+~/bin/open-wiki-page
 cd "$HOME/wiki"
 
 if [ -n "$WAYLAND_DISPLAY" ]; then
@@ -304,61 +323,41 @@ fi
 exec termite -e "nvim \"$file\""
 ```
 
-vimrc
+Fuzzy find from inside Vim is done using [fzf][fzf] and a mapping:
 
 ```vim
-" cool thing slightly off topic
-nnoremap <silent> <leader>K :silent ! $BROWSER https://en.wiktionary.org/wiki/<cword><cr>
+" ~/.vim/after/plugin/local.vim
+map <silent> <leader>ww :FZF ~/wiki<cr>
 ```
 
-`.vim/filetype.vim`
+Grepping contents of wiki files is done using Vim's builtin `:grep` command
+(I've set `grepprg` to [rg][rg] for speed).
 
-```vim
-if exists("did_load_filetypes")
-  finish
-endif
-augroup filetypedetect
-  " taking advantage of dotted filetypes for wiki-specific config
-  au! BufNewFile,BufRead /home/swalladge/wiki/*.md    setf privwiki.markdown
-augroup END
+A proper search engine-esque search with stemming, ranking by relevance, etc.
+is done using the excellent [Tantivy][tantivy] search engine, plumbed together
+with [searchr][searchr], a cli program I wrote for this purpose.
 
-```
-
-`.vim/after/ftplugin/privwiki.vim`
-
-```vim
-nnoremap <buffer> <space>gf :e %:h/<cfile>.md<cr>
-setlocal foldmethod=marker
-```
-
-
-searchr config
 
 ```toml
-[main]
-default_index = "wiki"
-
-
+# ~/.config/searchr/config.toml
 [indexes.wiki]
 language = "English"
 index_path = "/home/swalladge/.searchr/wiki"
 files = [
   '/home/swalladge/wiki/**/*.md',
-  '/home/swalladge/proj/swalladge/swalladge.net/**/*.md',
-  '/home/swalladge/proj/swalladge/swalladge.net/**/*.markdown',
 ]
 require_literal_leading_dot = true
 ```
 
-`.vim/plugin/local.vim`
 
 ```vim
+" ~/.vim/plugin/local.vim
 command! -nargs=* Searchr call local#searchr#search(<f-args>)
 ```
 
-`.vim/autoload/local/searchr.vim`
 
 ```vim
+" ~/.vim/autoload/local/searchr.vim
 function! local#searchr#search(index, ...)
   let l:query = join(a:000, ' ')
   if a:index == "all"
@@ -379,6 +378,53 @@ endfunction
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+
+```bash
+alias wi='nvim ~/wiki/index.md'
+alias d='nvim + ~/wiki/diary.md'
+
+# edit today's journal entry
+today() {
+  nvim + "$HOME/wiki/diary.md"
+}
+```
+
+
+```vim
+`.vim/filetype.vim`
+if exists("did_load_filetypes")
+  finish
+endif
+augroup filetypedetect
+  " taking advantage of dotted filetypes for wiki-specific config
+  au! BufNewFile,BufRead /home/swalladge/wiki/*.md    setf privwiki.markdown
+augroup END
+
+```
+
+`.vim/after/ftplugin/privwiki.vim`
+
+```vim
+nnoremap <buffer> <space>gf :e %:h/<cfile>.md<cr>
+setlocal foldmethod=marker
+```
+
+
+
 `.vim/after/syntax/markdown.vim`
 
 ```vim
@@ -394,8 +440,17 @@ _This article is licensed under the [Creative Common Attribution 4.0 Internation
 article provided you give appropriate credits. Enjoy!_
 
 
-[taskwarrior]: TODO
-[gtd]: TODO
-[vimwiki]: TODO
+[deoplete]: https://github.com/Shougo/deoplete.nvim
+[fzf]: https://github.com/junegunn/fzf
+[gollum]: https://github.com/gollum/gollum
+[gtd]: https://hamberg.no/gtd/
+[rg]: https://github.com/BurntSushi/ripgrep/
+[searchr]: https://github.com/swalladge/searchr
+[simplenote]: https://simplenote.com/
+[sncli]: https://github.com/insanum/sncli
+[standardnote]: https://standardnotes.org/
+[tantivy]: https://github.com/tantivy-search/tantivy
+[taskwarrior]: https://taskwarrior.org/
+[ultisnips]: https://github.com/SirVer/ultisnips/
+[vimwiki]: https://github.com/vimwiki/vimwiki
 [zettelkasten]: https://zettelkasten.de/
-[my_dotfiles]: TODO
