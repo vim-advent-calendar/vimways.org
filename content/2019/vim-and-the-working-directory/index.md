@@ -1,7 +1,7 @@
 ---
 title: "Vim and the Working Directory"
 publishDate: 2019-12-28
-draft: true
+draft: false
 description: "Working with several working directories in Vim"
 author:
   email: "d.merej@gmail.com"
@@ -295,11 +295,11 @@ endfunction
 autocmd TabNewEntered * call OnTabEnter(expand("<amatch>"))
 ```
 
-Note: this only works in Neovim. In Vim, they are events named `TabNew` and `TabEnter`
+Note: this only works in Neovim. In Vim, there are events named `TabNew` and `TabEnter`
 but the callback is *not* called with the tab name.
 
 If you like, you can try and make it work by adapting the code and using the `WinEnter`
-event. I guess it's related to [this bug](https://github.com/vim/vim/issues/1660), but I'm not sure.
+event. [This old bug](https://github.com/vim/vim/issues/1660) seems related.
 
 ## Conclusion
 
