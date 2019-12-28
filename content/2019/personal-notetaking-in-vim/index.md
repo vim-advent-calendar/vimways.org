@@ -2,7 +2,7 @@
 title: "Personal Notetaking in Vim"
 publishDate: 2019-12-01
 draft: true
-description: "TODO"
+description: "Implementing a notetaking methodology in Vim"
 author:
   email: "samuel@swalladge.net"
   github: "swalladge"
@@ -14,85 +14,27 @@ author:
   dotfiles: https://github.com/swalladge/dotfiles
 ---
 
-outline / points to cover:
+> It pays you not to blink sometimes. It gives you a heck of a fright.
+>
+> – My grandmother, on rapid change
 
-- categories
-  - tasks (gtd)
-  - notes
-  - wiki
-  - zettelkasten
-  - diary
-- journey
-  - vimwiki
-  - vimwiki with markdown
-  - markdown plugins
-  - taskwarrior plugin
-- my requirements / workflow
-  - create and consume in vim
-  - lightweight/fast (vimwiki was slow startup)
-  - open/close many
-  - search (fuzzy title + full text)
-- current setup
-  - methodology: zettelkasten + arbitrary
-  - wiki bindings (gf, deoplete, zet)
-  - scripts / aliases
-  - diary
-  - taskwarrior
-  - search
-  - folds
-  - multiple locations via symlinks (implications for file searches)
-- cool things
-  - cool things that seem cool at the time but are never used afterwards
-  - cool things that are slightly offtopic for this article
-  - syncing? nextcloud + git. mobile? nextcloud and symlinks
-- future
-  - wishlist for features, bindings, etc.
 
-"quote"
+## Intro
 
+Here I'm going to detail how I went about integrating Vim with my environment
+to create a notetaking experience that fit with my workflow. What I'm trying to
+show is that the lines between Vim, your shell, and your desktop can be
+crossed, and that part of the power of Vim is it's ability to integrate with
+other tools.
 
 
 ## Context
 
-Out of a computer based personal knowledge management system, I needed:
-
-- a diary or journal to record events
-- notes system for anything I wanted to track or remember in the future
-- task management so I don't forget things to do
-
-This is going to cover "notetaking" as a broad topic. Perhaps a better title
-would be "personal knowledge management".
-
-
-## Brief history
-
-A long time ago, I rarely took notes. I forgot many things. I realized maybe I
-should start taking notes. I was terrible at first, but over the years I've
-been gradually researching note taking and optimizing my processes. I haven't
-yet settled on a certain system, but have taken inspiration from several
-defined systems over the years.
-
-### Timeline
-
-So a brief progression would look something like this:
-
-- bad notetaking: adhoc and rare
-- some notetaking experimenting with various software (long time ago; can't
-  remember details)
-- [Simplenote][simplenote]: official client on mobile plus [sncli][sncli] for desktop
-  (editing files in Vim)
-- [Standardnotes][standardnote]
-- others?
-- Vimwiki with Vimwiki syntax
-- Vimwiki with markdown + [Gollum][gollum] for viewing wiki on mobile
-- Vimwiki with Vimwiki syntax
-- experimenting with other Vim wiki plugins
-- rolled own Vim configuration to manage what I have now
-- continue tweaking configuration and writing scripts around it
-
-So basically, there were the dark ages before I discovered Vim was perfect for
-notetaking, then the playing with large Vim plugins, and finally rolling my
-own.
+My notetaking has changed a lot over the years, from little to no notetaking (I
+don't recommend!), to experimenting with off-the-shelf tools
+([Simplenote][simplenote], [Standardnotes][standardnote], [Vimwiki][vimwiki]),
+to experimenting with various knowledge management methodologies, to rolling my
+own in Vim. I haven't yet reached the ideal setup, but it's feeling close.
 
 ### Create + Consume in Vim
 
@@ -111,55 +53,26 @@ Granted, it's not as pretty for viewing sometimes, but now creating, editing,
 searching, and reading notes are all the same thing. Efficiency.
 
 
-
-## Current system
-
-My current system is a directory tree full of markdown files, with a supporting
-framework of scripts and Vim config. They roughly function as an interconnected
-whole, and have various roles including:
-
-- small time-stamped file, Zettelkasten style, for a scoped note like a tip or
-  code snippet
-- some files serving as a central place for linking these small note files
-- file containing a list of some sort, updated regularly, like shopping lists,
-  various logs, etc.
-- "inbox" files to dump things to be sorted later
-- diary
-
-I also use [Taskwarrior][taskwarrior] for task management. Though I use this as
-a standalone tool most of the time, I will discuss it here because it links
-closely with my notetaking and at one time I used Vim plugins to link it more
-closely.
-
-## Warning about code
-
-I'm going to share a bunch of code snippets copied almost verbatim from my
-config.  They are not fully fit for public consumption; they work for me with
-my particular setup and workflow, but will likely need modifying before it will
-work with someone else's. Copy code snippets with care!
-
-
 ## Zettelkasten
 
 Zettelkasten (German for "card index") is a method for personal knowledge
 management in which one uses many small atomic notes, linked to other such
 notes. The idea is that it forms a huge interconnected network of notes one can
-traverse and interact with. I came across this a little while back and love the
-idea. I haven't yet spent the time to learn how to use it effectively, but I've
-started to use some of the ideas, including linking between notes and
-facilitating easy creation of notes.
+traverse and interact with. I came across this methodology a little while back
+and love the idea. I haven't yet spent the time to learn how to use it
+effectively, but I've started to use some of the ideas, including linking
+between notes and facilitating easy creation of notes.
 
-### The system
-
-If you're interested to know more about Zettelkasten as a system, see [zettelkasten.de][zettelkasten] and/or web search for it. There are many good resources.
-
+If you're interested to know more about Zettelkasten as a system, see
+[zettelkasten.de][zettelkasten] and/or web search for it. There are many good
+resources.
 
 ### The tools
 
 The features required include:
 
-- search and tagging
 - easy creation of new notes
+- search
 - linking between notes
 
 #### Creating new notes
@@ -208,6 +121,20 @@ zet() {
 
 So, `$ zet a new note` will produce the same result as the example above from
 in Vim.
+
+
+Now I also have some special files that I need to access frequently. From the
+shell:
+
+```bash
+alias wi='nvim ~/wiki/index.md'
+alias d='nvim + ~/wiki/diary.md'
+```
+
+```i3
+bindsym Mod4+Shift+Return exec termite --directory "$HOME/wiki/" -e "nvim $HOME/wiki/index.md"
+bindsym Mod4+Ctrl+Return exec termite --directory "$HOME/wiki/" -e "nvim + $HOME/wiki/diary.md"
+```
 
 
 ### Linking notes
@@ -378,62 +305,6 @@ endfunction
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
----
-
-
-```bash
-alias wi='nvim ~/wiki/index.md'
-alias d='nvim + ~/wiki/diary.md'
-
-# edit today's journal entry
-today() {
-  nvim + "$HOME/wiki/diary.md"
-}
-```
-
-
-```vim
-`.vim/filetype.vim`
-if exists("did_load_filetypes")
-  finish
-endif
-augroup filetypedetect
-  " taking advantage of dotted filetypes for wiki-specific config
-  au! BufNewFile,BufRead /home/swalladge/wiki/*.md    setf privwiki.markdown
-augroup END
-
-```
-
-`.vim/after/ftplugin/privwiki.vim`
-
-```vim
-nnoremap <buffer> <space>gf :e %:h/<cfile>.md<cr>
-setlocal foldmethod=marker
-```
-
-
-
-`.vim/after/syntax/markdown.vim`
-
-```vim
-" highlight jrnl style headers (timestamp)
-" I use these to timestamp sections in my private wiki
-syn match markdownTimestamp /\d\d\d\d-\d\d-\d\d\( \d\d:\d\d\)\?\|\d\d:\d\d/
-hi def link markdownTimestamp Todo
-```
-
 ---
 
 _This article is licensed under the [Creative Common Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/). You are free to share and adapt this
@@ -442,8 +313,6 @@ article provided you give appropriate credits. Enjoy!_
 
 [deoplete]: https://github.com/Shougo/deoplete.nvim
 [fzf]: https://github.com/junegunn/fzf
-[gollum]: https://github.com/gollum/gollum
-[gtd]: https://hamberg.no/gtd/
 [rg]: https://github.com/BurntSushi/ripgrep/
 [searchr]: https://github.com/swalladge/searchr
 [simplenote]: https://simplenote.com/
