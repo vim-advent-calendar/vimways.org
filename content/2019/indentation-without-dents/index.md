@@ -1,7 +1,7 @@
 ---
 title: "Indentation Without Dents"
 publishDate: 2019-12-27
-draft: true
+draft: false
 description: "Indenting by expression to change your expression into a happy one"
 author:
   name: "Axel Forsman"
