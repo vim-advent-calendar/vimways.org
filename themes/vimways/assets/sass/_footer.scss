@@ -23,13 +23,17 @@ footer {
 			box-sizing: border-box;
 			vertical-align: top;
 			@media only screen and (max-width: 767px) {
-				margin: 0;
+				margin: 0 0.3em;
 			}
 			&:first-child {
 				@media only screen and (max-width: 767px) {
 					display: block;
 					margin-bottom: -1rem;
 				}
+			}
+			&.form-select {
+				margin-top: 0;
+				margin-bottom: 2rem;
 			}
 		}
 	}
