@@ -20,9 +20,7 @@ author:
 >
 > – Noam Chomsky
 
-# Introduction: what is the cwd?
-
-## In a command line prompt
+## What is the cwd in a command line prompt?
 
 `cwd` is short for "current working directory".
 
@@ -66,7 +64,7 @@ But it's much more convenient to use:
 [/path/to/foo] $ vim bar.h
 ```
 
-## In Vim
+## What is the cwd in Vim?
 
 Vim is no different. When you start vim, it gets the working directory of your
 shell. And then you can type commands like `:e` to open paths relative to your
