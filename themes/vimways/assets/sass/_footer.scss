@@ -24,16 +24,16 @@ footer {
 			vertical-align: top;
 			@media only screen and (max-width: 767px) {
 				margin: 0 0.3em;
+				&.form-select {
+					margin-top: 0;
+					margin-bottom: 2rem;
+				}
 			}
 			&:first-child {
 				@media only screen and (max-width: 767px) {
 					display: block;
 					margin-bottom: -1rem;
 				}
-			}
-			&.form-select {
-				margin-top: 0;
-				margin-bottom: 2rem;
 			}
 		}
 	}
