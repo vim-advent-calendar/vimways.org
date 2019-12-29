@@ -51,7 +51,7 @@
 		<div class="articles">
 			{{ range $pages_on_screen }}
 				{{ if hasPrefix . "ko" }}
-					<div class="future">
+					<div class="future" data-movable="{{ strings.TrimPrefix "ko" . }}">
 						<article>
 							<div class="bar"></div>
 							<div class="tile">
@@ -87,7 +87,7 @@
 					</div>
 				{{ else }}
 					{{ with (index (sort $.Pages.ByPublishDate "value" "desc") (int .)) }}
-						<a href="{{ .Permalink }}">
+					<a href="{{ .Permalink }}" class="-{{ .PublishDate.Format "2" }}-{{ .PublishDate.Format "January" }}">
 							<article>
 								<div class="tile">
 									<div class="date">
