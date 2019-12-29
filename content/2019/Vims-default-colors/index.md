@@ -1,6 +1,6 @@
 ---
 title: "Vim's default colors"
-publishDate: 2019-12-01
+publishDate: 2019-12-29
 draft: true
 description: "The ins and outs of how Vim sets colors"
 author:
