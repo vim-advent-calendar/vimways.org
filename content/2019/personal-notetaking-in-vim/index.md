@@ -115,9 +115,9 @@ func! local#zettel#edit(...)
 
   " enter the title and timestamp (using ultisnips) in the new file
   if len(a:000) > 0
-    exec "normal Go\<c-u>datetime\<c-space> " . join(a:000) . "\<cr>\<cr>\<esc>"
+    exec "normal ggO\<c-r>=strftime('%Y-%m-%d %H:%M')\<cr> " . join(a:000) . "\<cr>\<esc>G"
   else
-    exec "normal Go\<c-u>datetime\<c-space>\<cr>\<cr>\<esc>"
+    exec "normal ggO\<c-r>=strftime('%Y-%m-%d %H:%M')\<cr>\<cr>\<esc>G"
   endif
 endfunc
 ```
