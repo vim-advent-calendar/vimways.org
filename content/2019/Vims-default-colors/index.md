@@ -1,7 +1,7 @@
 ---
 title: "Vim's default colors"
 publishDate: 2019-12-29
-draft: true
+draft: false
 description: "The ins and outs of how Vim sets colors"
 author:
   github: "george-b"
@@ -16,7 +16,7 @@ author:
 
 ## Colorschemes
 
-One day I thought I'd set about creating a minimal colorscheme for Vim. The idea of having minimal highlighting to force a fuller reading and comprehension of code intrigued me and I wanted to try it for myself. Plus working with a minimal set of highlights ought to make this a simple endeavour, or so I thought. And lo I found myself in another one of Vim's idiosyncratic rabbit holes, something I seem to have an unfortunate knack for.
+One day I thought I'd set about creating a minimal colorscheme for Vim. The idea of having minimal highlighting to force a fuller reading and comprehension of code intrigued me and I wanted to try it for myself. Plus, working with a minimal set of highlights ought to make this a simple endeavour, or so I thought. And lo I found myself in another one of Vim's idiosyncratic rabbit holes, something I seem to have an unfortunate knack for.
 
 To be very clear this is not an article about recommending minimal colorschemes or how to write colorschemes. This is simply a journey I went on and sharing what I learnt about Vim along the way.
 
@@ -24,7 +24,7 @@ To be very clear this is not an article about recommending minimal colorschemes 
 
 The first thing to know is that when creating a colorscheme you never actually start from a clean slate. Even if I weren't creating a minimal colorscheme I'd still find this annoying. One would think if we're telling Vim what colors to use we wouldn't have to override things.
 
-Anyway let's take a look at that default colorscheme, it'll be in `colors/default.vim` in our `runtimepath` right? Let's open it up with `vim -c 'edit $VIMRUNTIME/colors/default.vim'`.
+Anyway let's take a look at that default colorscheme, it'll be in `colors/default.vim` in our `runtimepath` right? Let's open it up with `vim -c 'edit $VIMRUNTIME/colors/default.vim'`:
 
 ``` vim
 " Vim color file
@@ -52,7 +52,7 @@ let colors_name = "default"
 " vim: sw=2
 ```
 
-Erm... Where are the highlight groups? Let's try to dig a little deeper `:verbose hightlight` reveals `/usr/local/share/vim/vim81/syntax/syncolor.vim` is the source of *some* of the default colors. Said file contains a rather succinct comment.
+Erm... Where are the highlight groups? Let's try to dig a little deeper: `:verbose hightlight` reveals `syntax/syncolor.vim` in `$VIMRUNTIME` is the source of *some* of the default colors. Said file contains a rather succinct comment:
 
 ```vim
 " This file sets up the default methods for highlighting.
@@ -62,7 +62,7 @@ Erm... Where are the highlight groups? Let's try to dig a little deeper `:verbos
 
 So what about the others? The fact that even with `:verbose` we don't get a file from the runtime is somewhat telling. Well it turns out these are [hardcoded into Vim itself][hardcoded].
 
-So it is perhaps more accurate to say Vim sets default colors rather than has a default colorscheme. At the very least the default colorscheme is not equal to other colorschemes.
+So it is perhaps more accurate to say Vim "sets default colors" rather than "has a default colorscheme". At the very least the default colorscheme is not equal to other colorschemes.
 
 ## Clearing highlights
 
@@ -86,7 +86,7 @@ Crap.
 
 ## Let's get structured
 
-So I touched on the fact that I find overriding a set of highlight groups as ugly but it seems we're going to have to anyway. We could do something like the following for a list of highlight groups.
+So I touched on the fact that I find overriding a set of highlight groups ugly but it seems we're going to have to anyway. We could do something like the following for a list of highlight groups:
 
 ```vim
 hightlight SpecialKey NONE
@@ -97,8 +97,7 @@ But that's still very arbitrary and doesn't work well if things change (more on 
 
 A list of highlight groups would be sufficient for my desire to clear things. But I wanted to have a full representation of all the highlights in a single data structure. This allows for working with highlights in a far more functional manner.
 
-As a quick recap the output of `:highlight` returns output like the
-following.
+As a quick recap the output of `:highlight` returns output like the following:
 
 ```vim
 SpecialKey     xxx term=bold ctermfg=4 guifg=Blue
@@ -114,7 +113,7 @@ EndOfBuffer    xxx links to NonText
 
 We can represent the output of `:highlight` as a nested dictionary.
 
-* At the top level we have a dictionary of "highlights" who's keys are the various highlight groups
+* At the top level we have a dictionary of "highlights" whose keys are the various highlight groups
 * Each highlight group contains a dictionaries of attributes and their values
 
 A pseudo example.
@@ -143,7 +142,7 @@ This is a slight tangent in that I'm writing up this journey chronologically as 
 
 In my parsing of the output of `:highlight` I had made the assumption of there being one highlight group per line. Now if the window is not wide enough to fit this on one line Vim will hard wrap this onto another line. However this happens **even if the output is not interactive!** By which I mean captured in a `redir` or `execute()`. I find this deeply perverse. Why alter the output to be more visually accommodating when it's not actually outputted to a human?
 
-It's all the more flabbergasting when one has been accustomed to tooling that has intuition about its output. Take for example the humble `ls`, its output can vary depending on the size of the terminal window. However if we were to pipe its output would actually contain one entry per line. This is because it knows when its output is a terminal, when it's not you're probably scripting something and one entry per line is easy and consistent to deal with.
+It's all the more flabbergasting when one has been accustomed to tooling with intuitive output. Take for example the humble `ls`, its output can vary depending on the size of the terminal window. However if we were to pipe its output it would actually contain one entry per line. This is because it knows when its output is a terminal, when it's not you're probably scripting something and one entry per line is easy and consistent to deal with.
 
 I found this out late in the evening and initially had trouble fixing this. That [issue][issue] turned out to be my own error likely due to tiredness and frustration and was [fixed][fixed] the next day.
 
@@ -151,7 +150,7 @@ Anyway that's my rant within a rant, back to the topic at hand.
 
 ## Redefining the situation
 
-So whilst Vim has various colors set by default clearing those doesn't actually ensure you have a clean slate. Why? Because syntax files can set colors. One may think they would only set links but that is not the case.
+So whilst Vim has various colors set by default, clearing those doesn't actually ensure you have a clean slate. Why? Because syntax files can set colors. One may think they would only set links but that is not the case.
 
 ```sh
 grep -RE 'hi |highlgiht ' /usr/local/share/vim/vim81/syntax/ | grep -cv link
