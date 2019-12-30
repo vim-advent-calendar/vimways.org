@@ -31,9 +31,9 @@ My notetaking has changed a lot over the years, from little to no notetaking (I
 don't recommend!), to experimenting with off-the-shelf tools
 ([Simplenote][simplenote], [Standardnotes][standardnote], [Vimwiki][vimwiki]),
 to experimenting with various knowledge management methodologies, to rolling my
-own framework for [Zettelkasten][zettelkasten] in Vim. I haven't yet reached
+own framework for [Zettelkasten][zettelkasten] in Vim. I haven't yet achieved
 the ideal setup, but it's feeling close, and it's reached a point where I can
-comfortably.
+comfortably use it for my needs.
 
 
 ### Sidenote: Create + Consume in Vim
@@ -67,7 +67,7 @@ between notes and facilitating easy creation of notes.
 
 If you're interested to know more about Zettelkasten as a system, see
 [zettelkasten.de][zettelkasten] and/or web search for it. There are many good
-resources. What I described above is a horrendous simplification.
+resources. What I described above is only a simplification.
 
 
 ## Let's get started!
@@ -80,7 +80,7 @@ plugins. What do we do now? Let's work out the workflows involved. So we want:
   up a note.
 - Powerful options for search. Zettelkasten eschews hierarchy and taxonomy in
   favour of flexible search and...
-- linking between notes. We need to be able to create a network of small notes,
+- Linking between notes. We need to be able to create a network of small notes,
   where we can search to find an entry point, and then traverse notes to
   discover related ideas.
 
