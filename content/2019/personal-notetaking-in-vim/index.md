@@ -210,9 +210,14 @@ builtins, the better - it's familiar, portable, maintained.
 
 ### Search
 
+Now the third and final point: searching. This is one of my favourite points as
+there are so many possibilities!
+
 Search is core to being able to effectively *consume* notes (as opposed to
-*creating* notes, as the previous points have been about). For me, there are 3
-entry points to search and 3 types of search.
+*creating* notes, as the previous points have been mainly about). For me, there
+are 3 entry points to search and 3 types of search. The following points aren't
+core to Zettelkasten, but is core for me to be able to pinpoint a certain note
+quickly. YMMV.
 
 By "entry points", I mean where I want to start a search from. These are:
 
@@ -226,6 +231,8 @@ Types of search:
 2. grep file contents
 3. search-engine-style search
 
+Note that wherever these searches begin, and whatever methods are used, they
+always end up in Vim and a way to navigate between search results in Vim.
 
 Ok, so fuzzy find by title is done from the window manager with
 
@@ -260,7 +267,7 @@ map <silent> <leader>ww :FZF ~/wiki<cr>
 ```
 
 Grepping contents of wiki files is done using Vim's builtin `:grep` command
-(I've set `grepprg` to [rg][rg] for speed).
+(I've set [`grepprg`][grepprg] to [rg][rg] for speed).
 
 A proper search engine-esque search with stemming, ranking by relevance, etc.
 is done using the excellent [Tantivy][tantivy] search engine, plumbed together
@@ -306,19 +313,12 @@ function! local#searchr#search(index, ...)
 endfunction
 ```
 
-Now I also have some special files that I need to access frequently. From the
-shell:
 
-```bash
-alias wi='nvim ~/wiki/index.md'
-alias d='nvim + ~/wiki/diary.md'
-```
+## Conclusion
 
-```i3
-bindsym Mod4+Shift+Return exec termite --directory "$HOME/wiki/" -e "nvim $HOME/wiki/index.md"
-bindsym Mod4+Ctrl+Return exec termite --directory "$HOME/wiki/" -e "nvim + $HOME/wiki/diary.md"
-```
-
+Vim is a powerful tool, but some of it's power comes not because it takes over
+the environment, but because it can blend seamlessly with it's environment and
+bend to fit your workflow.
 
 
 ---
@@ -329,14 +329,15 @@ article provided you give appropriate credits. Enjoy!_
 
 [deoplete]: https://github.com/Shougo/deoplete.nvim
 [fzf]: https://github.com/junegunn/fzf
+[grepprg]: https://vimhelp.org/options.txt.html#%27grepprg%27
 [rg]: https://github.com/BurntSushi/ripgrep/
 [searchr]: https://github.com/swalladge/searchr
 [simplenote]: https://simplenote.com/
 [sncli]: https://github.com/insanum/sncli
 [standardnote]: https://standardnotes.org/
+[suffixesadd]: https://vimhelp.org/options.txt.html#%27suffixesadd%27
 [tantivy]: https://github.com/tantivy-search/tantivy
 [taskwarrior]: https://taskwarrior.org/
 [ultisnips]: https://github.com/SirVer/ultisnips/
 [vimwiki]: https://github.com/vimwiki/vimwiki
 [zettelkasten]: https://zettelkasten.de/
-[suffixesadd]: https://vimhelp.org/options.txt.html#%27suffixesadd%27
