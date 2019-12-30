@@ -21,31 +21,32 @@ author:
 
 ## Intro
 
-Here I'm going to detail how I went about integrating Vim with my environment
-to create a notetaking experience that fit with my workflow. What I'm trying to
-show is that the lines between Vim, your shell, and your desktop can be
-crossed, and that part of the power of Vim is it's ability to integrate with
-other tools.
-
-
-## Context
+Part of Vim's power is how it can integrate with its environment. It can
+interact with external programs, external scripts can interact with Vim, and
+Vim is of course scriptable. Here, I'm going to detail an example of weaving
+Vim with other applications and the environment to implement a notetaking
+methodology that I personally use.
 
 My notetaking has changed a lot over the years, from little to no notetaking (I
 don't recommend!), to experimenting with off-the-shelf tools
 ([Simplenote][simplenote], [Standardnotes][standardnote], [Vimwiki][vimwiki]),
 to experimenting with various knowledge management methodologies, to rolling my
-own in Vim. I haven't yet reached the ideal setup, but it's feeling close.
+own framework for [Zettelkasten][zettelkasten] in Vim. I haven't yet reached
+the ideal setup, but it's feeling close, and it's reached a point where I can
+comfortably.
 
-### Create + Consume in Vim
 
+### Sidenote: Create + Consume in Vim
+
+Yes, you did see non-Vim tools in my list of previously used tools for notes...
 It should be noted that I was using Vim as my main editor long before I
 switched to using Vim to take notes. The reason why is that for a time I knew I
 wanted to create and edit notes using Vim, but I wanted to be able to read
 those notes in other ways, such as rich text from rendered markdown
-(Simplenote), or a wiki that was navigable in a browser. The times I used Vim
-to edit was frustrating, because I needed to fit with a workflow that required
-rebuilding a wiki after editing, or opening one file at a time for something
-like Simplenote.
+(Simplenote), or a wiki that was navigable in a browser (Vimwiki). The times I
+used Vim to edit was frustrating, because I needed to fit with a workflow that
+required rebuilding a wiki after editing, or opening one file at a time for
+something like Simplenote.
 
 Finally, I realized that I didn't actually need to read rich text or navigate
 hyperlinks with a mouse in a browser. I could create *and consume* in Vim!
@@ -53,37 +54,45 @@ Granted, it's not as pretty for viewing sometimes, but now creating, editing,
 searching, and reading notes are all the same thing. Efficiency.
 
 
-## Zettelkasten
+### Zettelkasten
 
+One more thing to discuss before we dive in - what is Zettelkasten?.
 Zettelkasten (German for "card index") is a method for personal knowledge
 management in which one uses many small atomic notes, linked to other such
 notes. The idea is that it forms a huge interconnected network of notes one can
 traverse and interact with. I came across this methodology a little while back
-and love the idea. I haven't yet spent the time to learn how to use it
+and love the idea. I haven't yet spent the time to really learn how to use it
 effectively, but I've started to use some of the ideas, including linking
 between notes and facilitating easy creation of notes.
 
 If you're interested to know more about Zettelkasten as a system, see
 [zettelkasten.de][zettelkasten] and/or web search for it. There are many good
-resources.
+resources. What I described above is a horrendous simplification.
 
-### The tools
 
-The features required include:
+## Let's get started!
 
-- easy creation of new notes
-- search
-- linking between notes
+Ok, so now we have a methodology and Vim without any specific notes/wiki
+plugins. What do we do now? Let's work out the workflows involved. So we want:
 
-#### Creating new notes
+- Easy creation of new notes. It should be frictionless to create and start
+  editing a new note at any time. More friction equals less motivation to write
+  up a note.
+- Powerful options for search. Zettelkasten eschews hierarchy and taxonomy in
+  favour of flexible search and...
+- linking between notes. We need to be able to create a network of small notes,
+  where we can search to find an entry point, and then traverse notes to
+  discover related ideas.
+
+### Creating notes
 
 Obviously I'll be editing a new note in Vim. There are two main places from
 where I want to be able to create a note: the shell and Vim itself. It must be
 as frictionless as possible to create new notes; any friction will dissuade me
-from bothering to take a note.
+from taking a note at once, and thoughts are fleeting.
 
-So, from inside Vim, I have a command to create a timestamped file in my notes
-directory:
+So, from inside Vim, I have a command and function to create a timestamped file
+in my notes directory:
 
 ```vim
 " .vim/plugin/local.vim
@@ -93,14 +102,18 @@ command! -nargs=* Zet call local#zettel#edit(<f-args>)
 ```vim
 " .vim/autoload/local/zettel.vim
 func! local#zettel#edit(...)
+
+  " build the file name
   let l:sep = ''
   if len(a:000) > 0
     let l:sep = '-'
   endif
-
   let l:fname = expand('~/wiki/') . strftime("%F-%H%M") . l:sep . join(a:000, '-') . '.md'
 
+  " edit the new file
   exec "e " . l:fname
+
+  " enter the title and timestamp (using ultisnips) in the new file
   if len(a:000) > 0
     exec "normal Go\<c-u>datetime\<c-space> " . join(a:000) . "\<cr>\<cr>\<esc>"
   else
@@ -109,9 +122,11 @@ func! local#zettel#edit(...)
 endfunc
 ```
 
-This enables calling `:Zet a new note` to edit for example: `~/wiki/2019-12-21-0945-a-new-note.md`.
+Now we can create a new titled, timestamped note directly in Vim: `:Zet a new
+note` to edit (for example) `~/wiki/2019-12-21-0945-a-new-note.md`.
 
-For the shell I have the following alias to call the above Vim command directly:
+It's possible to instruct Vim to execute a command on launch, so we can write a
+shell function with the same api as the `:Zet` command:
 
 ```bash
 zet() {
@@ -122,32 +137,27 @@ zet() {
 So, `$ zet a new note` will produce the same result as the example above from
 in Vim.
 
-
-Now I also have some special files that I need to access frequently. From the
-shell:
-
-```bash
-alias wi='nvim ~/wiki/index.md'
-alias d='nvim + ~/wiki/diary.md'
-```
-
-```i3
-bindsym Mod4+Shift+Return exec termite --directory "$HOME/wiki/" -e "nvim $HOME/wiki/index.md"
-bindsym Mod4+Ctrl+Return exec termite --directory "$HOME/wiki/" -e "nvim + $HOME/wiki/diary.md"
-```
+It would be just as easy to develop entry points to creating notes from
+elsewhere in the environment, but since I spend a lot of time either in Vim or
+have multiple shell sessions open, most of the time a neat new note is only a
+few keystrokes away.
 
 
 ### Linking notes
 
-To link between notes, I make use of [ultisnips][ultisnips] for inserting the
-syntax and [deoplete][deoplete] to complete filenames. This is a lot easier to
-show than to explain, so here's a screencast:
+Now we have some notes, we need to link them together.
+
+Here, I stray from vanilla Vim, and lean on a couple of popular plugins:
+[Ultisnips][ultisnips] to shortcut inserting custom syntax and
+[Deoplete][deoplete] to auto-complete paths to other notes.
+
+Before we go into the code, let's see what the end result looks like:
 
 {{< asciicast 290330 >}}
 
-
-And the code - this is the snippet to insert my custom syntax for marking cross
-links:
+Now the code! I use a syntax similar to Vimwiki to denote internal links, which
+are simply paths to other note files in the notes directory, with the extension
+removed for readability.
 
 ```snippet
 " .vim/UltiSnips/markdown.snippets
@@ -156,54 +166,46 @@ snippet h "hyperlink"
 endsnippet
 ```
 
-And this is the deoplete source plugin to list all files in my notes directory.
-Note that it strips the file extension for cleanliness. I can still use Vim's
-built in `gf` (goto file) mapping to follow the link - see `:h 'suffixesadd'`.
+With this snippet, and the Deoplete configuration that comes next, The
+keysequence `h<snippet-trigger>` enters the syntax and opens a fuzzy
+autocomplete for other notes. Two key strokes is my definition of low friction.
+:)
+
+And this is the (abridged) Deoplete source plugin to list all files in my notes directory.
 
 ```python
 # .vim/rplugin/python3/deoplete/sources/wiki_files.py
-import os
-import re
-from os.path import relpath, dirname
-import glob
-
-from deoplete.source.base import Base
-from deoplete.util import expand
-
-
 class Source(Base):
-
     def __init__(self, vim):
-        super().__init__(vim)
-
-        self.vim = vim
         self.name = 'wiki_files'
         self.mark = '[WL]' # WikiLink
         self.min_pattern_length = 0
         self.rank = 450
+        # only activate for files in my notes directory
         self.filetypes = ['privwiki']
 
     def get_complete_position(self, context):
+        # trigger completion if we're currently in the [[link]] syntax
         pos = context['input'].rfind('[[')
         return pos if pos < 0 else pos + 2
 
     def gather_candidates(self, context):
         contents = []
         path = '/home/swalladge/wiki/'
-        len_path = len(path)
-
+        # now gather all note files, and return paths relative to the current
+        # note's directory.
         cur_file_dir = dirname(self.vim.buffers[context['bufnr']].name)
-
         for fname in glob.iglob(path + '**/*', recursive=True):
             fname = relpath(fname, cur_file_dir)
-
             if fname.endswith('.md'):
                 fname = fname[:-3]
-
             contents.append(fname)
-
         return contents
 ```
+
+Note that we can still use Vim's built in `gf` (goto file) mapping to follow
+the link - see [:h 'suffixesadd'][suffixesadd]. The more we can do in Vim
+builtins, the better - it's familiar, portable, maintained.
 
 
 ### Search
@@ -304,6 +306,20 @@ function! local#searchr#search(index, ...)
 endfunction
 ```
 
+Now I also have some special files that I need to access frequently. From the
+shell:
+
+```bash
+alias wi='nvim ~/wiki/index.md'
+alias d='nvim + ~/wiki/diary.md'
+```
+
+```i3
+bindsym Mod4+Shift+Return exec termite --directory "$HOME/wiki/" -e "nvim $HOME/wiki/index.md"
+bindsym Mod4+Ctrl+Return exec termite --directory "$HOME/wiki/" -e "nvim + $HOME/wiki/diary.md"
+```
+
+
 
 ---
 
@@ -323,3 +339,4 @@ article provided you give appropriate credits. Enjoy!_
 [ultisnips]: https://github.com/SirVer/ultisnips/
 [vimwiki]: https://github.com/vimwiki/vimwiki
 [zettelkasten]: https://zettelkasten.de/
+[suffixesadd]: https://vimhelp.org/options.txt.html#%27suffixesadd%27
