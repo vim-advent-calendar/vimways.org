@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 
 		articles.forEach(function(article) {
-			article.querySelector('.month-year').innerHTML = 'January';
+			article.querySelector('.month-year').innerHTML = 'January 2020';
 			container.appendChild(article);
 		});
 	}
