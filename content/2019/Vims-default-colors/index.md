@@ -52,7 +52,7 @@ let colors_name = "default"
 " vim: sw=2
 ```
 
-Erm... Where are the highlight groups? Let's try to dig a little deeper: `:verbose hightlight` reveals `syntax/syncolor.vim` in `$VIMRUNTIME` is the source of *some* of the default colors. Said file contains a rather succinct comment:
+Erm... Where are the highlight groups? Let's try to dig a little deeper: `:verbose highlight` reveals `syntax/syncolor.vim` in `$VIMRUNTIME` is the source of *some* of the default colors. Said file contains a rather succinct comment:
 
 ```vim
 " This file sets up the default methods for highlighting.
@@ -89,7 +89,7 @@ Crap.
 So I touched on the fact that I find overriding a set of highlight groups ugly but it seems we're going to have to anyway. We could do something like the following for a list of highlight groups:
 
 ```vim
-hightlight SpecialKey NONE
+highlight SpecialKey NONE
 ...
 ```
 
@@ -119,7 +119,7 @@ We can represent the output of `:highlight` as a nested dictionary.
 A pseudo example.
 
 ```vim
-hightlights {
+highlights {
               'SpecialKey' : {
                                'term'    : 'bold',
                                'ctermfg' : '4',
@@ -157,7 +157,7 @@ grep -RE 'hi |highlgiht ' /usr/local/share/vim/vim81/syntax/ | grep -cv link
 315
 ```
 
-So let's redefine how we are going to achieve a clean slate. Rather than just clearing things at start up we want to clear any colors Vim sets *implicitly*. This is where having parsed the output of `:highlight` fully is going to pay off. If we define what we want our colorscheme to be in terms of a dictionary like the one we've generated from parsing the output of `:hightlight`, we can compare the two to find out if they are different. If they are different simply clear whatever has been set and then set the colors that we defined.
+So let's redefine how we are going to achieve a clean slate. Rather than just clearing things at start up we want to clear any colors Vim sets *implicitly*. This is where having parsed the output of `:highlight` fully is going to pay off. If we define what we want our colorscheme to be in terms of a dictionary like the one we've generated from parsing the output of `:highlight`, we can compare the two to find out if they are different. If they are different simply clear whatever has been set and then set the colors that we defined.
 
 Again I'm not going to go into the implementation but you can find it [here][ClearUndefinedColors].
 
