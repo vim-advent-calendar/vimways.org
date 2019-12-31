@@ -1,7 +1,7 @@
 ---
 title: "A Test to Attest To"
-publishDate: 2020-01-01
-draft: true
+publishDate: 2019-12-30
+draft: false
 description: "Testing complex Vim plugins without using Vim plugins"
 author:
   dotfiles: "https://github.com/puremourning/.vim-mac"
@@ -94,7 +94,7 @@ complete-functions`][h-complete-functions] in 2 ways:
 If you'd like to follow along and play with the examples, you can check out the
 example code in any directory you like:
 
-```
+```bash
 $ cd /some/path
 $ git clone https://github.com/puremourning/a-test-to-attest-to.git
 ```
@@ -135,14 +135,14 @@ leave the system clean after they have run.
 So how do we isolate our test? Well, fortunately Vim has a command line option
 to start in a `clean` way. By clean, we mean with it's default configuration:
 
-```
+```bash
 $ vim --clean
 ```
 
 We'll be using this, but for the record, there's and _even cleaner_ way to start
 Vim, with _no_ configuration or initialisation scripts:
 
-```
+```bash
 $ vim -Nu NONE
 ```
 
@@ -619,7 +619,7 @@ call s:Done()
 
 Go on, try it! You can clone the test repo and run:
 
-```
+```bash
 $ vim --clean -S test/scripts/test_simple.vim
 $ echo $?
 0
@@ -628,7 +628,7 @@ $ echo $?
 And to confirm that it works, if we change the check to `getline( 2 )`, we get
 this:
 
-```
+```bash
 $ vim --clean -S test/scripts/test_simple.vim
 $ echo $?
 1
@@ -678,7 +678,7 @@ matching a particular pattern. Therefore, our approach will be:
 We put this logic into `run_tests.vim`. The process to run a test is going to be
 this:
 
-```
+```bash
 $ vim --clean -S run_test.vim /path/to/the/test/script
 ```
 
@@ -777,7 +777,7 @@ endfunction
 
 We run this with:
 
-```
+```bash
 $ vim --clean -S test/run_test.vim test/tests/test_simple.vim
 $ echo $?
 0
@@ -846,7 +846,7 @@ version. So how do we do that? Well, we could try running our synchronous
 Let's see what happens if we just take the above example, and source the async
 setup script...
 
-```
+```bash
 $ vim --clean -S test/run_test.vim test/tests/test_async_using_simple_approach.vim
 $ echo $?
 1
@@ -854,7 +854,7 @@ $ echo $?
 
 Blerg. It failed? Let's see why:
 
-```
+```bash
 $ cat test/tests/test_async_using_simple_approach.vim.failed.log
 function Test_Async_February line 2: Expected 'Feb' but got 'F'
 function Test_Popup_Menu_Expression_Register[8]..TestPopupContents line 3: Expected ['Mar', 'May'] but got []
@@ -917,9 +917,9 @@ column, which is always the cursor column, `col( '.' )`, in "phase 2" of
 completion, and the 'query', `a:base`:
 
 ```vim
-  let s:complete_timer =  timer_start( 200,
-                                     \ function( "s:DoAsyncCompletion",
-                                               \ [ col( '.' ), a:base ] ) )
+let s:complete_timer =  timer_start( 200,
+                                   \ function( "s:DoAsyncCompletion",
+                                             \ [ col( '.' ), a:base ] ) )
 ```
 
 The predefined arguments are combined with the signature of the required timer
