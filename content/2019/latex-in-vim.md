@@ -1,3 +1,15 @@
+---
+title: "Latex in Vim"
+publishDate: 2019-12-31
+draft: true
+description: "Writing effective Latex in Vim"
+slug: "latex-in-vim"
+author:
+  name: "Jackson Woodruff"
+  github: "j-c-w"
+  email: J.C.Woodruff@sms.ed.ac.uk
+---
+
 Latex is a text-based description of document structure. Basic
 text-formatting is augmented with a number of packages enabling mores
 specific behaviour. Latex has become a standard in publishing in many
