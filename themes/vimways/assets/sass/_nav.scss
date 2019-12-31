@@ -23,9 +23,15 @@ header {
 			width: 12rem;
 			background-image: url(/images/vimways.png);
 			background-attachment: scroll;
-			background-position: left center;
+			@media only screen and (max-width: 767px) {
+				background-position: none;
+				background-size: 50%;
+			}
+			@media only screen and (min-width: 768px) {
+				background-position: left center;
+				background-size: contain;
+			}
 			background-repeat: no-repeat;
-			background-size: contain;
 			transform: rotate(-12deg);
 			transform-origin: top left;
 			text-indent: -9000px;
@@ -45,6 +51,11 @@ header {
 			margin: 0 0 0 2rem;
 			box-sizing: border-box;
 			vertical-align: top;
+			@media only screen and (max-width: 767px) {
+				&.about-link {
+					display: none;
+				}
+			}
 		}
 	}
 }

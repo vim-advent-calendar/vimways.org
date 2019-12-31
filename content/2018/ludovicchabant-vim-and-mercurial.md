@@ -10,7 +10,7 @@ author:
   github: "ludovicchabant"
   picture: https://secure.gravatar.com/avatar/c7cbfd8ce858aa738a29329a89cc2fe5
   twitter: "@ludovicchabant"
-  irc: "ludovicchabant"
+  freenode: "ludovicchabant"
   homepage: "https://ludovic.chabant.com"
 ---
 

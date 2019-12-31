@@ -2,9 +2,7 @@ baseURL = "https://vimways.org/"
 languageCode = "en-us"
 title = "Vimways"
 theme = "vimways"
-paginate = 24
-pygmentsCodeFences = true
-pygmentsStyle = "friendly"
+paginate = 31
 googleAnalytics = "UA-127429090-1"
 pluralizeListTitles = false
 

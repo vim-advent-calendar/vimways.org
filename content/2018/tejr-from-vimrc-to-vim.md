@@ -7,7 +7,7 @@ slug: "from-vimrc-to-vim"
 author:
   name: "Tom Ryder"
   email: "tom@sanctum.geek.nz"
-  irc: "tejr"
+  freenode: "tejr"
   homepage: "https://sanctum.geek.nz/"
 ---
 

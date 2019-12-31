@@ -163,7 +163,7 @@ import org.springframework.context.ApplicationContext;
 
 can be transformed into the much more useful:
 
-```text
+```bash
 org/springframework/context/ApplicationContext
 ```
 

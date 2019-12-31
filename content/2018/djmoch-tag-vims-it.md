@@ -10,7 +10,7 @@ author:
   github: "djmoch"
   picture: "https://secure.gravatar.com/avatar/9709a880ad3885e14781a3cb757e09f3?s=400"
   twitter: "@\_djmoch"
-  irc: "djmoch"
+  freenode: "djmoch"
   homepage: "https://www.danielmoch.com"
 ---
 
@@ -52,7 +52,7 @@ regarding completion and see what it takes to fully leverage it.
 Completion in Vim is powerful, but not necessarily straightforward. Read
 [`:h ins-completion`][ic] and you'll see what I mean:
 
-```text
+```bash
 Completion can be done for:
 
 1. Whole lines                                   |i_CTRL-X_CTRL-L|
