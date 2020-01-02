@@ -85,7 +85,7 @@ I hope this has showcased some interesting ideas about scripting Vim's behaviour
 
 ---
 
-_License notice_
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 
 [defaults.vim]: https://github.com/vim/vim/blob/eaf35241197fc6b9ee9af993095bf5e6f35c8f1a/runtime/defaults.vim#L108-L117
 [CCR]: https://gist.github.com/romainl/047aca21e338df7ccf771f96858edb86
