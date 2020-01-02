@@ -770,7 +770,7 @@ endfunction
 function Test_Simple_May()
   " Use C-n to prove that the second option is May
   call feedkeys( "iM\<C-x>\<C-u>\<C-n>", 'xt' )
-  call assert_equal( 'Mar', getline( 1 ) )
+  call assert_equal( 'May', getline( 1 ) )
   %bwipe!
 endfunction
 ```
