@@ -115,7 +115,7 @@ Whilst I initially embarked on this method as effectively imposing training whee
 
 ---
 
-_License notice_
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
 
 [death-by-a-thousand-files]: https://vimways.org/2018/death-by-a-thousand-files/
 [bug]: https://github.com/vim/vim/issues/3906
