@@ -1,6 +1,6 @@
 ---
 title: "Making Things Flow"
-publishDate: 2020-01-03
+publishDate: 2020-01-02
 draft: true
 description: "Making the behaviour of Vim flow"
 author:

@@ -1,7 +1,7 @@
 ---
 title: "Personal Notetaking in Vim"
-publishDate: 2019-12-01
-draft: true
+publishDate: 2020-01-01
+draft: false
 description: "Implementing a notetaking methodology in Vim"
 author:
   email: "samuel@swalladge.net"
