@@ -1137,7 +1137,8 @@ alter egos.
 
 ---
 
-_License notice_
+This work is licensed under a [Creative Commons Attribution
+4.0 International License](http://creativecommons.org/licenses/by/4.0/)
 
 
 [linus-quote]: http://lkml.iu.edu/hypermail/linux/kernel/9804.1/0149.html
