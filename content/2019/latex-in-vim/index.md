@@ -1,7 +1,7 @@
 ---
 title: "Latex in Vim"
 publishDate: 2019-12-31
-draft: true
+draft: false
 description: "Writing effective Latex in Vim"
 slug: "latex-in-vim"
 author:
@@ -13,7 +13,7 @@ author:
 Latex is a text-based description of document structure. Basic
 text-formatting is augmented with a number of packages enabling mores
 specific behaviour. Latex has become a standard in publishing in many
-fields. But it's use is by no means restricted to that. I use Latex for
+fields. But its use is by no means restricted to that. I use Latex for
 keeping notes, creating presentations and any other kind of formatting
 where plain-text is not quite enough.
 
@@ -28,23 +28,24 @@ perfectly possible to write Latex in vanilla vim.
 Latex in Vanilla Vim
 ====================
 
-You don't really *need* any plugins to write Latex in Vim. Tex
-highlighting is included. Spell check is important and should be setup,
-but is excellent without any plugins (I have mine enable with an autocmd when I open a Tex file). Vim is perfectly usable for Latex
-just like this. There are a couple other built-in features that I think
-work well in a setup like this: completion and the `:make` command.
+You don't really *need* any plugins to write Latex in Vim. Tex highlighting is
+included. Spell check is important and should be set up, but works
+without any plugins (I have mine enable with an autocommand when I open a Tex
+file). Vim is perfectly usable for Latex just like this. There are a couple
+other built-in features that I think work well in a setup like this: completion
+and the `:make` command.
 
 Completion
 ----------
 
 I regularly find myself using `<C-N>` completion when writing Latex.
-Most commands I use, I use more than once per document. `<C-N>`
-autocomplete is a good-enough solution to reducing the amount of typing
+Most commands I use, I use more than once per document. Keyword
+completion is a good-enough solution to reducing the amount of typing
 required because getting the first few characters of a command (or, a
 really long word) is enough to make the completion list short and fast
 to navigate. Even better, `<C-N>` completion is powerful enough to
 handle reference completion. I typically keep my .bib file(s) open in
-other buffers. `<C-N>` will search these buffers when it looks for a
+other buffers and `<C-N>` will search these buffers when it looks for a
 completion. Hey presto, there's a working bibliography completion!
 
 Building
@@ -62,7 +63,7 @@ So, why use plugins?
 ====================
 
 There are a few obviously missing components. Vim only supports Tex
-highlighting out-of-the-box. Auto-complete is good, but not on the level
+highlighting out-of-the-box. Completion is good, but not on the level
 that TexStudio or TexWorks exist at. Creating a makefile for every small
 Latex project is over the top. There are a few rough ends integrating
 Vim commands into the Latex ecosystem.
@@ -93,25 +94,24 @@ similarly easy. I have this mapped to `<localleader>lv` (Latex view).
 Completion (Round II)
 ---------------------
 
-This deals with the overheads of a makefile for short documents. But vim
-packages provide far more than this. The first is sensible
-autocompletion. A typical reason I hear for not to switching to Vim for
-Latex is "because the autocomplete is not as good." As discussed above,
-I usually find that `<C-N>` is plenty for Latex. But I've written enough
-Latex that I'm not usually scrounging for commands. vimtex provides an
-omni-completion (`<C-X><C-O>`) that can intelligently suggest command
-completions.
+The section above deals with the overhead of a makefile for short documents.
+But vim packages provide far more than this. The first is sensible completion.
+A typical reason I hear for not to switch to Vim for Latex is "because the
+autocomplete is not as good." As discussed above, I usually find that `<C-N>`
+is plenty enough for Latex. But I've written enough Latex that I'm not usually
+scrounging for commands. vimtex provides an omni-completion (`<C-X><C-O>`) that
+can intelligently suggest command completions.
 
 Fitting Latex within Vim
 ------------------------
 
-Auto-completion is often a headline feature --- and rightly so. But
+Completion is often a headline feature --- and rightly so. But
 Latex plugins provide many other features. `K` links to the Latex
 documentation when in a Latex document. The syntax highlighting is
 better than the built-in documentation. Navigation commands, such as
 `[[` and `]]` to jump between sections or `]m` `[m` to jump between environments.
 
-vimtex introduces a few good commands: `cse` **c**hanges the
+Vimtex introduces a few good commands: `cse` **c**hanges the
 **s**urrounding **e**nvironment, for example if you want to change from
 an `itemize` to an `enumerate`. In insert mode, `]]` automatically
 closes an unclosed environment (i.e. produces the corresponding
@@ -124,9 +124,11 @@ brackets. I liked some of this functionality so much I kept it when I
 moved to vimtex. Similarly inspired by latex-suite, I map `mma` (using `iabbrev` to prevent words like "comma" expanding)
 in insert mode to produce:
 
-    \begin{align}
-        <leave cursor here>
-    \end{align}<++>
+```tex
+\begin{align}
+    <leave cursor here>
+\end{align}<++>
+```
 
 And have several similar mappings for other environments I regularly
 use.  This means I can type `mma<Space>`, enter the text I want, and press `<C-J>` to jump to (and delete) the `<++>` character.
@@ -156,20 +158,25 @@ so you may be stuck.
 Plugin Configurations
 =====================
 I'm not going to go into a huge amount of detail here, just some
-personal preferences, focusing on vimtex.  I like to set
+personal preferences, focusing on vimtex.  I like to set:
 
-	let g:vimtex_fold_enabled = 1
+```vim
+let g:vimtex_fold_enabled = 1
+```
 
 To turn on code folding for Tex files.
+
 Using:
 
-	let g:tex_flavor = 'latex'
+```vim
+let g:tex_flavor = 'latex'
+```
 
 Avoids opening an empty .tex file only to have vimtex recognize it as plain Tex rather than Latex.
 
 If you use ALE (or other linting environment supporting Latex),
 I suggest you disable it for Latex.  Many of these linting
-environments cannot handle 100s of warnings efficiently,
+environments can't handle 100s of warnings efficiently,
 and I find that Latex's warning suites give lots of
 false warnings.
 
@@ -186,3 +193,4 @@ substitute for the excellent documentation these packages have.
 I have written 100,000 lines of Latex over the last four years using
 this setup. I hope this sets you on your way to writing Latex in vim.
 
+[//]: # ( Vim: set spell spelllang=en: )
