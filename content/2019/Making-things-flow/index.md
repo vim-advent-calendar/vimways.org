@@ -1,6 +1,6 @@
 ---
 title: "Making Things Flow"
-publishDate: 2019-12-01
+publishDate: 2020-01-03
 draft: true
 description: "Making the behaviour of Vim flow"
 author:
@@ -14,7 +14,7 @@ Changing the behaviour of one's editor is a common subject, but what if the desi
 
 ## Look Ma, no mappings!
 
-There's nothing wrong with mappings. The purpose of this article is to explore more generalised methods whereas mappings generally have a more singular focus. Or to put is another way this article will focus more on the behaviour and response of the editor rather than defining singular imperative actions.
+There's nothing wrong with mappings. The purpose of this article is to explore more generalised methods whereas mappings generally have a more singular focus. Or to put it another way this article will focus more on the behaviour and response of the editor rather than defining singular imperative actions.
 
 ## An example from defaults.vim
 
@@ -53,7 +53,7 @@ As noted in the README this plugin really became "cool" with [this][vim-cool_pur
 
 ## Don't break my flow
 
-Another example is the movement of the cursor when dealing with operators. Vim has moves the cursor after invoking operators and I'd prefer it didn't always do so. Here we wish to prevent a behaviour default to Vim rather than craft a complementary one.
+Another example is the movement of the cursor when dealing with operators. Vim moves the cursor after invoking operators and I'd prefer it didn't always do so. Here we wish to prevent a behaviour default to Vim rather than craft a complementary one.
 
 Avoiding this in the case of operator mappings can be particularly ugly. A common method is to drop a mark or save a view in the mapping. However the mapping must end with `g@` so Vim will wait for the operator, meaning the mapping itself can't invoke the cursor movement back to its original location. As such the movement would have to be placed inside the function that `operatorfunc` has been set to. Note that dropping a mark or saving a view inside the `operatorfunc` function is not an option as the cursor has already been moved by the time this is invoked.
 
@@ -81,7 +81,7 @@ Again it's the transparency that makes this neat. With this snippet neither the 
 
 ## Conclusion
 
-I hope this has showcased some interesting ideas about scripting Vim's behaviour. I've placed and emphasis on "flow" as the examples shown aim to have little to zero cognitive impact.
+I hope this has showcased some interesting ideas about scripting Vim's behaviour. I've placed an emphasis on "flow" as the examples shown aim to have little to zero cognitive impact.
 
 ---
 
