@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 
 	if (window.location.pathname === '/2019/') {
-		var futures = document.querySelectorAll('.future');
+		var futures = document.querySelectorAll('.future, .article-1-January, .article-2-January, .article-3-January, .article-4-January, .article-5-January');
+
 		var container = document.querySelector('.container > .articles');
 
 		var articles = [];

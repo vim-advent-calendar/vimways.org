@@ -87,7 +87,7 @@
 					</div>
 				{{ else }}
 					{{ with (index (sort $.Pages.ByPublishDate "value" "desc") (int .)) }}
-					<a href="{{ .Permalink }}" class="-{{ .PublishDate.Format "2" }}-{{ .PublishDate.Format "January" }}">
+					<a href="{{ .Permalink }}" data-movable="{{ .PublishDate.Format "2" }}" class="article-{{ .PublishDate.Format "2" }}-{{ .PublishDate.Format "January" }}">
 							<article>
 								<div class="tile">
 									<div class="date">
