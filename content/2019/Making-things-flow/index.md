@@ -1,7 +1,7 @@
 ---
 title: "Making Things Flow"
 publishDate: 2020-01-02
-draft: true
+draft: false
 description: "Making the behaviour of Vim flow"
 author:
   github: "george-b"
