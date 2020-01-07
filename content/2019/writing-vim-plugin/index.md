@@ -237,8 +237,8 @@ Creating plugins for Vim is easy, but not every functionality needs to be
 a plugin from day one. Start easy and small. If something can be done with
 a simple command/mapping, then it should be done with a simple command/mapping
 at first. If you find your solution really useful, then, and only then, you
-should think about turning it into plugin. The whole process described in this
-article didn't happen in week or two. It took me about a year to reach the step
+should think about turning it into a plugin. The whole process described in this
+article didn't happen in a week or two. It took me about a year to reach the step
 *Make it a more "vimmy" citizen*, when I heard about romainl's script on IRC.
 I didn't need anything more, so take your time.
 
