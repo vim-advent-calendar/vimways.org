@@ -1,6 +1,9 @@
 ---
 title: "About Vimways"
 publishDate: 2018-12-01
+author:
+  name: "Romain Lafourcade"
+  github: "romainl"
 slug: "about"
 type: "meta"
 layout: "single"
