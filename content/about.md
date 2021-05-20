@@ -39,5 +39,5 @@ The project itself started its life as a private IRC conversation between the tw
 [5]: https://vimways.org/
 [6]: https://github.com/vim-advent-calendar
 [7]: https://github.com/vim-advent-calendar/vimways.org/issues
-[8]: irc://irc.freenode.net/vim
+[8]: irc://irc.libera.chat/vim
 [9]: https://www.reddit.com/r/vim/
