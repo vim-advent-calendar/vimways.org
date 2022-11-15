@@ -4,14 +4,8 @@ publishDate: 2020-01-01
 draft: false
 description: "Implementing a notetaking methodology in Vim"
 author:
-  email: "samuel@swalladge.net"
   github: "swalladge"
-  homepage: "https://swalladge.net/"
-  freenode: "swalladge"
   name: "Samuel Walladge"
-  picture: "https://www.swalladge.net/assets/images/logo.jpg"
-  twitter: "@srwalladge"
-  dotfiles: https://github.com/swalladge/dotfiles
 ---
 
 > It pays you not to blink sometimes. It gives you a heck of a fright.
@@ -331,7 +325,7 @@ article provided you give appropriate credits. Enjoy!_
 [fzf]: https://github.com/junegunn/fzf
 [grepprg]: https://vimhelp.org/options.txt.html#%27grepprg%27
 [rg]: https://github.com/BurntSushi/ripgrep/
-[searchr]: https://github.com/swalladge/searchr
+[searchr]: https://sr.ht/~swalladge/searchr/
 [simplenote]: https://simplenote.com/
 [sncli]: https://github.com/insanum/sncli
 [standardnote]: https://standardnotes.org/

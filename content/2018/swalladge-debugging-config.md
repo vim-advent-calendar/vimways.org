@@ -6,12 +6,7 @@ description: "Something's broken, why???"
 slug: "debugging-your-vim-config"
 author:
   name: "Samuel Walladge"
-  email: "samuel@swalladge.id.au"
   github: "swalladge"
-  picture: "https://www.gravatar.com/avatar/e1dc4dfcc798a49c1de0b2dcca4dee3c.jpg?s=512"
-  twitter: "@srwalladge"
-  freenode: "swalladge"
-  homepage: "https://swalladge.id.au"
 ---
 
 
