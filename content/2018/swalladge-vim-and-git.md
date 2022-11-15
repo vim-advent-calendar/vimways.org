@@ -6,12 +6,7 @@ description: Tips for integrating Vim and Git.
 slug: "vim-and-git"
 author:
   name: "Samuel Walladge"
-  email: "samuel@swalladge.id.au"
   github: "swalladge"
-  picture: "https://www.gravatar.com/avatar/e1dc4dfcc798a49c1de0b2dcca4dee3c.jpg?s=512"
-  twitter: "@srwalladge"
-  freenode: "swalladge"
-  homepage: "https://swalladge.id.au"
 ---
 
 Vim and Git are both highly complex, configurable developer tools. Developers
